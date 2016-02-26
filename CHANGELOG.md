@@ -1,4 +1,4 @@
 # Changelog
 
-All Notable changes to `:Urban Dictionary` will be documented in this file.
+All Notable changes to `:Potato ORM` will be documented in this file.
 

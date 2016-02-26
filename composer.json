@@ -1,8 +1,8 @@
 {
-    "name": "demo/urbandictionary",
-    "description": "A package that helps in managing urban words (slang)",
-    "keywords": ["urban words"],
-    "homepage": "https://github.com/andela-araimi/Checkpoint-one.git",
+    "name": "demo/Potato ORM",
+    "description": "",
+    "keywords": [""],
+    "homepage": "https://github.com/andela-araimi/potato-orm.git",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -21,13 +21,13 @@
         },
     "autoload": {
         "psr-4": {
-            "Demo\\UrbanDictionary\\": "src"
+            "Demo\\": "src"
         },
         "classmap": ["src/"]
     },
     "autoload-dev": {
         "psr-4": {
-            "Demo\\Test\\": "tests"
+            "Demo\\": "tests"
         },
         "classmap": ["tests/"]
     },
