@@ -2,8 +2,6 @@
 
 namespace Demo;
 
-use Demo\DataBaseConnection;
-use Dotenv\Dotenv;
 use PDO;
 
 class DataBaseQuery
@@ -11,69 +9,116 @@ class DataBaseQuery
     protected $properties;
     protected $values;
     protected $tableName;
-    protected $DataBaseConnection;
-    protected $arrayField = [];
+    protected $dataBaseModel;
+    protected $dataBaseConnection;
+    protected $splitTableField;
+    protected $formatTableValues;
 
-    public function __construct(DataBaseConnection $DataBaseConnection)
-    {
-        $this->DataBaseConnection = $DataBaseConnection;
-        // $this->tableName = $this->getClassName();
-        // $this->databaseModel = new DatabaseHandler($this->tableName);
-    }
+    //protected $updateParams = [];
 
-    public function __set($properties, $values)
-    {
-        $arrayField[$this->properties] = $values;
-    }
-
-    public function __get($properties)
-    {
-        return $arrayField[$this->properties];
-    }
     
-    public function  getAll()
+    public function __construct(DataBaseConnection $dataBaseConnection)
     {
-        $connection = $this->DataBaseConnection;
-        $stmt = $connection->query("SELECT * FROM cars");
+        $this->dataBaseConnection = $dataBaseConnection;
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function findById($id)
+    public function create($associativeArray, $tableName)
     {
-        $connection = $this->DataBaseConnection;
-        $stmt = $connection->query('SELECT * FROM cars WHERE id=' . $id);
-            
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $tableFields   = [];
+        $tableValues   = [];
+
+        foreach ($associativeArray as $key => $val) {
+            $tableFields[] = $key;
+            $tableValues[] = $val;
+        }
+
+        $sql = 'INSERT INTO '.$tableName;
+        $sql .= '('.$this->splitTableField($tableFields).') ';
+        $sql .= 'VALUES ('.$this->formatTableValues($tableValues).')';
+
+        $bool = $this->dataBaseConnection->exec($sql);
+
+        return $bool;
     }
 
-    // public function createData()
-    // {
-    //     $connection = $this->getConnection();
-    //     $stmt = $connection->query("INSERT INTO cars ($name, $model, $color, $year) VALUES ($arrayField($this->properties)");
-
-
-    //     return true;
-    // }
-    
-
-
-    public function updateData($id, $name, $model, $color, $year)
+    public function read($id, $tableName)
     {
-        $connection = $this->DataBaseConnection;
-        $stmt = $connection->prepare("UPDATE table SET name=?, model=?, color=?, year=? WHERE id=?");
-        $stmt->execute($arrayField($name, $model, $color, $year, $id));
-        $affected_rows = $stmt->rowCount();
+        $tableData = [];
+        $sql = 'SELECT * FROM '.$tableName.' WHERE id = '.$id;
+
+        $statement = $this->dataBaseConnection->prepare($sql);
+        $statement->execute();
+        $results = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($results as $result) {
+            array_push($tableData, $result);
+        }
+
+        return $tableData;
+       
+    }
+
+    public function update($updateParams, $associativeArray, $tableName)
+    {
+        $sql = '';
+        $updateSql = "UPDATE `$tableName` SET ";
+
+
+        $updateSql .= $this->updateArraySql($associativeArray);
+
+
+        foreach ($updateParams as $field => $value) {
+            $updateSql .= " WHERE $field = $value";
+        }
+
+        $statement = $this->dataBaseConnection->exec($updateSql);
         
         return true;
     }
 
-    public function deleteData($id)
+    public function delete($id, $tableName)
     {
-        $connection = $this->DataBaseConnection;
-        $stmt = $connection->query("DELETE cars WHERE id=' . $id ");
+        $sql = 'DELETE FROM '.$tableName.' WHERE id = '.$id;
+
+        $statement = $this->dataBaseConnection->exec($sql);
 
         return true;
     }
 
+    public function splitTableField($tableField)
+    {
+        $splitTableField = implode(",", $tableField);
+
+        return $splitTableField;
+    }
+
+    public function formatTableValues($tableValues)
+    {
+        
+
+        $formattedValues = [];
+    
+        foreach($tableValues as $key => $value) {
+            $formattedValues[] = "'".$value."'";
+        }  
+    
+        $ValueSql = implode(",", $formattedValues);
+    
+        return $ValueSql;
+    }
+
+    public function updateArraySql($array)
+    {
+        $updatedValues = [];
+     
+        foreach($array as $key => $val) {
+            $updatedValues[] = "`$key` = '$val'";
+        }
+
+        $valueSql = implode(",", $updatedValues);
+
+        return $valueSql;        
+    }
 }

@@ -7,28 +7,25 @@ use Dotenv\Dotenv;
 use PDO;
 
 class DataBaseHelper
-{
-    public function __construct(DataBaseConnection $dataBaseConnection)
+{   
+    private $DataBaseConnection;
+    public function __construct(DataBaseConnection $DataBaseConnection)
     {
-        $this->DataBaseConnection = $dataBaseConnection;
+         $this->DataBaseConnection = $DataBaseConnection;
     }
 
-    public function getConnection()
+    public function createTableData($tableName)
     {
-        return $this->DataBaseConnection();
-    }
+        $connection = $this->DataBaseConnection;
 
-    public function createTable($tableName)
-    {
-        $connection = $this->getConnection();
         $stmt = 'CREATE TABLE IF NOT EXISTS '.$tableName.'(';
-        $stmt .= ' id INT( 11 ) AUTO_INCREMENT PRIMARY KEY, 
-                  name VARCHAR( 100 ), 
-                  gender VARCHAR( 10 ), 
-                  alias VARCHAR( 150 ) NOT NULL, 
-                  class VARCHAR( 150 ), stack VARCHAR( 50 ) )';
+        $stmt .= ' id INT( 10 ) AUTO_INCREMENT PRIMARY KEY, 
+                   name VARCHAR( 100 ), 
+                   gender VARCHAR( 10 ), 
+                   age INT( 10 ) NOT NULL, 
+                   course VARCHAR( 150 ), 
+                   position VARCHAR( 50 ) )';
 
         return $connection->exec($stmt);
-        
     }
 }

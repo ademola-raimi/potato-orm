@@ -1,0 +1,129 @@
+
+    // public function create($associativeArray, $tableName)
+    // {
+    //     $tableField   = [];
+    //     $tableValues  = [];
+
+    //     foreach ($associativeArray as $key => $val) {
+    //         $tableFields[] = $key;
+    //         $tableValues[] = $val;
+    //     }
+    //     ​
+    //     // $sql = 'INSERT INTO '.$tableName;
+    //     // $sql .= '('.$this->splitTableField($tableField).') ';
+    //     // $sql .= 'VALUES ('.$this->formatTableValues($tableValues).')';
+
+    //     // return $connection->exec($sql);
+    // }
+
+    // public function read($id, $tableName)
+    // {
+    //     $connection = $this->DataBaseConnection;
+
+    //     $sql = 'SELECT * FROM ' . $tableName;  
+
+    //     $sql = $id ? 'SELECT * FROM '.$tableName.' WHERE id = '.$id : 'SELECT * FROM '.$tableName;
+
+    //     var_dump($this->DataBaseConnection);
+    //     $statement = $connection->prepare($sql);
+    //     $statement->bindValue(':table', $tableName);
+    //     $statement->bindValue(':id', $id);
+    //     $statement->execute();
+    //     $results = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+    //     foreach ($results as $result) {
+    //         array_push($tableData, $result);
+    //     }
+
+    //     return $tableData;
+    // }
+
+    // public function update($updateParams, $tableName, $associativeArray)
+    // {
+    //     $connection = $this->DataBaseConnection;
+    //     $sql = '';
+    //     $updateSql = "UPDATE `$tableName` SET ";
+    //     unset($associativeArray['id']);
+
+    //     foreach ($associativeArray as $key => $val) {
+    //         $tableFields[] = $key;
+    //         $tableValues[] = $val;
+    //     }
+
+    //     $sql .= "`".$this->splitTableField($tableField)."` = '".$this->formatTableValues($tableValues)."'".',';
+    //     $updateSql .= $this->prepareUpdateQuery($sql);
+
+    //     foreach ($updateParams as $key => $val) {
+    //         $updateSql .= " WHERE $key = $val";
+    //     }
+    //     $statement = $connection->prepare($updateSql);
+
+    // }
+
+    // public function delete($id, $tableName)
+    // {
+    //     $connection = $this->DataBaseConnection;
+    //     $sql = 'DELETE FROM '.$tableName.' WHERE id = '.$id;
+
+    //     $bool = $connection->exec($sql);
+    //         if ($bool) {
+    //             return true;
+    //     }
+    // }
+    
+    // /**
+    // * This method return the the pluralize version of $tableName
+    // * $params void.
+    // *
+    // * @return classname
+    // */
+    // public function getClassName()
+    // {
+    //     $tableName = preg_split('/(?=[A-Z])/', get_called_class());
+    //     $className = end($tableName);
+
+    //     return self::pluralize(strtolower($className));
+    // }
+
+    ​
+    // public function formatTableValues($tableValues)
+    // {
+    //    $formattedValues = [];
+    // ​
+    //    foreach($tableValues as $key => $value)
+    //    {
+    //       $formattedValues[] = "'".$value."'";
+    //    }  
+    // ​
+    //    $ValueSql = implode(",", $formattedValues);
+    // ​
+    //    return $ValueSql;
+    // }
+    // public function createData()
+    // {
+    //     $connection = $this->getConnection();
+    //     $stmt = $connection->query("INSERT INTO cars ($name, $model, $color, $year) VALUES ($arrayField($this->properties)");
+
+
+    //     return true;
+    // }
+    
+
+
+    // public function updateData($id, $name, $model, $color, $year)
+    // {
+    //     $connection = $this->DataBaseConnection;
+    //     $stmt = $connection->prepare("UPDATE table SET name=?, model=?, color=?, year=? WHERE id=?");
+    //     $stmt->execute($arrayField($name, $model, $color, $year, $id));
+    //     $affected_rows = $stmt->rowCount();
+        
+    //     return true;
+    // }
+
+    // public function deleteData($id)
+    // {
+    //     $connection = $this->DataBaseConnection;
+    //     $stmt = $connection->query("DELETE cars WHERE id=' . $id ");
+
+    //     return true;
+    // }
