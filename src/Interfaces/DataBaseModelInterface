@@ -1,0 +1,44 @@
+<?php
+
+namespace Demo;
+
+use Demo\Model\DataBaseModel;
+
+Interface DataBaseModelInterface
+{
+    /**
+     * This method gets all the record from a particular table.
+     *
+     * @params void
+     *
+     * @return associative array
+     */
+    public static function getAll();
+
+    /**
+     * This method create or update record in a database table.
+     *
+     * @params void
+     *
+     * @return true or false;
+     */
+    public function save();
+
+    /**
+     * This method delete a row from the table by the row id.
+     *
+     * @params int $id
+     *
+     * @return true or false
+     */
+    public static function destroy($id);
+
+    /**
+     * This method find a record by id.
+     *
+     * @params int $id
+     *
+     * @return object find
+     */
+    public static function findById($id);
+}

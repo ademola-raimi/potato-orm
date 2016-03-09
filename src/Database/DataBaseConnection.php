@@ -2,8 +2,8 @@
 
 namespace Demo;
 
- use Dotenv\Dotenv;
  use PDO;
+ use Dotenv\Dotenv;
 
 class DataBaseConnection extends PDO
 {

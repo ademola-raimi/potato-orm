@@ -3,24 +3,21 @@
 namespace Demo;
 
 use PDO;
+use Demo\DataBaseConnection;
+use Demo\DataBaseHelper;
+use Demo\Interfaces\DataBaseQueryInterface;
 
-class DataBaseQuery
+class DataBaseQuery implements DataBaseQueryInterface
 {
-    protected $properties;
-    protected $values;
     protected $tableName;
-    protected $dataBaseModel;
-    protected $dataBaseConnection;
     protected $splitTableField;
     protected $formatTableValues;
-
-    //protected $updateParams = [];
-
+    protected $dataBaseConnection;
     
+
     public function __construct(DataBaseConnection $dataBaseConnection)
     {
         $this->dataBaseConnection = $dataBaseConnection;
-
     }
 
     public function create($associativeArray, $tableName)
@@ -33,21 +30,20 @@ class DataBaseQuery
             $tableFields[] = $key;
             $tableValues[] = $val;
         }
-
+        var_dump($associativeArray['id']);
         $sql = 'INSERT INTO '.$tableName;
         $sql .= '('.$this->splitTableField($tableFields).') ';
         $sql .= 'VALUES ('.$this->formatTableValues($tableValues).')';
 
-        $bool = $this->dataBaseConnection->exec($sql);
+        $statement = $this->dataBaseConnection->exec($sql);
 
-        return $bool;
+        return $statement;
     }
 
     public function read($id, $tableName)
     {
         $tableData = [];
-        $sql = 'SELECT * FROM '.$tableName.' WHERE id = '.$id;
-
+        $sql = $id ? 'SELECT * FROM '.$tableName.' WHERE id = '.$id : 'SELECT * FROM '.$tableName;
         $statement = $this->dataBaseConnection->prepare($sql);
         $statement->execute();
         $results = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -56,8 +52,7 @@ class DataBaseQuery
             array_push($tableData, $result);
         }
 
-        return $tableData;
-       
+         return $tableData;
     }
 
     public function update($updateParams, $associativeArray, $tableName)
@@ -65,6 +60,8 @@ class DataBaseQuery
         $sql = '';
         $updateSql = "UPDATE `$tableName` SET ";
 
+
+        unset($associativeArray['id']);
 
         $updateSql .= $this->updateArraySql($associativeArray);
 
@@ -75,7 +72,7 @@ class DataBaseQuery
 
         $statement = $this->dataBaseConnection->exec($updateSql);
         
-        return true;
+        return $statement ? : false;
     }
 
     public function delete($id, $tableName)
@@ -121,4 +118,6 @@ class DataBaseQuery
 
         return $valueSql;        
     }
+
+
 }
