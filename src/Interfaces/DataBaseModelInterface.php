@@ -44,6 +44,4 @@ interface DataBaseModelInterface
      * @return true
      */
     public function destroy($id);
-
-    
 }
