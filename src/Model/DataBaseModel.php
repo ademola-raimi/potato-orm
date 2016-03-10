@@ -4,18 +4,15 @@
  * Class DataBaseModel:
  * This is an abstract class which stands as a model
  * to another class e.g User class which can inherit from
- * all its methods. This class stands as a middle man 
- * between the User class and the DataBaseQuery class. 
+ * all its methods. This class stands as a middle man
+ * between the User class and the DataBaseQuery class.
  *
  * @author: Raimi Ademola <ademola.raimi@andela.com>
  * @copyright: 2016 Andela
  */
-
 namespace Demo;
 
-use Demo\DataBaseQuery;
 use Doctrine\Common\Inflector\Inflector;
-use Demo\NoDataFoundException;
 
 abstract class DataBaseModel implements DataBaseModelInterface
 {
@@ -24,7 +21,7 @@ abstract class DataBaseModel implements DataBaseModelInterface
     protected $DataBaseQuery;
     protected $properties;
     protected $arrayField = [];
-    
+
     /**
      * This is a constructor; a default method  that will be called automatically during class instantiation.
      */
@@ -34,7 +31,7 @@ abstract class DataBaseModel implements DataBaseModelInterface
         $this->DataBaseQuery = new DataBaseQuery(new DataBaseConnection());
         $this->arrayField['id'] = 0;
     }
-    
+
     /**
      * The magic setter method.
      *
@@ -47,7 +44,7 @@ abstract class DataBaseModel implements DataBaseModelInterface
     {
         $this->arrayField[$properties] = $values;
     }
-    
+
     /**
      * The magic getter method.
      *
@@ -59,49 +56,47 @@ abstract class DataBaseModel implements DataBaseModelInterface
     {
         return $this->arrayField[$properties];
     }
-    
+
     /**
      * This method gets all the record from a particular table
      * by accessing the read method from the DataBaseQuery class.
      *
-     * @return associative array
-     *
      * @throws NoDataFoundException
+     *
+     * @return associative array
      */
-    public function  getAll()
+    public function getAll()
     {
         $sqlData = $this->DataBaseQuery->read($id = false, self::getClassName());
 
         if (count($sqlData) > 0) {
-
             return $sqlData;
         }
 
-        throw new NoDataFoundException("There is no data to display");
+        throw new NoDataFoundException('There is no data to display');
     }
-    
+
     /**
      * This method either create or update record in a database table
-     * by calling either the read method or create method in the 
+     * by calling either the read method or create method in the
      * DataBaseQuery class.
      *
-     * @return bool true or false;
-     * 
      * @throws NoRecordUpdateException
      * @throws EmptyArrayException
      * @throws NoRecordCreatedException
+     *
+     * @return bool true or false;
      */
     public function save()
     {
-        
-        if($this->arrayField['id']) {
+        if ($this->arrayField['id']) {
             $sqlData = $this->DataBaseQuery->read($this->arrayField['id'], self::getClassName());
-            if ($this->checkIfRecordIsEmpty($sqlData))  {
+            if ($this->checkIfRecordIsEmpty($sqlData)) {
                 $boolCommit = $this->DataBaseQuery->update(['id' => $this->arrayField['id']], $this->arrayField, self::getClassName());
                 if ($boolCommit) {
                     return true;
                 }
-                throw new NoRecordUpdateException("oops, your record did not update succesfully");
+                throw new NoRecordUpdateException('oops, your record did not update succesfully');
             }
             throw new EmptyArrayException("data passed didn't match any record");
         }
@@ -110,34 +105,35 @@ abstract class DataBaseModel implements DataBaseModelInterface
         if ($boolCommit) {
             return true;
         }
-        throw new NoRecordCreatedException("oops,your record did not create succesfully");
+        throw new NoRecordCreatedException('oops,your record did not create succesfully');
     }
-    
+
     /**
      * This method find a record by id.
      *
      * @param $id
      *
-     * @return object
-     *
      * @throws ArgumentNumberIncorrectException
      * @throws ArgumentNotFoundException
+     *
+     * @return object
      */
     public static function findById($id)
     {
         $numArgs = func_num_args();
         if ($numArgs < 0 || $numArgs > 1) {
-            throw new ArgumentNumberIncorrectException("Please input just one Argument");
-        } 
+            throw new ArgumentNumberIncorrectException('Please input just one Argument');
+        }
         if ($numArgs == '') {
-            throw new ArgumentNotFoundException("No Argument found, please input an argument");
+            throw new ArgumentNotFoundException('No Argument found, please input an argument');
         }
 
         $staticFindInstance = new static();
         $staticFindInstance->id = $id == '' ? false : $id;
+
         return $staticFindInstance;
     }
-    
+
     /**
      * This method find a record by id and returns
      * all the data present in the id.
@@ -147,10 +143,11 @@ abstract class DataBaseModel implements DataBaseModelInterface
      */
     public function getById()
     {
-        if($this->arrayField['id']) {
+        if ($this->arrayField['id']) {
             $sqlData = $this->DataBaseQuery->read($this->arrayField['id'], self::getClassName());
+
             return $sqlData;
-        }    
+        }
     }
 
     /**
@@ -158,27 +155,29 @@ abstract class DataBaseModel implements DataBaseModelInterface
      *
      * @param $id
      *
-     * @return bool true
-     *
      * @throws ArgumentNumberIncorrectException;
      * @throws ArgumentNotFoundException;
+     *
+     * @return bool true
      */
     public function destroy($id)
     {
         $numArgs = func_num_args();
         if ($numArgs < 0 || $numArgs > 1) {
-            throw new ArgumentNumberIncorrectException("Please input just one Argument");
-        } elseif ($numArgs == " ") {
-            throw new ArgumentNotFoundException("No Argument found, please input an argument");
+            throw new ArgumentNumberIncorrectException('Please input just one Argument');
+        } elseif ($numArgs == ' ') {
+            throw new ArgumentNotFoundException('No Argument found, please input an argument');
         }
-        
+
         $sqlData = $this->DataBaseQuery->delete($id, self::getClassName());
+
         return true;
     }
 
     public static function getClassName()
     {
         $tableName = explode('\\', get_called_class());
+
         return Inflector::pluralize(strtolower(end($tableName)));
     }
 
@@ -194,10 +193,7 @@ abstract class DataBaseModel implements DataBaseModelInterface
         if (count($arrayOfRecord) > 0) {
             return true;
         }
+
         return false;
     }
 }
-
-
-
-

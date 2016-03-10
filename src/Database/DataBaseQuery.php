@@ -4,20 +4,14 @@
  * Class DataBase:
  * This class performs the basic CRUD operations which compose of
  * various methods such as create, read, update, and delete.
- * This class class query the database to achieve its function
+ * This class class query the database to achieve its function.
  *
  * @author: Raimi Ademola <ademola.raimi@andela.com>
  * @copyright: 2016 Andela
  */
-
 namespace Demo;
 
 use PDO;
-
-use Demo\DataBaseConnection;
-use Demo\FieldUndefinedException;
-use Demo\IdNotFoundExeption;
-use Demo\DataBaseHelper;
 
 /**
  * This is a constructor; a default method  that will be called automatically during class instantiation.
@@ -28,7 +22,7 @@ class DataBaseQuery
     protected $splitTableField;
     protected $formatTableValues;
     protected $dataBaseConnection;
-    
+
     /**
      * This method create or insert new users to the table.
      *
@@ -41,7 +35,7 @@ class DataBaseQuery
     {
         $this->dataBaseConnection = $dataBaseConnection;
     }
-    
+
     /**
      * This method create or insert new users to the table.
      *
@@ -51,18 +45,17 @@ class DataBaseQuery
      * @return array
      */
     public function create($associativeArray, $tableName)
-    {        
-        $tableFields   = [];
-        $tableValues   = [];
+    {
+        $tableFields = [];
+        $tableValues = [];
 
         foreach ($associativeArray as $key => $val) {
             $tableFields[] = $key;
             $tableValues[] = $val;
         }
         $unexpectedArray = array_diff($tableFields, $this->getColumnNames($tableName));
-        
-        if (count($unexpectedArray) < 1) {
 
+        if (count($unexpectedArray) < 1) {
             $sql = 'INSERT INTO '.$tableName;
             $sql .= '('.$this->splitTableField($tableFields).') ';
             $sql .= 'VALUES ('.$this->formatTableValues($tableValues).')';
@@ -71,9 +64,9 @@ class DataBaseQuery
 
             return $statement;
         }
-        throw new FieldUndefinedException("Oops, please input the following field: NAME, SEX, OCCUPATION, ORGANISATION AND YEAR");
+        throw new FieldUndefinedException('Oops, please input the following field: NAME, SEX, OCCUPATION, ORGANISATION AND YEAR');
     }
-    
+
     /**
      * This method read the data in the table name of the id being passed to it.
      *
@@ -93,14 +86,14 @@ class DataBaseQuery
         foreach ($results as $result) {
             array_push($tableData, $result);
         }
-        
+
         if (count($tableData) < 1) {
-            throw new IdNotFoundExeption("Oops, the id " . $id . " is not in the database, try another id");
+            throw new IdNotFoundExeption('Oops, the id '.$id.' is not in the database, try another id');
         }
+
         return $tableData;
-        
     }
-    
+
     /**
      * This method delete the table name of the id being passed to it.
      *
@@ -108,14 +101,13 @@ class DataBaseQuery
      * @param $associativeArray
      * @param $tableName
      *
-     * @return boolean
+     * @return bool
      */
     public function update($updateParams, $associativeArray, $tableName)
     {
         $sql = '';
         $updateSql = "UPDATE `$tableName` SET ";
 
-        
         unset($associativeArray['id']);
 
         foreach ($associativeArray as $key => $val) {
@@ -123,30 +115,28 @@ class DataBaseQuery
         }
 
         $unexpectedArray = array_diff($tableFields, $this->getColumnNames($tableName));
-        
+
         if (count($unexpectedArray) < 1) {
-
             $updateSql .= $this->updateArraySql($associativeArray);
-
 
             foreach ($updateParams as $field => $value) {
                 $updateSql .= " WHERE $field = $value";
             }
 
             $statement = $this->dataBaseConnection->exec($updateSql);
-            
-            return $statement ? : false;
+
+            return $statement ?: false;
         }
-        throw new FieldUndefinedException("Oops, please input the following field: NAME, SEX, OCCUPATION, ORGANISATION AND YEAR");    
+        throw new FieldUndefinedException('Oops, please input the following field: NAME, SEX, OCCUPATION, ORGANISATION AND YEAR');
     }
-    
+
     /**
      * This method delete the table name of the id passed to it.
      *
      * @param $id
      * @param $tableName
      *
-     * @return boolean
+     * @return bool
      */
     public function delete($id, $tableName)
     {
@@ -156,7 +146,7 @@ class DataBaseQuery
 
         return true;
     }
-    
+
     /**
      * This method returns a string form an array by making us of the imp[lode function.
      *
@@ -166,11 +156,11 @@ class DataBaseQuery
      */
     public function splitTableField($tableField)
     {
-        $splitTableField = implode(",", $tableField);
+        $splitTableField = implode(',', $tableField);
 
         return $splitTableField;
     }
-    
+
     /**
      * This method returns a string formed fron an array, It format the array.
      *
@@ -181,16 +171,16 @@ class DataBaseQuery
     public function formatTableValues($tableValues)
     {
         $formattedValues = [];
-    
-        foreach($tableValues as $key => $value) {
+
+        foreach ($tableValues as $key => $value) {
             $formattedValues[] = "'".$value."'";
-        }  
-    
-        $ValueSql = implode(",", $formattedValues);
-    
+        }
+
+        $ValueSql = implode(',', $formattedValues);
+
         return $ValueSql;
     }
-    
+
     /**
      * This method returns a string formed from an array.
      *
@@ -201,16 +191,16 @@ class DataBaseQuery
     public function updateArraySql($array)
     {
         $updatedValues = [];
-     
-        foreach($array as $key => $val) {
+
+        foreach ($array as $key => $val) {
             $updatedValues[] = "`$key` = '$val'";
         }
 
-        $valueSql = implode(",", $updatedValues);
+        $valueSql = implode(',', $updatedValues);
 
-        return $valueSql;        
+        return $valueSql;
     }
-  
+
     /**
      * This method returns column fields of a particular table.
      *
@@ -221,7 +211,7 @@ class DataBaseQuery
     public function getColumnNames($table)
     {
         $tableFields = [];
-    
+
         $sql = 'SHOW COLUMNS FROM '.$table;
         $stmt = $this->dataBaseConnection->prepare($sql);
         $stmt->bindValue(':table', $table, PDO::PARAM_STR);
@@ -231,7 +221,7 @@ class DataBaseQuery
         foreach ($results as $result) {
             array_push($tableFields, $result['Field']);
         }
-        return $tableFields;
-  }
 
+        return $tableFields;
+    }
 }

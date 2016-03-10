@@ -1,7 +1,8 @@
 <?php
 
 /**
- * class NoDataFoundException
+ * class NoDataFoundException.
+ *
  * @extends Exception
  *
  * Throws an error if the index for
@@ -11,7 +12,6 @@
  * @author: Raimi Ademola <ademola.raimi@andela.com>
  * @copyright: 2016 Andela
  */
-
 namespace Demo;
 
 use Exception;
