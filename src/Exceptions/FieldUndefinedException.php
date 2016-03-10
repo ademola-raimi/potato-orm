@@ -16,7 +16,7 @@ namespace Demo;
 
 use Exception;
 
-class NoRecordUpdateException extends Exception
+class FieldUndefinedException extends Exception
 {
     public $message;
 

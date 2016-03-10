@@ -16,7 +16,7 @@ namespace Demo;
 
 use Exception;
 
-class NoRecordUpdateException extends Exception
+class ArgumentNotFoundException extends Exception
 {
     public $message;
 
