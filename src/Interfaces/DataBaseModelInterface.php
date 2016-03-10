@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * This is the interface class.
+ *
+ * @author   Raimi Ademola <ademola.raimi@andela.com>
+ * @copyright: 2016 Andela
+ */
 namespace Demo;
 
 interface DataBaseModelInterface

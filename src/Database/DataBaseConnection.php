@@ -27,17 +27,17 @@ class DataBaseConnection extends PDO
         $this->loadEnv();
 
         $this->servername = getenv('DB_HOST');
-        $this->username = getenv('DB_USERNAME');
-        $this->password = getenv('DB_PASSWORD');
-        $this->driver = getenv('DB_DRIVER');
-        $this->dbname = getenv('DB_NAME');
+        $this->username   = getenv('DB_USERNAME');
+        $this->password   = getenv('DB_PASSWORD');
+        $this->driver     = getenv('DB_DRIVER');
+        $this->dbname     = getenv('DB_NAME');
 
         $dns = 'mysql:host='.$this->servername.';dbname='.$this->dbname;
 
         $options = [
-            PDO::ATTR_PERSISTENT   => true,
-            PDO::ATTR_ERRMODE      => PDO::ERRMODE_EXCEPTION,
-      ];
+            PDO::ATTR_PERSISTENT => true,
+            PDO::ATTR_ERRMODE    => PDO::ERRMODE_EXCEPTION,
+        ];
 
         parent::__construct($dns, $this->username, $this->password, $options);
     }
