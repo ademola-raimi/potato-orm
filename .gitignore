@@ -4,3 +4,6 @@ docs
 vendor
 index.php
 .DS_Store
+.editorconfig
+.scrutinizer.yml
+.env
