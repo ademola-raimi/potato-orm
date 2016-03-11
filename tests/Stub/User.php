@@ -6,6 +6,8 @@
  */
 namespace Demo;
 
+use Demo\DataBaseModel;
+
 class User extends DataBaseModel
 {
 }
