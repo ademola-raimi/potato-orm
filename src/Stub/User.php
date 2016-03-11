@@ -8,5 +8,4 @@ namespace Demo;
 
 class User extends DataBaseModel
 {
-    
 }
