@@ -46,7 +46,7 @@ class DataBaseQuery
      */
     public function create($associativeArray, $tableName, $dbConn = null)
     {
-        if ( is_null($dbConn) ) {
+        if (is_null($dbConn)) {
             $dbConn = $this->dataBaseConnection;
         }
         $tableFields = [];
@@ -80,7 +80,7 @@ class DataBaseQuery
      */
     public static function read($id, $tableName, $dbConn = null)
     {
-        if ( is_null($dbConn) ) {
+        if (is_null($dbConn)) {
             $dbConn = new DataBaseConnection();
         }
         $tableData = [];
@@ -111,7 +111,7 @@ class DataBaseQuery
      */
     public function update($updateParams, $associativeArray, $tableName, $dbConn = null)
     {
-        if ( is_null($dbConn) ) {
+        if (is_null($dbConn)) {
             $dbConn = $this->dataBaseConnection;
         }
         $sql = '';
@@ -149,13 +149,13 @@ class DataBaseQuery
      */
     public static function delete($id, $tableName, $dbConn = null)
     {
-        if ( is_null($dbConn) ) {
-            $dbConn = new DataBaseConnection;
+        if (is_null($dbConn)) {
+            $dbConn = new DataBaseConnection();
         }
         $sql = 'DELETE FROM '.$tableName.' WHERE id = '.$id;
         $statement = $dbConn->exec($sql);
+
         return true;
-       
     }
 
     /**

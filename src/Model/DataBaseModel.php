@@ -102,11 +102,11 @@ class DataBaseModel implements DataBaseModelInterface
         }
         $sqlData = $this->DataBaseQuery::read($this->arrayField['id'], self::getClassName());
 
-            $boolCommit = $this->DataBaseQuery->create($this->arrayField, self::getClassName());
-            if ($boolCommit) {
-                return true; 
-            }
-            throw new NoRecordCreatedException('oops,your record did not create succesfully');             
+        $boolCommit = $this->DataBaseQuery->create($this->arrayField, self::getClassName());
+        if ($boolCommit) {
+            return true;
+        }
+        throw new NoRecordCreatedException('oops,your record did not create succesfully');
     }
 
     /**
@@ -166,14 +166,15 @@ class DataBaseModel implements DataBaseModelInterface
         $numArgs = func_num_args();
         if ($numArgs < 0 || $numArgs > 1) {
             throw new ArgumentNumberIncorrectException('Please input just one Argument');
-        } 
+        }
         if ($numArgs == ' ') {
             throw new ArgumentNotFoundException('No Argument found, please input an argument');
         }
         $sqlData = DataBaseQuery::read($id, self::getClassName());
         $sqlData = DataBaseQuery::delete($id, self::getClassName());
+
         return true;
-        
+
         throw new IdNotFoundException('Oops, the id '.$id.' is not in the database, try another id');
     }
 
@@ -210,9 +211,8 @@ class DataBaseModel implements DataBaseModelInterface
     public function checkIfRecordExist($arrayOfRecord)
     {
         $stringValue = [];
-        foreach($arrayOfRecord as $key => $val) {
-            $stringValue[] = $val;    
+        foreach ($arrayOfRecord as $key => $val) {
+            $stringValue[] = $val;
         }
-        
     }
 }
