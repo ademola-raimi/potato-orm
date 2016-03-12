@@ -67,11 +67,11 @@ To use this package, all you need to do is to simply extend the base class. The 
 To make this package degrade gracefully, It has to be wrapped under try and catch in order for all exceptions to be caught. 
 
     
+ - Catching exception on save new record:
 
-     - Catching exception on save new record:
-
-            try {
-                 $user               = new User();
+           
+         try {
+                     $user               = new User();
           
              $user->name         = "Prosper Otemuyiwa";
              $user->sex          = "m";   
@@ -85,7 +85,7 @@ To make this package degrade gracefully, It has to be wrapped under try and catc
              } 
    
 
-     - Catching exception on reading from the table:
+ - Catching exception on reading from the table:
 
     
             /**
@@ -110,7 +110,7 @@ To make this package degrade gracefully, It has to be wrapped under try and catc
 
  
 
-     - Catching exception on updating the table:
+ - Catching exception on updating the table:
 
             try {
                 $user       = User::findById(10);
@@ -120,7 +120,7 @@ To make this package degrade gracefully, It has to be wrapped under try and catc
                 print($e->getMessage());
              } 
 
-     - Catching exception on deleting from the table:
+ - Catching exception on deleting from the table:
     
              try {
                  $users = User::destroy(8);
