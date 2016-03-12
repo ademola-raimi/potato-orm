@@ -47,7 +47,7 @@ class DataBaseConnection extends PDO
      */
     private function loadEnv()
     {
-        $dotenv = new Dotenv($_SERVER['DOCUMENT_ROOT']);
+        $dotenv = new Dotenv(__DIR__.'/../../');
         $dotenv->load();
     }
 }

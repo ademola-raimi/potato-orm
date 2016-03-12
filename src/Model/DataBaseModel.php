@@ -14,7 +14,7 @@ namespace Demo;
 
 use Doctrine\Common\Inflector\Inflector;
 
-abstract class DataBaseModel implements DataBaseModelInterface
+class DataBaseModel implements DataBaseModelInterface
 {
     protected $tableName;
     protected $dataBaseConnection;
@@ -65,9 +65,9 @@ abstract class DataBaseModel implements DataBaseModelInterface
      *
      * @return associative array
      */
-    public function getAll()
+    public static function getAll()
     {
-        $sqlData = $this->DataBaseQuery->read($id = false, self::getClassName());
+        $sqlData = DataBaseQuery::read($id = false, self::getClassName());
 
         if (count($sqlData) > 0) {
             return $sqlData;
@@ -90,22 +90,23 @@ abstract class DataBaseModel implements DataBaseModelInterface
     public function save()
     {
         if ($this->arrayField['id']) {
-            $sqlData = $this->DataBaseQuery->read($this->arrayField['id'], self::getClassName());
+            $sqlData = $this->DataBaseQuery::read($this->arrayField['id'], self::getClassName());
             if ($this->checkIfRecordIsEmpty($sqlData)) {
                 $boolCommit = $this->DataBaseQuery->update(['id' => $this->arrayField['id']], $this->arrayField, self::getClassName());
                 if ($boolCommit) {
                     return true;
                 }
-                throw new NoRecordUpdateException('oops, your record did not update succesfully');
+                throw new NoRecordUpdatedException('oops, your record did not update succesfully');
             }
             throw new EmptyArrayException("data passed didn't match any record");
         }
+        $sqlData = $this->DataBaseQuery::read($this->arrayField['id'], self::getClassName());
 
-        $boolCommit = $this->DataBaseQuery->create($this->arrayField, self::getClassName());
-        if ($boolCommit) {
-            return true;
-        }
-        throw new NoRecordCreatedException('oops,your record did not create succesfully');
+            $boolCommit = $this->DataBaseQuery->create($this->arrayField, self::getClassName());
+            if ($boolCommit) {
+                return true; 
+            }
+            throw new NoRecordCreatedException('oops,your record did not create succesfully');             
     }
 
     /**
@@ -144,7 +145,7 @@ abstract class DataBaseModel implements DataBaseModelInterface
     public function getById()
     {
         if ($this->arrayField['id']) {
-            $sqlData = $this->DataBaseQuery->read($this->arrayField['id'], self::getClassName());
+            $sqlData = $this->DataBaseQuery::read($this->arrayField['id'], self::getClassName());
 
             return $sqlData;
         }
@@ -160,18 +161,20 @@ abstract class DataBaseModel implements DataBaseModelInterface
      *
      * @return bool true
      */
-    public function destroy($id)
+    public static function destroy($id)
     {
         $numArgs = func_num_args();
         if ($numArgs < 0 || $numArgs > 1) {
             throw new ArgumentNumberIncorrectException('Please input just one Argument');
-        } elseif ($numArgs == ' ') {
+        } 
+        if ($numArgs == ' ') {
             throw new ArgumentNotFoundException('No Argument found, please input an argument');
         }
-
-        $sqlData = $this->DataBaseQuery->delete($id, self::getClassName());
-
+        $sqlData = DataBaseQuery::read($id, self::getClassName());
+        $sqlData = DataBaseQuery::delete($id, self::getClassName());
         return true;
+        
+        throw new IdNotFoundException('Oops, the id '.$id.' is not in the database, try another id');
     }
 
     public static function getClassName()
@@ -195,5 +198,21 @@ abstract class DataBaseModel implements DataBaseModelInterface
         }
 
         return false;
+    }
+
+    /**
+     * This method check if the argument passed to this function is an array.
+     *
+     * @param $arrayOfRecord
+     *
+     * @return bool true
+     */
+    public function checkIfRecordExist($arrayOfRecord)
+    {
+        $stringValue = [];
+        foreach($arrayOfRecord as $key => $val) {
+            $stringValue[] = $val;    
+        }
+        
     }
 }

@@ -44,8 +44,11 @@ class DataBaseQuery
      *
      * @return array
      */
-    public function create($associativeArray, $tableName)
+    public function create($associativeArray, $tableName, $dbConn = null)
     {
+        if ( is_null($dbConn) ) {
+            $dbConn = $this->dataBaseConnection;
+        }
         $tableFields = [];
         $tableValues = [];
 
@@ -60,7 +63,7 @@ class DataBaseQuery
             $sql .= '('.$this->splitTableField($tableFields).') ';
             $sql .= 'VALUES ('.$this->formatTableValues($tableValues).')';
 
-            $statement = $this->dataBaseConnection->exec($sql);
+            $statement = $dbConn->exec($sql);
 
             return $statement;
         }
@@ -75,11 +78,14 @@ class DataBaseQuery
      *
      * @return array
      */
-    public function read($id, $tableName)
+    public static function read($id, $tableName, $dbConn = null)
     {
+        if ( is_null($dbConn) ) {
+            $dbConn = new DataBaseConnection();
+        }
         $tableData = [];
         $sql = $id ? 'SELECT * FROM '.$tableName.' WHERE id = '.$id : 'SELECT * FROM '.$tableName;
-        $statement = $this->dataBaseConnection->prepare($sql);
+        $statement = $dbConn->prepare($sql);
         $statement->execute();
         $results = $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -88,7 +94,7 @@ class DataBaseQuery
         }
 
         if (count($tableData) < 1) {
-            throw new IdNotFoundExeption('Oops, the id '.$id.' is not in the database, try another id');
+            throw new IdNotFoundException('Oops, the id '.$id.' is not in the database, try another id');
         }
 
         return $tableData;
@@ -103,8 +109,11 @@ class DataBaseQuery
      *
      * @return bool
      */
-    public function update($updateParams, $associativeArray, $tableName)
+    public function update($updateParams, $associativeArray, $tableName, $dbConn = null)
     {
+        if ( is_null($dbConn) ) {
+            $dbConn = $this->dataBaseConnection;
+        }
         $sql = '';
         $updateSql = "UPDATE `$tableName` SET ";
 
@@ -123,7 +132,7 @@ class DataBaseQuery
                 $updateSql .= " WHERE $field = $value";
             }
 
-            $statement = $this->dataBaseConnection->exec($updateSql);
+            $statement = $dbConn->exec($updateSql);
 
             return $statement ?: false;
         }
@@ -138,13 +147,15 @@ class DataBaseQuery
      *
      * @return bool
      */
-    public function delete($id, $tableName)
+    public static function delete($id, $tableName, $dbConn = null)
     {
+        if ( is_null($dbConn) ) {
+            $dbConn = new DataBaseConnection;
+        }
         $sql = 'DELETE FROM '.$tableName.' WHERE id = '.$id;
-
-        $statement = $this->dataBaseConnection->exec($sql);
-
+        $statement = $dbConn->exec($sql);
         return true;
+       
     }
 
     /**

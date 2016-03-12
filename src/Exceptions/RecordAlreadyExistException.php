@@ -16,7 +16,7 @@ namespace Demo;
 
 use Exception;
 
-class NoRecordUpdateException extends Exception
+class RecordAlreadyExistException extends Exception
 {
     public $message;
 
