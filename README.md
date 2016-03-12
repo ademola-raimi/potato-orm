@@ -1,7 +1,7 @@
 **Potato ORM**
 ================
 ----------
-Potato-ORM is based on concept borrowed from the Laravel frame work. It is a package that can perform the basic CRUD (create, read, update and delete) operations.
+Potato-ORM is based on concepts borrowed from the Laravel framework. It is a package that can perform the basic CRUD (create, read, update and delete) operations.
 
 **Installation**
 -------
@@ -49,7 +49,7 @@ To use this package, all you need to do is to simply extend the base class. The 
         print_r($user->getById());
 
 
- - **Update a record in the table. For example update the name of the   tenth record in the users table:**
+ - **Update a record in the table. For example, update the name of the tenth record in the users table:**
  
         $user       = User::findById(10);
          
@@ -57,7 +57,7 @@ To use this package, all you need to do is to simply extend the base class. The 
          
         $user->save();
 
- - **Delete a record in the table. For example delete the eighth record in the users table:**
+ - **Delete a record in the table. For example, delete the eighth record in the users table:**
  
 
         $users = User::destroy(8);
@@ -132,7 +132,7 @@ To make this package degrade gracefully, It has to be wrapped under try and catc
 ----------
 
 
-Run the following command in the urban-dictionary directory:
+Run the following command in the potato-orm directory:
 
     ~ phpunit tests
 
