@@ -63,6 +63,7 @@ To use this package, all you need to do is to simply extend the base class. The 
         $users = User::destroy(8);
 
  - **Exception Handling**
+ 
 To make this package degrade gracefully, It has to be wrapped under try and catch in order for all exceptions to be caught. 
 
     
