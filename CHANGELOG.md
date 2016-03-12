@@ -6,11 +6,11 @@ NEXT - YYYY-MM-DD
 
 Added
 
-   Nothing
+    Nothing
 
 Deprecated
 
-   Nothing
+    Nothing
 
 Fixed
 
