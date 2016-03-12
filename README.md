@@ -63,7 +63,7 @@ To use this package, all you need to do is to simply extend the base class. The 
         $users = User::destroy(8);
 
  - **Exception Handling**
- 
+
 To make this package degrade gracefully, It has to be wrapped under try and catch in order for all exceptions to be caught. 
 
     
@@ -145,7 +145,7 @@ Run the following command in the potato-orm directory:
 ----------
 
 
-Please check out [CHANGELOG](https://github.com/andela-araimi/Checkpoint-one/blob/master/CHANGELOG.md/%22CHANGELOG%22) file for information on what has changed recently.
+Please check out [CHANGELOG](https://github.com/andela-araimi/potato-orm/blob/master/CHANGELOG.md) file for information on what has changed recently.
 
 **Contributing**
 ------------
@@ -154,7 +154,7 @@ Please check out [CHANGELOG](https://github.com/andela-araimi/Checkpoint-one/blo
 ----------
 
 
-Please check out [CONTRIBUTING](https://github.com/andela-araimi/Checkpoint-one/edit/master/CONTRIBUTING.md/%22CONTRIBUTING%22) file for detailed contribution guidelines.
+Please check out [CONTRIBUTING](https://github.com/andela-araimi/potato-orm/blob/master/CONTRIBUTING.md) file for detailed contribution guidelines.
 
 **Security**
 --------
