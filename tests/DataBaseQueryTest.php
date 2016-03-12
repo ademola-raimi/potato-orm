@@ -6,14 +6,11 @@
  */
 namespace Tests;
 
-use PDO;
-use Mockery;
-use Dotenv\Dotenv;
-use Demo\DataBaseQuery;
-use Demo\DataBaseModel;
 use Demo\DataBaseConnection;
+use Demo\DataBaseModel;
+use Demo\DataBaseQuery;
+use Mockery;
 use PHPUnit_Framework_TestCase;
-
 
 class DataBaseQueryTest extends PHPUnit_Framework_TestCase
 {
@@ -22,6 +19,7 @@ class DataBaseQueryTest extends PHPUnit_Framework_TestCase
     private $dbModel;
     private $dbQuery;
     private $statement;
+
     /*
      * This function setup is used to create an object of DataBaseQuery
      */
@@ -40,28 +38,28 @@ class DataBaseQueryTest extends PHPUnit_Framework_TestCase
     {
         $this->splitTableField();
         $this->formatTableValues();
-        $boolCreate = $this->dbQuery->create(["name" => "Oscar", "sex" => "m", "occupation" => "Software Developer"], 'users', $this->dbConnMocked);
+        $boolCreate = $this->dbQuery->create(['name' => 'Oscar', 'sex' => 'm', 'occupation' => 'Software Developer'], 'users', $this->dbConnMocked);
         $this->assertEquals(true, $boolCreate);
-    } 
-    
+    }
+
     /*
      * To test if the database can be retrieved from.
      */
     public function testRead()
     {
         $id = 2;
-        $row1 = ["name" => "Oscar", "sex" => "m", "occupation" => "Software Developer"];
-        $row2 = ["name" => "Tope", "sex" => "m", "occupation" => "Software Developer"];
-        $row3 = ["name" => "Unicodevelper", "sex" => "m", "occupation" => "Trainer"];
+        $row1 = ['name' => 'Oscar', 'sex' => 'm', 'occupation' => 'Software Developer'];
+        $row2 = ['name' => 'Tope', 'sex' => 'm', 'occupation' => 'Software Developer'];
+        $row3 = ['name' => 'Unicodevelper', 'sex' => 'm', 'occupation' => 'Trainer'];
 
         $results = [$row1, $row2, $row3];
 
         $readQuery = $id  ? 'SELECT * FROM users WHERE id = '.$id : 'SELECT * FROM users';
         $this->dbConnMocked->shouldReceive('prepare')->with($readQuery)->andReturn($this->statement);
 
-        $dbEntry = $this->dbQuery->read(2, 'users',$this->dbConnMocked);
-        $this->assertEquals(["name" => "Tope", "sex" => "m", "occupation" => "Software Developer"], $dbEntry);
-    } 
+        $dbEntry = $this->dbQuery->read(2, 'users', $this->dbConnMocked);
+        $this->assertEquals(['name' => 'Tope', 'sex' => 'm', 'occupation' => 'Software Developer'], $dbEntry);
+    }
 
     /*
      * To test if an entry can be edited and updated to the database.
@@ -84,9 +82,9 @@ class DataBaseQueryTest extends PHPUnit_Framework_TestCase
     public function testDelete()
     {
         $id = 2;
-        $row1 = ["name" => "Oscar", "sex" => "m", "occupation" => "Software Developer"];
-        $row2 = ["name" => "Tope", "sex" => "m", "occupation" => "Software Developer"];
-        $row3 = ["name" => "Unicodevelper", "sex" => "m", "occupation" => "Trainer"];
+        $row1 = ['name' => 'Oscar', 'sex' => 'm', 'occupation' => 'Software Developer'];
+        $row2 = ['name' => 'Tope', 'sex' => 'm', 'occupation' => 'Software Developer'];
+        $row3 = ['name' => 'Unicodevelper', 'sex' => 'm', 'occupation' => 'Trainer'];
         $results = [$row1, $row2, $row3];
         $deleteQuery = 'DELETE FROM '.$tableName.' WHERE id = '.$id;
         $this->dbConnMocked->shouldReceive('prepare')->with($deleteQuery)->andReturn($this->statement);
