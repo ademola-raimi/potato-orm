@@ -25,8 +25,8 @@ We accept contributions via Pull Requests on [Github](https://github.com/:vendor
 ## Running Tests
 
 ``` bash
-$ phpunit dictionary_engine_test.php
-$ phpunit ranking_system_test.php
+$ phpunit DataBaseModelTest.php
+$ phpunit DataBaseQueryTest.php
 ```
 
 
