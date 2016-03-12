@@ -179,5 +179,5 @@ Potato-ORM is maintained by Raimi Ademola.
 ----------
 
 
-UrbanDictionary is released under the [MIT Licence](https://github.com/andela-araimi/Checkpoint-one/blob/master/LICENSE.md/%22MIT%20License%22). See the bundled LICENSE file for more details.
+Potato-ORM is released under the [MIT Licence](https://github.com/andela-araimi/potato-orm/blob/master/LICENSE.md). See the bundled LICENSE file for more details.
 
