@@ -71,7 +71,6 @@ class DataBaseModel implements DataBaseModelInterface
 
         if (count($sqlData) > 0) {
             return $sqlData;
-
         }
 
         throw new NoDataFoundException('There is no data to display');
@@ -96,10 +95,11 @@ class DataBaseModel implements DataBaseModelInterface
                 $boolCommit = $this->DataBaseQuery->update(['id' => $this->arrayField['id']], $this->arrayField, self::getClassName());
                 if ($boolCommit) {
                     return true;
-
                 }
+
                 throw new NoRecordUpdatedException('oops, your record did not update succesfully');
             }
+
             throw new EmptyArrayException("data passed didn't match any record");
         }
         $sqlData = $this->DataBaseQuery::read($this->arrayField['id'], self::getClassName());
@@ -107,8 +107,8 @@ class DataBaseModel implements DataBaseModelInterface
         $boolCommit = $this->DataBaseQuery->create($this->arrayField, self::getClassName());
         if ($boolCommit) {
             return true;
-
         }
+
         throw new NoRecordCreatedException('oops,your record did not create succesfully');
     }
 
@@ -127,16 +127,14 @@ class DataBaseModel implements DataBaseModelInterface
         $numArgs = func_num_args();
         if ($numArgs < 0 || $numArgs > 1) {
             throw new ArgumentNumberIncorrectException('Please input just one Argument');
-
         }
         if ($numArgs == '') {
             throw new ArgumentNotFoundException('No Argument found, please input an argument');
-
         }
 
         $staticFindInstance = new static();
         $staticFindInstance->id = $id == '' ? false : $id;
-        
+
         return $staticFindInstance;
     }
 
@@ -153,7 +151,6 @@ class DataBaseModel implements DataBaseModelInterface
             $sqlData = $this->DataBaseQuery::read($this->arrayField['id'], self::getClassName());
 
             return $sqlData;
-
         }
     }
 

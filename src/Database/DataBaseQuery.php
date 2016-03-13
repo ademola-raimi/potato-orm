@@ -62,11 +62,11 @@ class DataBaseQuery
             $sql = 'INSERT INTO '.$tableName;
             $sql .= '('.$this->splitTableField($tableFields).') ';
             $sql .= 'VALUES ('.$this->formatTableValues($tableValues).')';
-
             $statement = $dbConn->exec($sql);
 
             return $statement;
         }
+
         throw new FieldUndefinedException('Oops, please input the following field: NAME, SEX, OCCUPATION, ORGANISATION AND YEAR');
     }
 
@@ -83,6 +83,7 @@ class DataBaseQuery
         if (is_null($dbConn)) {
             $dbConn = new DataBaseConnection();
         }
+
         $tableData = [];
         $sql = $id ? 'SELECT * FROM '.$tableName.' WHERE id = '.$id : 'SELECT * FROM '.$tableName;
         $statement = $dbConn->prepare($sql);
@@ -131,11 +132,12 @@ class DataBaseQuery
             foreach ($updateParams as $field => $value) {
                 $updateSql .= " WHERE $field = $value";
             }
-
+            var_dump($updateSql);
             $statement = $dbConn->exec($updateSql);
 
             return $statement ?: false;
         }
+
         throw new FieldUndefinedException('Oops, please input the following field: NAME, SEX, OCCUPATION, ORGANISATION AND YEAR');
     }
 

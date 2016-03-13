@@ -13,7 +13,7 @@ To install this package, PHP 5.5+ and Composer are required
 **Usage**
 -----
 ----------
-To use this package, all you need to do is to simply extend the base class. The base class is an abstract class called "DataBaseModel". Take for instance, you wish to perform the CRUD operations on the users table. Create a corresponding user class which should look like this:
+To use this package, what you need to do is to simply extend the base class. The base class is an abstract class called "DataBaseModel". Take for instance, you wish to perform the CRUD operations on the users table. Create a corresponding users class which should look like this:
 
     
     use Demo;
