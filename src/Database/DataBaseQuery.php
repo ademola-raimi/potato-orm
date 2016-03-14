@@ -89,7 +89,7 @@ class DataBaseQuery
         $statement = $dbConn->prepare($sql);
         $statement->execute();
         $results = $statement->fetchAll(PDO::FETCH_ASSOC);
-
+        
         foreach ($results as $result) {
             array_push($tableData, $result);
         }
@@ -132,7 +132,7 @@ class DataBaseQuery
             foreach ($updateParams as $field => $value) {
                 $updateSql .= " WHERE $field = $value";
             }
-            var_dump($updateSql);
+            
             $statement = $dbConn->exec($updateSql);
 
             return $statement ?: false;

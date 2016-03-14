@@ -51,7 +51,7 @@ class DataBaseQueryTest extends PHPUnit_Framework_TestCase
 
         $this->readFromTableHead($id, $row);
         $readData = DataBaseQuery::read($id, 'users', $this->dbConnMocked);
-        $this->assertEquals(['0' => ['id'    => $row['id'],'name'  => $row['name'],'sex' => $row['sex'],'occupation' => $row['occupation'],], ], $readData);
+        $this->assertEquals($readData, ['0' => ['id'    => $row['id'],'name'  => $row['name'],'sex' => $row['sex'],'occupation' => $row['occupation'],], ]);
     }
 
     /*

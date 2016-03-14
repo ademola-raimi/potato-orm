@@ -14,7 +14,7 @@ namespace Demo;
 
 use Doctrine\Common\Inflector\Inflector;
 
-class DataBaseModel implements DataBaseModelInterface
+abstract class DataBaseModel implements DataBaseModelInterface
 {
     protected $tableName;
     protected $dataBaseConnection;
@@ -65,9 +65,12 @@ class DataBaseModel implements DataBaseModelInterface
      *
      * @return associative array
      */
-    public static function getAll()
+    public static function getAll($dbConn = null)
     {
-        $sqlData = DataBaseQuery::read($id = false, self::getClassName());
+        if (is_null($dbConn)) {
+            $dbConn = $this->dataBaseConnection;
+        }
+        $sqlData = DataBaseQuery::read($id = false, self::getClassName(), $dbConn);
 
         if (count($sqlData) > 0) {
             return $sqlData;
@@ -87,8 +90,11 @@ class DataBaseModel implements DataBaseModelInterface
      *
      * @return bool true or false;
      */
-    public function save()
+    public function save($dbConn = null)
     {
+        if (is_null($dbConn)) {
+            $dbConn = $this->dataBaseConnection;
+        }
         if ($this->arrayField['id']) {
             $sqlData = $this->DataBaseQuery::read($this->arrayField['id'], self::getClassName());
             if ($this->checkIfRecordIsEmpty($sqlData)) {
@@ -145,10 +151,14 @@ class DataBaseModel implements DataBaseModelInterface
      *
      * @return associative array
      */
-    public function getById()
+    public function getById($dbConn = null)
     {
+
+        if (is_null($dbConn)) {
+            $dbConn = $this->dataBaseConnection;
+        }
         if ($this->arrayField['id']) {
-            $sqlData = $this->DataBaseQuery::read($this->arrayField['id'], self::getClassName());
+            $sqlData = DataBaseQuery::read($this->arrayField['id'], self::getClassName(), $dbConn);
 
             return $sqlData;
         }
@@ -164,17 +174,20 @@ class DataBaseModel implements DataBaseModelInterface
      *
      * @return bool true
      */
-    public static function destroy($id)
+    public static function destroy($id, $dbConn)
     {
+        if (is_null($dbConn)) {
+            $dbConn = $this->dataBaseConnection;
+        }
         $numArgs = func_num_args();
-        if ($numArgs < 0 || $numArgs > 1) {
+        if ($numArgs < 0 || $numArgs > 2) {
             throw new ArgumentNumberIncorrectException('Please input just one Argument');
         }
         if ($numArgs == ' ') {
             throw new ArgumentNotFoundException('No Argument found, please input an argument');
         }
         $sqlData = DataBaseQuery::read($id, self::getClassName());
-        $sqlData = DataBaseQuery::delete($id, self::getClassName());
+        $sqlData = DataBaseQuery::delete($id, self::getClassName(), $dbConn);
 
         return true;
 
