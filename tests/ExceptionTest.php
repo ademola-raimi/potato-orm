@@ -7,9 +7,7 @@
 namespace Tests;
 
 use Demo\DataBaseConnection;
-use Demo\DataBaseModel;
 use Demo\DataBaseQuery;
-use Tests\User;
 use Mockery;
 use PHPUnit_Framework_TestCase;
 
@@ -41,4 +39,4 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
         $this->dbConnMocked->shouldReceive('exec')->with($insertQuery)->andReturn(true);
         $this->dbQuery->create(['name' => 'Oscar', 'sex' => 'm', 'occupation' => 'Software Developer', 'DOB' => 2005], 'users', $this->dbConnMocked);
     }
-}    
+}

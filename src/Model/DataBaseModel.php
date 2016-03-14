@@ -153,7 +153,6 @@ abstract class DataBaseModel implements DataBaseModelInterface
      */
     public function getById($dbConn = null)
     {
-
         if (is_null($dbConn)) {
             $dbConn = $this->dataBaseConnection;
         }
