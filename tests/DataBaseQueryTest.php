@@ -7,7 +7,6 @@
 namespace Tests;
 
 use Demo\DataBaseConnection;
-use Demo\DataBaseModel;
 use Demo\DataBaseQuery;
 use Mockery;
 use PHPUnit_Framework_TestCase;
@@ -51,7 +50,7 @@ class DataBaseQueryTest extends PHPUnit_Framework_TestCase
 
         $this->readFromTableHead($id, $row);
         $readData = DataBaseQuery::read($id, 'users', $this->dbConnMocked);
-        $this->assertEquals($readData, ['0' => ['id'    => $row['id'],'name'  => $row['name'],'sex' => $row['sex'],'occupation' => $row['occupation'],], ]);
+        $this->assertEquals($readData, ['0' => ['id'    => $row['id'], 'name'  => $row['name'], 'sex' => $row['sex'], 'occupation' => $row['occupation']]]);
     }
 
     /*
@@ -67,7 +66,7 @@ class DataBaseQueryTest extends PHPUnit_Framework_TestCase
         $boolUpdate = $this->dbQuery->update(['id' => $id], $data, 'users', $this->dbConnMocked);
         $this->assertEquals(true, $boolUpdate);
     }
-    
+
     /*
      * To test if an entry can be deleted to the database.
      */

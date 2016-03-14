@@ -6,10 +6,7 @@
  */
 namespace Tests;
 
-use Demo\DataBaseConnection;
-use Demo\DataBaseModel;
 use Demo\DataBaseQuery;
-use Tests\User;
 use Mockery;
 use PHPUnit_Framework_TestCase;
 
@@ -30,7 +27,7 @@ class DataBaseModelTest extends PHPUnit_Framework_TestCase
         $this->dbModel = new User();
         $this->statement = Mockery::mock('\PDOStatement');
     }
-    
+
     /*
      * To test if the whole record can be retrieved.
      */
@@ -58,7 +55,6 @@ class DataBaseModelTest extends PHPUnit_Framework_TestCase
             ['id' => $row2['id'], 'name' => $row2['name'], 'sex' => $row2['sex'], 'occupation' => $row2['occupation']],
             ['id' => $row3['id'], 'name' => $row3['name'], 'sex' => $row3['sex'], 'occupation' => $row3['occupation']],
         ]);
-       
     }
 
     /*
@@ -77,9 +73,7 @@ class DataBaseModelTest extends PHPUnit_Framework_TestCase
      */
     public function testUpdateSave()
     {
-
         $id = 1;
-
 
         $data = ['name'   => 'Tope', 'occupation' => 'Student'];
         $this->getTableFields();
@@ -125,4 +119,4 @@ class DataBaseModelTest extends PHPUnit_Framework_TestCase
         $this->statement->shouldReceive('execute');
         $this->statement->shouldReceive('fetchAll')->with(2)->andReturn($results);
     }
-}    
+}
