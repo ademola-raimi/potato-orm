@@ -35,8 +35,25 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
      */
     public function testCreateFieldUndefinedException()
     {
+        $this->getTableFields();
         $insertQuery = "INSERT INTO users(name, sex, occupation) VALUES ('Oscar', 'm', 'Software Developer')";
         $this->dbConnMocked->shouldReceive('exec')->with($insertQuery)->andReturn(true);
         $this->dbQuery->create(['name' => 'Oscar', 'sex' => 'm', 'occupation' => 'Software Developer', 'DOB' => 2005], 'users', $this->dbConnMocked);
+    }
+
+    public function getTableFields()
+    {
+        $fieldName1 = ['Field' => 'name', 'Type' => 'varchar', 'NULL' => 'NO'];
+        $fieldName2 = ['Field' => 'sex', 'Type' => 'varchar', 'NULL' => 'NO'];
+        $fieldName3 = ['Field' => 'occupation', 'Type' => 'varchar', 'NULL' => 'YES'];
+
+        $fieldName = [$fieldName1, $fieldName2, $fieldName3];
+
+        $this->dbConnMocked->shouldReceive('prepare')->with('SHOW COLUMNS FROM users')->andReturn($this->statement);
+        $this->statement->shouldReceive('bindValue')->with(':table', 'users', 2);
+        $this->statement->shouldReceive('execute');
+        $this->statement->shouldReceive('fetchAll')->with(2)->andReturn($fieldName);
+
+        return $fieldName;
     }
 }

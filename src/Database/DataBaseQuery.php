@@ -61,7 +61,7 @@ class DataBaseQuery
             $tableFields[] = $key;
             $tableValues[] = $val;
         }
-        $unexpectedArray = array_diff($tableFields, $this->getColumnNames($tableName));
+        $unexpectedArray = array_diff($tableFields, $this->getColumnNames($tableName, $dbConn));
 
         if (count($unexpectedArray) < 1) {
             $sql = 'INSERT INTO '.$tableName;
@@ -226,12 +226,15 @@ class DataBaseQuery
      *
      * @return array
      */
-    public function getColumnNames($table)
+    public function getColumnNames($table, $dbConn = null)
     {
+        if (is_null($dbConn)) {
+            $dbConn = new DataBaseConnection();
+        }
         $tableFields = [];
 
         $sql = 'SHOW COLUMNS FROM '.$table;
-        $stmt = $this->dataBaseConnection->prepare($sql);
+        $stmt = $dbConn->prepare($sql);
         $stmt->bindValue(':table', $table, PDO::PARAM_STR);
         $stmt->execute();
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);

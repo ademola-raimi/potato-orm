@@ -62,6 +62,7 @@ class DataBaseModelTest extends PHPUnit_Framework_TestCase
      */
     public function testCreateSave()
     {
+        $this->getTableFields();
         $insertQuery = "INSERT INTO users(name,sex,occupation) VALUES ('Oscar','m','Software Developer')";
         $this->dbConnMocked->shouldReceive('exec')->with($insertQuery)->andReturn(true);
         $boolCreate = $this->dbModel->save($this->dbConnMocked);
@@ -73,6 +74,7 @@ class DataBaseModelTest extends PHPUnit_Framework_TestCase
      */
     public function testUpdateSave()
     {
+        $this->getTableFields();
         $id = 1;
 
         $data = ['name'   => 'Tope', 'occupation' => 'Student'];
