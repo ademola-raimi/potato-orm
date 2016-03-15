@@ -25,7 +25,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->dbConnMocked = Mockery::mock('\Demo\DataBaseConnection');
-        $this->dbModel = new User();
+        $this->dbModel = new User($this->dbConnMocked);
         $this->dbQuery = new DataBaseQuery($this->dbConnMocked);
         $this->statement = Mockery::mock('\PDOStatement');
     }
@@ -55,5 +55,12 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
         $this->statement->shouldReceive('fetchAll')->with(2)->andReturn($fieldName);
 
         return $fieldName;
+    }
+    public function updateRecordHead($id)
+    {
+         $updateQuery = "UPDATE `gingers` SET `name` = 'Kola',`gender` = 'Male' WHERE id = ".$id;
+        $this->dbConnMocked->shouldReceive('prepare')->with($updateQuery)->andReturn($this->statement);
+        $this->statement->shouldReceive('execute')->andReturn(true);
+        $this->dbHandler = new DatabaseHandler('gingers', $this->dbConnMocked);
     }
 }
