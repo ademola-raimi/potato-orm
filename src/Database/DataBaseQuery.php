@@ -31,9 +31,13 @@ class DataBaseQuery
      *
      * @return array
      */
-    public function __construct(DataBaseConnection $dataBaseConnection)
+    public function __construct($dbConn = null)
     {
-        $this->dataBaseConnection = $dataBaseConnection;
+        if (is_null($dbConn)) {
+            $this->dataBaseConnection = new DataBaseConnection; 
+            $dbConn = $this->dataBaseConnection;
+        }    
+        //$this->dataBaseConnection = $dataBaseConnection;
     }
 
     /**

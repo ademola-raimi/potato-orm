@@ -34,6 +34,7 @@ class DataBaseQueryTest extends PHPUnit_Framework_TestCase
      */
     public function testCreate()
     {
+        $this->getTableFields();
         $insertQuery = "INSERT INTO users(name,sex,occupation) VALUES ('Oscar','m','Software Developer')";
         $this->dbConnMocked->shouldReceive('exec')->with($insertQuery)->andReturn(true);
         $boolCreate = $this->dbQuery->create(['name' => 'Oscar', 'sex' => 'm', 'occupation' => 'Software Developer'], 'users', $this->dbConnMocked);
@@ -96,8 +97,8 @@ class DataBaseQueryTest extends PHPUnit_Framework_TestCase
 
         $fieldName = [$fieldName1, $fieldName2, $fieldName3];
 
-        $this->dbConnMocked->shouldReceive('prepare')->with('SHOW COLUMNS FROM gingers')->andReturn($this->statement);
-        $this->statement->shouldReceive('bindValue')->with(':table', 'gingers', 2);
+        $this->dbConnMocked->shouldReceive('prepare')->with('SHOW COLUMNS FROM fieldName')->andReturn($this->statement);
+        $this->statement->shouldReceive('bindValue')->with(':table', 'users', 2);
         $this->statement->shouldReceive('execute');
         $this->statement->shouldReceive('fetchAll')->with(2)->andReturn($fieldName);
 

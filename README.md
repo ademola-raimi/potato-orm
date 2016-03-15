@@ -1,5 +1,6 @@
 **Potato ORM**
 ================
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/andela-araimi/potato-orm/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/andela-araimi/potato-orm/?branch=master)
 ----------
 Potato-ORM is based on concepts borrowed from the Laravel framework. It is a package that can perform the basic CRUD (create, read, update and delete) operations.
 
