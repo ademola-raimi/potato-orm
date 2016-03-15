@@ -114,6 +114,7 @@ abstract class DataBaseModel implements DataBaseModelInterface
 
         $boolCommit = $this->DataBaseQuery->create($this->arrayField, self::getClassName(), $dbConn);
         if ($boolCommit) {
+            
             return true;
         }
 
@@ -160,7 +161,7 @@ abstract class DataBaseModel implements DataBaseModelInterface
         }
         if ($this->arrayField['id']) {
             $sqlData = DataBaseQuery::read($this->arrayField['id'], self::getClassName(), $dbConn);
-            
+
             return $sqlData;
         }
     }

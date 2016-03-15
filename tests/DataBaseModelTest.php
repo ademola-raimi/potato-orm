@@ -97,34 +97,25 @@ class DataBaseModelTest extends PHPUnit_Framework_TestCase
     // }
 
     /**
-     * This method throws an Exception when a record cannot be updated
+     * @expectedException Demo\FieldUndefinedException
      * 
      */
-    public function testUpdateSave()
+    public function testCreateSave()
     {
-        // $id = 1;
-        // $this->getTableFields();
-        // $this->readFromTableHead($id, $row);
-        // $this->updateRecordHead($id);
+        $this->getTableFields();
+        $insertQuery = "INSERT INTO users(name,sex,occupation,organisation,year) VALUES ('Oscar','m','Software Developer','Andela',2015)";
+        $this->dbConnMocked->shouldReceive('exec')->with($insertQuery)->andReturn(true);
+        $boolCreate = $this->dbQuery->create(['name' => 'Oscar', 'sex' => 'm', 'occupation' => 'Software Developer', 'organisation' => 'Andela', 2015], 'users', $this->dbConnMocked);
         
-        $user = User::findById(1);
-        $user->name = 'Kola';
-        $user->sex = 'Male';
-        
-        $bool = $user->save($this->dbConnMocked);
-        $this->assertEquals(true, $bool);
+        $results = $this->dbModel->save($this->dbConnMocked);
+
+        $this->assertEquals($results, $boolCreate);
     }
 
-    public function testGetById()
-    {
-        $id = 3;
-        $row = ['id' => 3, 'name' => 'Oscar', 'sex' => 'm', 'occupation' => 'Software Developer'];
-        $sql = $id  ? 'SELECT * FROM users WHERE id = '.$id : 'SELECT * FROM users';
-        $this->readFromTableHead($id, $row);
+    // public function testGetById()
+    // {
         
-        $readData = $this->dbModel->getById($this->dbConnMocked);
-        $this->assertEquals($readData, ['0' => ['id'    => $row['id'], 'name'  => $row['name'], 'sex' => $row['sex'], 'occupation' => $row['occupation']]]);
-    }
+    // }
 
     /*
      * To test if a record can be deleted.
