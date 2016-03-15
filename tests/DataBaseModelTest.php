@@ -63,12 +63,18 @@ class DataBaseModelTest extends PHPUnit_Framework_TestCase
      */
     // public function testCreateSave()
     // {
-    //     $id = 1;
-    //     $insertQuery = "INSERT INTO users(name,sex,occupation) VALUES ('Oscar','m','Software Developer')";
+    //     $this->getTableFields();
+    //     // $this->dbModel->name = 'Demo';
+    //     // $this->dbModel->sex  = 'm';
+    //     // $this->dbModel->occupation  = 'PHP programmer';
+
+        
+    //     $insertQuery = "INSERT INTO users(name,sex,occupation) VALUES ('Demo','m','PHP programmer')";
     //     $this->dbConnMocked->shouldReceive('exec')->with($insertQuery)->andReturn(true);
-    //     $this->readFromTableHead($id, null);
-    //     $boolCreate = $this->dbModel->save($this->dbConnMocked);
-    //     $this->assertEquals(true, $boolCreate);
+    //     $boolCreate = $this->dbQuery->create(['name' => 'Demo', 'sex' => 'm', 'PHP programmer' => 'Software Developer'], 'users', $this->dbConnMocked);
+
+    //     $bool = $this->dbModel->save($this->dbConnMocked);
+    //     $this->assertEquals($boolCreate, $bool);
     // }
 
     /*
@@ -90,21 +96,40 @@ class DataBaseModelTest extends PHPUnit_Framework_TestCase
     //     $bool = $this->dbModel->save($this->dbConnMocked);
     // }
 
-    // public function testGetById()
-    // {
-    //     $id = 3;
-    //     $row = ['id' => 3, 'name' => 'Oscar', 'sex' => 'm', 'occupation' => 'Software Developer'];
-    //     $sql = $id  ? 'SELECT * FROM users WHERE id = '.$id : 'SELECT * FROM users';
-    //     $this->readFromTableHead($id, null);
-    //     $readData = $this->dbModel->getById($this->dbConnMocked);
-    //     var_dump($readData);
-    //     $this->assertEquals($readData, ['0' => ['id'    => $row['id'], 'name'  => $row['name'], 'sex' => $row['sex'], 'occupation' => $row['occupation']]]);
-    // }
+    /**
+     * This method throws an Exception when a record cannot be updated
+     * 
+     */
+    public function testUpdateSave()
+    {
+        // $id = 1;
+        // $this->getTableFields();
+        // $this->readFromTableHead($id, $row);
+        // $this->updateRecordHead($id);
+        
+        $user = User::findById(1);
+        $user->name = 'Kola';
+        $user->sex = 'Male';
+        
+        $bool = $user->save($this->dbConnMocked);
+        $this->assertEquals(true, $bool);
+    }
+
+    public function testGetById()
+    {
+        $id = 3;
+        $row = ['id' => 3, 'name' => 'Oscar', 'sex' => 'm', 'occupation' => 'Software Developer'];
+        $sql = $id  ? 'SELECT * FROM users WHERE id = '.$id : 'SELECT * FROM users';
+        $this->readFromTableHead($id, $row);
+        
+        $readData = $this->dbModel->getById($this->dbConnMocked);
+        $this->assertEquals($readData, ['0' => ['id'    => $row['id'], 'name'  => $row['name'], 'sex' => $row['sex'], 'occupation' => $row['occupation']]]);
+    }
 
     /*
      * To test if a record can be deleted.
      */
-    public function testDelete()
+    public function testDestroy()
     {
         $id = 1;
         $sql = 'DELETE FROM users WHERE id = '.$id;
