@@ -1,6 +1,8 @@
 **Potato ORM**
 ================
+[![Build Status](https://travis-ci.org/andela-araimi/potato-orm.svg?branch=master)](https://travis-ci.org/andela-araimi/potato-orm)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/andela-araimi/potato-orm/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/andela-araimi/potato-orm/?branch=master)
+[![Build Status](https://travis-ci.org/andela-araimi/potato-orm.svg?branch=master)](https://travis-ci.org/andela-araimi/potato-orm)
 ----------
 Potato-ORM is based on concepts borrowed from the Laravel framework. It is a package that can perform the basic CRUD (create, read, update and delete) operations.
 
