@@ -99,7 +99,7 @@ abstract class DataBaseModel implements DataBaseModelInterface
             $dbConn = $this->dataBaseConnection;
         }
         if ($this->arrayField['id']) {
-            $sqlData = $this->DataBaseQuery::read($this->arrayField['id'], self::getClassName(), $dbConn);
+            $sqlData = DataBaseQuery::read($this->arrayField['id'], self::getClassName(), $dbConn);
             if ($this->checkIfRecordIsEmpty($sqlData)) {
                 $boolCommit = $this->DataBaseQuery->update(['id' => $this->arrayField['id']], $this->arrayField, self::getClassName(), $dbConn);
                 if ($boolCommit) {

@@ -58,7 +58,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
     }
     public function updateRecordHead($id)
     {
-         $updateQuery = "UPDATE `gingers` SET `name` = 'Kola',`gender` = 'Male' WHERE id = ".$id;
+        $updateQuery = "UPDATE `users` SET `name` = 'Tope',`sex` = 'M' WHERE id = ".$id;
         $this->dbConnMocked->shouldReceive('prepare')->with($updateQuery)->andReturn($this->statement);
         $this->statement->shouldReceive('execute')->andReturn(true);
         $this->dbHandler = new DatabaseHandler('gingers', $this->dbConnMocked);

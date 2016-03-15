@@ -76,11 +76,23 @@ class DataBaseModelTest extends PHPUnit_Framework_TestCase
      */
     // public function testUpdateSave()
     // {
-    //     $id = 1;
-    //     $updateQuery = "UPDATE `users` SET `name` = 'Tope',`occupation` = 'Student' WHERE id = ".$id;
+    //     $id = 3;
+    //     $row1 = ['id' => 1, 'name' => 'Tope', 'sex' => 'f', 'occupation' => 'Student'];
+    //     $row2 = ['id' => 2, 'name' => 'Demola', 'sex' => 'm', 'occupation' => 'Software Developer'];
+    //     $row3 = ['id' => 3, 'name' => 'Tope', 'sex' => 'm', 'occupation' => 'Software Developer'];
+
+    //     $results = [$row1, $row2, $row3];
+
+    //     $readQuery = $id  ? 'SELECT * FROM users WHERE id = '.$id : 'SELECT * FROM users';
+    //     $this->dbConnMocked->shouldReceive('prepare')->with($readQuery)->andReturn($this->statement);
+    //     $this->statement->shouldReceive('bindValue')->with(':table', 'users');
+    //     $this->statement->shouldReceive('bindValue')->with(':id', $id);
+    //     $this->statement->shouldReceive('execute');
+
+    //     $updateQuery = "UPDATE `users` SET `name` = 'Ayo',`occupation` = 'Student' WHERE id = ".$id;
     //     $this->dbConnMocked->shouldReceive('prepare')->with($updateQuery)->andReturn(true);
     //     $this->dbConnMocked->shouldReceive('exec');
-    //     $this->readFromTableHead($id, null);
+    //     $this->readFromTableHead($id, $row3);
     //     $boolCreate = $this->dbModel->save($this->dbConnMocked);
     //     $this->assertEquals(true, $boolCreate);
     // }
