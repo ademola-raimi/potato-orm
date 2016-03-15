@@ -192,8 +192,6 @@ abstract class DataBaseModel implements DataBaseModelInterface
         $sqlData = DataBaseQuery::delete($id, self::getClassName(), $dbConn);
 
         return true;
-
-        throw new IdNotFoundException('Oops, the id '.$id.' is not in the database, try another id');
     }
 
     public static function getClassName()

@@ -63,9 +63,10 @@ class DataBaseModelTest extends PHPUnit_Framework_TestCase
      */
     // public function testCreateSave()
     // {
-
+    //     $id = 1;
     //     $insertQuery = "INSERT INTO users(name,sex,occupation) VALUES ('Oscar','m','Software Developer')";
     //     $this->dbConnMocked->shouldReceive('exec')->with($insertQuery)->andReturn(true);
+    //     $this->readFromTableHead($id, null);
     //     $boolCreate = $this->dbModel->save($this->dbConnMocked);
     //     $this->assertEquals(true, $boolCreate);
     // }
@@ -75,13 +76,11 @@ class DataBaseModelTest extends PHPUnit_Framework_TestCase
      */
     // public function testUpdateSave()
     // {
-    //     $user->name    = "Femi Adeejo";
-    //     $user->sex  = "m";
-    //     $user->occupation   = "Accountant";
-
-    //     //$updateQuery = "UPDATE `users` SET `name` = 'Tope',`occupation` = 'Student' WHERE id = ".$id;
-    //     //$this->dbConnMocked->shouldReceive('prepare')->with($updateQuery)->andReturn(true);
-    //     //$this->dbConnMocked->shouldReceive('exec');
+    //     $id = 1;
+    //     $updateQuery = "UPDATE `users` SET `name` = 'Tope',`occupation` = 'Student' WHERE id = ".$id;
+    //     $this->dbConnMocked->shouldReceive('prepare')->with($updateQuery)->andReturn(true);
+    //     $this->dbConnMocked->shouldReceive('exec');
+    //     $this->readFromTableHead($id, null);
     //     $boolCreate = $this->dbModel->save($this->dbConnMocked);
     //     $this->assertEquals(true, $boolCreate);
     // }
@@ -89,14 +88,15 @@ class DataBaseModelTest extends PHPUnit_Framework_TestCase
     /*
      * To test if a record can be deleted.
      */
-    // public function testDelete()
-    // {
-    //     $id = 1;
-    //     $sql = 'DELETE FROM users WHERE id = '.$id;
-    //     $this->dbConnMocked->shouldReceive('exec')->with($sql)->andReturn(true);
-    //     $bool = User::destroy($id, $this->dbConnMocked);
-    //     $this->assertEquals(true, $bool);
-    // }
+    public function testDelete()
+    {
+        $id = 1;
+        $sql = 'DELETE FROM users WHERE id = '.$id;
+        $this->dbConnMocked->shouldReceive('exec')->with($sql)->andReturn(true);
+        $this->readFromTableHead($id, null);
+        $bool = User::destroy($id, $this->dbConnMocked);
+        $this->assertEquals(true, $bool);
+    }
 
     public function getTableFields()
     {
