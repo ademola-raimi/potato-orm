@@ -26,7 +26,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
     {
         $this->dbConnMocked = Mockery::mock('\Demo\DataBaseConnection');
         $this->dbModel = new User();
-        $this->dbQuery = new DataBaseQuery(new DataBaseConnection());
+        $this->dbQuery = new DataBaseQuery($this->dbConnMocked);
         $this->statement = Mockery::mock('\PDOStatement');
     }
 
