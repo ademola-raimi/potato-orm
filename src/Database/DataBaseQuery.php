@@ -68,7 +68,7 @@ class DataBaseQuery
             $sql .= '('.$this->splitTableField($tableFields).') ';
             $sql .= 'VALUES ('.$this->formatTableValues($tableValues).')';
             $statement = $dbConn->exec($sql);
-            
+
             return $statement;
         }
 
@@ -129,7 +129,7 @@ class DataBaseQuery
             $tableFields[] = $key;
         }
 
-        $unexpectedArray = array_diff($tableFields, $this->getColumnNames($tableName));
+        $unexpectedArray = array_diff($tableFields, $this->getColumnNames($tableName, $dbConn));
 
         if (count($unexpectedArray) < 1) {
             $updateSql .= $this->updateArraySql($associativeArray);
