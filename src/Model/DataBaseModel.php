@@ -111,7 +111,7 @@ abstract class DataBaseModel implements DataBaseModelInterface
 
             throw new EmptyArrayException("data passed didn't match any record");
         }
-        $sqlData = $this->DataBaseQuery::read($this->arrayField['id'], self::getClassName(), $dbConn);
+        $sqlData = DataBaseQuery::read($this->arrayField['id'], self::getClassName(), $dbConn);
 
         $boolCommit = $this->DataBaseQuery->create($this->arrayField, self::getClassName(), $dbConn);
         if ($boolCommit) {
