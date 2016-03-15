@@ -35,8 +35,9 @@ class DataBaseQuery
     {
         if (is_null($dbConn)) {
             $this->dataBaseConnection = new DataBaseConnection; 
-            $dbConn = $this->dataBaseConnection;
-        }    
+        } else {
+             $dbConn = $this->dataBaseConnection;
+        }   
         //$this->dataBaseConnection = $dataBaseConnection;
     }
 
