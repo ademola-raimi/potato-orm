@@ -68,7 +68,7 @@ class DataBaseQuery
             $sql .= '('.$this->splitTableField($tableFields).') ';
             $sql .= 'VALUES ('.$this->formatTableValues($tableValues).')';
             $statement = $dbConn->exec($sql);
-
+            
             return $statement;
         }
 

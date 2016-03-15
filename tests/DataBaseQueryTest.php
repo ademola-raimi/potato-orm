@@ -25,21 +25,21 @@ class DataBaseQueryTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->dbConnMocked = Mockery::mock('\Demo\DataBaseConnection');
-        $this->dbQuery = new DataBaseQuery(new DataBaseConnection());
+        $this->dbQuery = new DataBaseQuery($this->dbConnMocked);
         $this->statement = Mockery::mock('\PDOStatement');
     }
 
     /*
      * To test if an entry can be added to the database.
      */
-    // public function testCreate()
-    // {
-    //     $this->getTableFields();
-    //     $insertQuery = "INSERT INTO users(name,sex,occupation) VALUES ('Oscar','m','Software Developer')";
-    //     $this->dbConnMocked->shouldReceive('exec')->with($insertQuery)->andReturn(true);
-    //     $boolCreate = $this->dbQuery->create(['name' => 'Oscar', 'sex' => 'm', 'occupation' => 'Software Developer'], 'users', $this->dbConnMocked);
-    //     $this->assertEquals(true, $boolCreate);
-    // }
+    public function testCreate()
+    {
+        $this->getTableFields();
+        $insertQuery = "INSERT INTO users(name,sex,occupation) VALUES ('Oscar','m','Software Developer')";
+        $this->dbConnMocked->shouldReceive('exec')->with($insertQuery)->andReturn(true);
+        $boolCreate = $this->dbQuery->create(['name' => 'Oscar', 'sex' => 'm', 'occupation' => 'Software Developer'], 'users', $this->dbConnMocked);
+        $this->assertEquals(true, $boolCreate);
+    }
 
     /*
      * To test if the record can be retrieved from the table.

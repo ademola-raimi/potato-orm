@@ -99,9 +99,9 @@ abstract class DataBaseModel implements DataBaseModelInterface
             $dbConn = $this->dataBaseConnection;
         }
         if ($this->arrayField['id']) {
-            $sqlData = $this->DataBaseQuery::read($this->arrayField['id'], self::getClassName());
+            $sqlData = $this->DataBaseQuery::read($this->arrayField['id'], self::getClassName(), $dbConn);
             if ($this->checkIfRecordIsEmpty($sqlData)) {
-                $boolCommit = $this->DataBaseQuery->update(['id' => $this->arrayField['id']], $this->arrayField, self::getClassName());
+                $boolCommit = $this->DataBaseQuery->update(['id' => $this->arrayField['id']], $this->arrayField, self::getClassName(), $dbConn);
                 if ($boolCommit) {
                     return true;
                 }
@@ -111,9 +111,9 @@ abstract class DataBaseModel implements DataBaseModelInterface
 
             throw new EmptyArrayException("data passed didn't match any record");
         }
-        $sqlData = $this->DataBaseQuery::read($this->arrayField['id'], self::getClassName());
+        $sqlData = $this->DataBaseQuery::read($this->arrayField['id'], self::getClassName(), $dbConn);
 
-        $boolCommit = $this->DataBaseQuery->create($this->arrayField, self::getClassName());
+        $boolCommit = $this->DataBaseQuery->create($this->arrayField, self::getClassName(), $dbConn);
         if ($boolCommit) {
             return true;
         }
@@ -188,7 +188,7 @@ abstract class DataBaseModel implements DataBaseModelInterface
         if ($numArgs == ' ') {
             throw new ArgumentNotFoundException('No Argument found, please input an argument');
         }
-        $sqlData = DataBaseQuery::read($id, self::getClassName());
+        $sqlData = DataBaseQuery::read($id, self::getClassName(), $dbConn);
         $sqlData = DataBaseQuery::delete($id, self::getClassName(), $dbConn);
 
         return true;
