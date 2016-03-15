@@ -80,6 +80,17 @@ class DataBaseQueryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(true, $bool);
     }
 
+   /**
+     * This method returns column fields from a table.
+     *
+     */
+    public function testGetColumnNames()
+    {
+        $fieldName = $this->getTableFields();
+        $resultDataSet = $this->dbQuery->getColumnNames('users', $this->dbConnMocked);
+        $this->assertEquals(['0' => $fieldName[0]['Field'], '1' => $fieldName[1]['Field'], '2' => $fieldName[2]['Field']], $resultDataSet);
+    }
+
     public function readFromTableHead($id, $row)
     {
         $results = [$row];
@@ -103,5 +114,13 @@ class DataBaseQueryTest extends PHPUnit_Framework_TestCase
         $this->statement->shouldReceive('fetchAll')->with(2)->andReturn($fieldName);
 
         return $fieldName;
+    }
+
+    public function updateRecordHead($id)
+    {
+        $updateQuery = "UPDATE `gingers` SET `name` = 'Kola',`gender` = 'Male' WHERE id = ".$id;
+        $this->dbConnMocked->shouldReceive('prepare')->with($updateQuery)->andReturn($this->statement);
+        $this->statement->shouldReceive('execute')->andReturn(true);
+        $this->dbHandler = new DatabaseHandler('gingers', $this->dbConnMocked);
     }
 }

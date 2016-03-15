@@ -166,7 +166,7 @@ class DataBaseQuery
     }
 
     /**
-     * This method returns a string form an array by making us of the imp[lode function.
+     * This method returns a string form an array by making us of the implode function.
      *
      * @param $tableField
      *
@@ -175,7 +175,6 @@ class DataBaseQuery
     public function splitTableField($tableField)
     {
         $splitTableField = implode(',', $tableField);
-
         return $splitTableField;
     }
 

@@ -64,7 +64,6 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
         $updateQuery = "UPDATE `users` SET `name` = 'Demo',`gender` = 'M' WHERE id = ".$id;
         $this->dbConnMocked->shouldReceive('prepare')->with($updateQuery)->andReturn($this->statement);
         $this->statement->shouldReceive('execute')->andReturn(true);
-        //$this->dbHandler = new DatabaseHandler('gingers', $this->dbConnMocked);
         $this->dbQuery->update(['id' => $id], $data, 'users', $this->dbConnMocked);
     }
 
@@ -132,6 +131,27 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
 
         return $fieldName;
     }
+
+    /**
+     * @expectedException Demo\IdNotFoundException
+     */
+    public function testIdNotFoundException()
+    {
+        $results = [];
+
+        $readQuery = $id  ? 'SELECT * FROM users WHERE id = '.$id : 'SELECT * FROM users';
+
+        $this->dbConnMocked->shouldReceive('prepare')->with($readQuery)->andReturn($this->statement);
+        $this->statement->shouldReceive('bindValue')->with(':table', 'users');
+        $this->statement->shouldReceive('bindValue')->with(':id', $id);
+        $this->statement->shouldReceive('execute');
+        $this->statement->shouldReceive('fetchAll')->with(2)->andReturn($results);
+
+        $allData = User::getAll($this->dbConnMocked);
+    }
+
+    
+
     public function updateRecordHead($id)
     {
         $updateQuery = "UPDATE `users` SET `name` = 'Tope',`sex` = 'M' WHERE id = ".$id;
