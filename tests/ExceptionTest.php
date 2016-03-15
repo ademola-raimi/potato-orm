@@ -6,6 +6,8 @@
  */
 namespace Tests;
 
+error_reporting(0);
+
 use Demo\DataBaseConnection;
 use Demo\DataBaseQuery;
 use Mockery;
@@ -38,7 +40,81 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
         $this->getTableFields();
         $insertQuery = "INSERT INTO users(name, sex, occupation) VALUES ('Oscar', 'm', 'Software Developer')";
         $this->dbConnMocked->shouldReceive('exec')->with($insertQuery)->andReturn(true);
-        $this->dbQuery->create(['name' => 'Oscar', 'sex' => 'm', 'occupation' => 'Software Developer', 'DOB' => 2005], 'users', $this->dbConnMocked);
+        $this->dbQuery->create(
+                        [
+                            'name' => 'Oscar', 
+                            'sex' => 'm', 
+                            'occupation' => 'Software Developer', 
+                            'DOB' => 2005
+                        ], 
+                        'users', $this->dbConnMocked);
+    }
+
+   /**
+     * @expectedException Demo\FieldUndefinedException
+     */
+    public function testUpdateFieldUndefinedException()
+    {
+        $this->getTableFields();
+        $id = 1;
+        $data = [
+            'DOB'   => '2005',
+            'sex' => 'M',
+        ];
+        $updateQuery = "UPDATE `users` SET `name` = 'Demo',`gender` = 'M' WHERE id = ".$id;
+        $this->dbConnMocked->shouldReceive('prepare')->with($updateQuery)->andReturn($this->statement);
+        $this->statement->shouldReceive('execute')->andReturn(true);
+        //$this->dbHandler = new DatabaseHandler('gingers', $this->dbConnMocked);
+        $this->dbQuery->update(['id' => $id], $data, 'users', $this->dbConnMocked);
+    }
+
+    /**
+     * @expectedException Demo\ArgumentNumberIncorrectException
+     */
+    // public function testIfFindMethodHasAnArgument()
+    // {
+        
+    // }
+
+    /**
+     * @expectedException Demo\ArgumentNotFoundException
+     */
+    // public function testIfFindMethodHasEmptyArgument()
+    // {
+    //     $id = '';
+    //     $sql = 'DELETE FROM users WHERE id = '.$id;
+    //     $this->dbConnMocked->shouldReceive('exec')->with($sql)->andReturn(true);
+    //     $this->readFromTableHead($id, null);
+    //     $bool = User::destroy($id, $this->dbConnMocked);
+    //     //$this->assertEquals(true, $bool);
+    // }
+
+    /**
+     * @expectedException Demo\ArgumentNotFoundException
+     */
+    // public function testIfDestroyMethodHasAnArgument()
+    // {
+    //     User::destroy();
+    // }
+
+    /**
+     * This method checks if the argument passed is an array.
+     * 
+     */
+    public function testArgumentPassedIsArray()
+    {
+        $this->assertTrue($this->dbModel->checkIfRecordIsEmpty([
+            'name'  => 'prosper',
+            'alias' => 'gingers',
+        ]));
+    }
+
+    /**
+     * This method checks if the argument passed is empty array.
+     */
+    public function testEmptyArray()
+    {
+        $this->assertFalse($this->dbModel->checkIfRecordIsEmpty([]));
     }
 
     public function getTableFields()

@@ -72,11 +72,33 @@ class DataBaseModelTest extends PHPUnit_Framework_TestCase
     // }
 
     /*
-     * To test if it can save(edit) a record.
+     * @expectedException Demo\ArgumentNumberIncorrect
+     *  To test if it can save(edit) a record.
      */
     // public function testUpdateSave()
     // {
-    
+    //     $id = 1;
+    //     $this->getTableFields();
+       
+    //     $this->updateRecordHead($id);
+        
+    //     //$user = User::findById(1);
+    //     $user->name = 'Demo';
+    //     $user->sex = 'M';
+    //     $this->setExpectedException('Demo\NoRecordUpdatedException');
+    //     $this->readFromTableHead($id, null);
+    //     $bool = $this->dbModel->save($this->dbConnMocked);
+    // }
+
+    // public function testGetById()
+    // {
+    //     $id = 3;
+    //     $row = ['id' => 3, 'name' => 'Oscar', 'sex' => 'm', 'occupation' => 'Software Developer'];
+    //     $sql = $id  ? 'SELECT * FROM users WHERE id = '.$id : 'SELECT * FROM users';
+    //     $this->readFromTableHead($id, null);
+    //     $readData = $this->dbModel->getById($this->dbConnMocked);
+    //     var_dump($readData);
+    //     $this->assertEquals($readData, ['0' => ['id'    => $row['id'], 'name'  => $row['name'], 'sex' => $row['sex'], 'occupation' => $row['occupation']]]);
     // }
 
     /*
@@ -100,8 +122,8 @@ class DataBaseModelTest extends PHPUnit_Framework_TestCase
 
         $fieldName = [$fieldName1, $fieldName2, $fieldName3];
 
-        $this->dbConnMocked->shouldReceive('prepare')->with('SHOW COLUMNS FROM gingers')->andReturn($this->statement);
-        $this->statement->shouldReceive('bindValue')->with(':table', 'gingers', 2);
+        $this->dbConnMocked->shouldReceive('prepare')->with('SHOW COLUMNS FROM users')->andReturn($this->statement);
+        $this->statement->shouldReceive('bindValue')->with(':table', 'users', 2);
         $this->statement->shouldReceive('execute');
         $this->statement->shouldReceive('fetchAll')->with(2)->andReturn($fieldName);
 
@@ -115,5 +137,12 @@ class DataBaseModelTest extends PHPUnit_Framework_TestCase
         $this->dbConnMocked->shouldReceive('prepare')->with($readQuery)->andReturn($this->statement);
         $this->statement->shouldReceive('execute');
         $this->statement->shouldReceive('fetchAll')->with(2)->andReturn($results);
+    }
+
+    public function updateRecordHead($id)
+    {
+        $updateQuery = "UPDATE `users` SET `name` = 'Demo',`sex` = 'M' WHERE id = ".$id;
+        $this->dbConnMocked->shouldReceive('prepare')->with($updateQuery)->andReturn($this->statement);
+        $this->statement->shouldReceive('execute')->andReturn(true);
     }
 }

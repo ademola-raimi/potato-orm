@@ -34,7 +34,7 @@ class DataBaseQuery
     public function __construct($dbConn = null)
     {
         if (is_null($dbConn)) {
-            $this->dataBaseConnection = new DataBaseConnection; 
+            $this->dataBaseConnection = new DataBaseConnection(); 
         } else {
              $dbConn = $this->dataBaseConnection;
         }   

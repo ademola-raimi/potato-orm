@@ -134,7 +134,7 @@ abstract class DataBaseModel implements DataBaseModelInterface
     public static function findById($id)
     {
         $numArgs = func_num_args();
-        if ($numArgs < 0 || $numArgs > 1) {
+        if ($numArgs > 1) {
             throw new ArgumentNumberIncorrectException('Please input just one Argument');
         }
         if ($numArgs == '') {
@@ -161,7 +161,7 @@ abstract class DataBaseModel implements DataBaseModelInterface
         }
         if ($this->arrayField['id']) {
             $sqlData = DataBaseQuery::read($this->arrayField['id'], self::getClassName(), $dbConn);
-
+            var_dump($sqlData);
             return $sqlData;
         }
     }
