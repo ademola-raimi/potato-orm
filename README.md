@@ -26,35 +26,29 @@ To use this package, what you need to do is to simply extend the base class. The
  - **Saving a new record to the table**
 
          $user               = new User();
-      
          $user->name         = "Prosper Otemuyiwa";
          $user->sex          = "m";   
          $user->occupation   = "Trainer";
          $user->organisation = "Andela";
          $user->year         = 2009;
-        
          $user->save();  
 
  - **Read all record from the table**
  
 
          $users = User::getAll();
-         
          print_r($users);
 
  - **Read from a particular record in the table**
 
         $user = User::findById(3);
-        
         print_r($user->getById());
 
 
  - **Update a record in the table. For example, update the name of the tenth record in the users table:**
  
         $user       = User::findById(10);
-         
         $user->name = "Gbolohan Kuti";
-         
         $user->save();
 
  - **Delete a record in the table. For example, delete the eighth record in the users table:**
@@ -72,14 +66,12 @@ To make this package degrade gracefully, It has to be wrapped under try and catc
            
          try {
              $user               = new User();
-          
              $user->name         = "Prosper Otemuyiwa";
              $user->sex          = "m";   
              $user->occupation   = "Trainer";
              $user->organisation = "Andela";
              $user->year         = 2009;
-            
-                 $user->save(); 
+             $user->save(); 
              } catch(Exception $e) {
                  print($e->getMessage());
              } 
