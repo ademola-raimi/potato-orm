@@ -71,7 +71,7 @@ To make this package degrade gracefully, It has to be wrapped under try and catc
 
            
          try {
-                     $user               = new User();
+             $user               = new User();
           
              $user->name         = "Prosper Otemuyiwa";
              $user->sex          = "m";   
