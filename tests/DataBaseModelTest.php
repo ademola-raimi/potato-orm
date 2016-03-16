@@ -59,65 +59,6 @@ class DataBaseModelTest extends PHPUnit_Framework_TestCase
     }
 
     /*
-     * To test if it can save(create) a record.
-     */
-    // public function testCreateSave()
-    // {
-    //     $this->getTableFields();
-    //     // $this->dbModel->name = 'Demo';
-    //     // $this->dbModel->sex  = 'm';
-    //     // $this->dbModel->occupation  = 'PHP programmer';
-
-        
-    //     $insertQuery = "INSERT INTO users(name,sex,occupation) VALUES ('Demo','m','PHP programmer')";
-    //     $this->dbConnMocked->shouldReceive('exec')->with($insertQuery)->andReturn(true);
-    //     $boolCreate = $this->dbQuery->create(['name' => 'Demo', 'sex' => 'm', 'PHP programmer' => 'Software Developer'], 'users', $this->dbConnMocked);
-
-    //     $bool = $this->dbModel->save($this->dbConnMocked);
-    //     $this->assertEquals($boolCreate, $bool);
-    // }
-
-    /*
-     * @expectedException Demo\ArgumentNumberIncorrect
-     *  To test if it can save(edit) a record.
-     */
-    // public function testUpdateSave()
-    // {
-    //     $id = 1;
-    //     $this->getTableFields();
-       
-    //     $this->updateRecordHead($id);
-        
-    //     //$user = User::findById(1);
-    //     $user->name = 'Demo';
-    //     $user->sex = 'M';
-    //     $this->setExpectedException('Demo\NoRecordUpdatedException');
-    //     $this->readFromTableHead($id, null);
-    //     $bool = $this->dbModel->save($this->dbConnMocked);
-    // }
-
-    /**
-     * @expectedException Demo\FieldUndefinedException
-     * 
-     */
-    public function testCreateSave()
-    {
-        $this->getTableFields();
-        $insertQuery = "INSERT INTO users(name,sex,occupation,organisation,year) VALUES ('Oscar','m','Software Developer','Andela',2015)";
-        $this->dbConnMocked->shouldReceive('exec')->with($insertQuery)->andReturn(true);
-        $boolCreate = $this->dbQuery->create(['name' => 'Oscar', 'sex' => 'm', 'occupation' => 'Software Developer', 'organisation' => 'Andela', 2015], 'users', $this->dbConnMocked);
-        
-        $results = $this->dbModel->save($this->dbConnMocked);
-
-        $this->assertEquals($results, $boolCreate);
-    }
-
-    // public function testGetById()
-    // {
-        
-    // }
-
-    /*
      * To test if a record can be deleted.
      */
     public function testDestroy()

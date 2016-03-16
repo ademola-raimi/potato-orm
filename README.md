@@ -1,41 +1,32 @@
-<h1>Potato ORM</h1>
-​
+**Potato ORM**
+================
 [![Coverage Status](https://coveralls.io/repos/github/andela-araimi/potato-orm/badge.svg?branch=master)](https://coveralls.io/github/andela-araimi/potato-orm?branch=master) [![Build Status](https://travis-ci.org/andela-araimi/potato-orm.svg?branch=master)](https://travis-ci.org/andela-araimi/potato-orm) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/andela-araimi/potato-orm/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/andela-araimi/potato-orm/?branch=master)
-​
-​
-<hr />
-​
-<p>
-Potato-ORM is based on concepts borrowed from the Laravel framework. It is a package that lets you perform basic <b>Create Read Update Delete (CRUD)</b> operations on your database.
-​
-</p>
-​
-<h1>Installation</h1>
-<hr />
-<p>To install this package, PHP 5.5+ and Composer are required</p>
-​
-  <pre> $ composer require Demo/potato-orm </pre>
-​
-<hr />
-​
-<h1>Usage</h1>
-​
-<p>
-​
-To use this package, you will need to extend the base class. The base class is an abstract  class called "DataBaseModel". Let's say you wish to perform CRUD operations on the users table. You will create a corresponding users class which should look like this:
-</p>
-    <pre>
+----------
+Potato-ORM is based on concepts borrowed from the Laravel framework. It is a package that can perform the basic CRUD (create, read, update and delete) operations.
+
+**Installation**
+-------
+To install this package, PHP 5.5+ and Composer are required
+
+  `$ composer require Demo/potato-orm`
+
+----------
+**Usage**
+-----
+----------
+To use this package, what you need to do is to simply extend the base class. The base class is an abstract class called "DataBaseModel". Take for instance, you wish to perform the CRUD operations on the users table. Create a corresponding users class which should look like this:
+
+    
     use Demo;
     
     class User extends DataBaseModel
     {
-    
     }
-</pre>
-​
- <h3>Saving a new record to the table</h3>
-<pre>
-         $user               = new User();   
+
+ - **Saving a new record to the table**
+
+         $user               = new User();
+      
          $user->name         = "Prosper Otemuyiwa";
          $user->sex          = "m";   
          $user->occupation   = "Trainer";
@@ -43,68 +34,60 @@ To use this package, you will need to extend the base class. The base class is a
          $user->year         = 2009;
         
          $user->save();  
-</pre>
-​
- <b>Read all record from the table</b>
+
+ - **Read all record from the table**
  
-<pre>
+
          $users = User::getAll();
          
          print_r($users);
-​
-</pre>
-​
-<b>Read from a particular record in the table</b>
-​
-<pre>
+
+ - **Read from a particular record in the table**
+
         $user = User::findById(3);
         
         print_r($user->getById());
-</pre>
-​
-<b>Update a record in the table. For example, update the name of the tenth record in the users table:</b>
+
+
+ - **Update a record in the table. For example, update the name of the tenth record in the users table:**
  
- <pre>
         $user       = User::findById(10);
          
         $user->name = "Gbolohan Kuti";
          
         $user->save();
-</pre>
-​
-<b>Delete a record in the table. For example, delete the eighth record in the users table:</b>
+
+ - **Delete a record in the table. For example, delete the eighth record in the users table:**
  
-​
+
         $users = User::destroy(8);
-​
-<b>Exception Handling</b>
-​
-<p>
-To make this package degrade gracefully, It has to be wrapped under try and catch in order for all exceptions to be caught.</p>
-​
+
+ - **Exception Handling**
+
+To make this package degrade gracefully, It has to be wrapped under try and catch in order for all exceptions to be caught. 
+
     
-<p>Catching exception on save new record:</p>
-​
-       
-    try {
-                     
-          $user                 = new User();     
-          $user->name           = "Prosper Otemuyiwa";
-          $user->sex            = "m";   
-          $user->occupation     = "Trainer";
-          $user->organisation   = "Andela";
-          $user->year           = 2009;
-                
-          $user->save(); 
-                
-        }  catch(Exception $e) {
-             print($e->getMessage());
-       } 
-​
-​
- <b>Catching exception on reading from the table:</b>
-​
-​
+ - Catching exception on save new record:
+
+           
+         try {
+                     $user               = new User();
+          
+             $user->name         = "Prosper Otemuyiwa";
+             $user->sex          = "m";   
+             $user->occupation   = "Trainer";
+             $user->organisation = "Andela";
+             $user->year         = 2009;
+            
+                 $user->save(); 
+             } catch(Exception $e) {
+                 print($e->getMessage());
+             } 
+   
+
+ - Catching exception on reading from the table:
+
+    
             /**
              * Read all record
              * / 
@@ -124,66 +107,77 @@ To make this package degrade gracefully, It has to be wrapped under try and catc
             } catch(Exception $e) {
                 print($e->getMessage());
             } 
-​
+
  
-​
-<b>Catching exception on updating the table:</b>
-​
-​
+
+ - Catching exception on updating the table:
+
             try {
-                
                 $user       = User::findById(10);
                 $user->name = "Gbolohan Kuti";
                 $user->save();
              } catch(Exception $e) {
                 print($e->getMessage());
              } 
-​
-​
-​
-<b>Catching exception on deleting from the table:</b>
-​
-          try {
-          
-               $users = User::destroy(8);
-               
+
+ - Catching exception on deleting from the table:
+    
+             try {
+                 $users = User::destroy(8);
              } catch(Exception $e) {
-               print($e->getMessage());
+                 print($e->getMessage());
              } 
-​
-​
-​
-<h1>Testing</h1>
-<hr />
-​
-​
+
+**Testing**
+-------
+----------
+
+
 Run the following command in the potato-orm directory:
-​
-  <pre>  ~ phpunit tests </pre>
-​
-​
-<h2>Change log</h2>
-​
-<hr />
-​
+
+    ~ phpunit tests
+
+
+**Change log**
+----------
+
+
+----------
+
+
 Please check out [CHANGELOG](https://github.com/andela-araimi/potato-orm/blob/master/CHANGELOG.md) file for information on what has changed recently.
-​
-<h2>Contributing</h2>
-​
-​
-​
+
+**Contributing**
+------------
+
+
+----------
+
+
 Please check out [CONTRIBUTING](https://github.com/andela-araimi/potato-orm/blob/master/CONTRIBUTING.md) file for detailed contribution guidelines.
-​
-<h2>Security</h2>
-​
-​
+
+**Security**
+--------
+
+
+----------
 If you discover any issue, kindly contact ademola.raimi@andela.com
-​
-<h2>Credits</h2>
-​
+
+**Credits**
+-------
+
+
+----------
+
+
 Potato-ORM is maintained by Raimi Ademola.
-​
-<h2>License</h2>
-​
-​
+
+**License**
+-------
+
+
+----------
+
+
 Potato-ORM is released under the [MIT Licence](https://github.com/andela-araimi/potato-orm/blob/master/LICENSE.md). See the bundled LICENSE file for more details.
+

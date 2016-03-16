@@ -68,35 +68,6 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Demo\ArgumentNumberIncorrectException
-     */
-    // public function testIfFindMethodHasAnArgument()
-    // {
-        
-    // }
-
-    /**
-     * @expectedException Demo\ArgumentNotFoundException
-     */
-    // public function testIfFindMethodHasEmptyArgument()
-    // {
-    //     $id = '';
-    //     $sql = 'DELETE FROM users WHERE id = '.$id;
-    //     $this->dbConnMocked->shouldReceive('exec')->with($sql)->andReturn(true);
-    //     $this->readFromTableHead($id, null);
-    //     $bool = User::destroy($id, $this->dbConnMocked);
-    //     //$this->assertEquals(true, $bool);
-    // }
-
-    /**
-     * @expectedException Demo\ArgumentNotFoundException
-     */
-    // public function testIfDestroyMethodHasAnArgument()
-    // {
-    //     User::destroy();
-    // }
-
-    /**
      * This method checks if the argument passed is an array.
      * 
      */

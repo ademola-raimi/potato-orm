@@ -26,10 +26,7 @@ abstract class DataBaseModel implements DataBaseModelInterface
      * This is a constructor; a default method  that will be called automatically during class instantiation.
      */
     public function __construct($dbConn = null)
-    {
-        if (is_null($dbConn)) {
-            $dbConn = $this->dataBaseConnection;
-        }    
+    {  
         $this->tableName = self::getClassName();
         $this->DataBaseQuery = new DataBaseQuery($dbConn);
         $this->arrayField['id'] = 0;
@@ -70,9 +67,6 @@ abstract class DataBaseModel implements DataBaseModelInterface
      */
     public static function getAll($dbConn = null)
     {
-        if (is_null($dbConn)) {
-            $dbConn = $this->dataBaseConnection;
-        }
         $sqlData = DataBaseQuery::read($id = false, self::getClassName(), $dbConn);
 
         if (count($sqlData) > 0) {
@@ -95,9 +89,6 @@ abstract class DataBaseModel implements DataBaseModelInterface
      */
     public function save($dbConn = null)
     {
-        if (is_null($dbConn)) {
-            $dbConn = $this->dataBaseConnection;
-        }
         if ($this->arrayField['id']) {
             $sqlData = DataBaseQuery::read($this->arrayField['id'], self::getClassName(), $dbConn);
             if ($this->checkIfRecordIsEmpty($sqlData)) {
@@ -156,9 +147,6 @@ abstract class DataBaseModel implements DataBaseModelInterface
      */
     public function getById($dbConn = null)
     {
-        if (is_null($dbConn)) {
-            $dbConn = $this->dataBaseConnection;
-        }
         if ($this->arrayField['id']) {
             $sqlData = DataBaseQuery::read($this->arrayField['id'], self::getClassName(), $dbConn);
 
