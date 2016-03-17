@@ -50,6 +50,9 @@ class DataBaseQuery
      */
     public function create($associativeArray, $tableName, $dbConn = null)
     {
+        if (is_null($dbConn)) {
+            $dbConn = $this->dataBaseConnection;
+        }
         $tableFields = [];
         $tableValues = [];
 
@@ -64,7 +67,7 @@ class DataBaseQuery
             $sql .= '('.$this->splitTableField($tableFields).') ';
             $sql .= 'VALUES ('.$this->formatTableValues($tableValues).')';
             $statement = $dbConn->exec($sql);
-
+           
             return $statement;
         }
 
@@ -81,6 +84,10 @@ class DataBaseQuery
      */
     public static function read($id, $tableName, $dbConn = null)
     {
+        if (is_null($dbConn)) {
+            $dbConn = new DataBaseConnection();
+        }
+
         $tableData = [];
         $sql = $id ? 'SELECT * FROM '.$tableName.' WHERE id = '.$id : 'SELECT * FROM '.$tableName;
         $statement = $dbConn->prepare($sql);
@@ -109,6 +116,9 @@ class DataBaseQuery
      */
     public function update($updateParams, $associativeArray, $tableName, $dbConn = null)
     {
+        if (is_null($dbConn)) {
+            $dbConn = $this->dataBaseConnection;
+        }
         $sql = '';
         $updateSql = "UPDATE `$tableName` SET ";
 
@@ -145,6 +155,9 @@ class DataBaseQuery
      */
     public static function delete($id, $tableName, $dbConn = null)
     {
+        if (is_null($dbConn)) {
+            $dbConn = new DataBaseConnection();
+        }
         $sql = 'DELETE FROM '.$tableName.' WHERE id = '.$id;
         $statement = $dbConn->exec($sql);
 
@@ -161,7 +174,6 @@ class DataBaseQuery
     public function splitTableField($tableField)
     {
         $splitTableField = implode(',', $tableField);
-
         return $splitTableField;
     }
 
@@ -199,7 +211,7 @@ class DataBaseQuery
         foreach ($array as $key => $val) {
             $updatedValues[] = "`$key` = '$val'";
         }
-    
+
         $valueSql = implode(',', $updatedValues);
 
         return $valueSql;
@@ -214,6 +226,9 @@ class DataBaseQuery
      */
     public function getColumnNames($table, $dbConn = null)
     {
+        if (is_null($dbConn)) {
+            $dbConn = new DataBaseConnection();
+        }
         $tableFields = [];
 
         $sql = 'SHOW COLUMNS FROM '.$table;

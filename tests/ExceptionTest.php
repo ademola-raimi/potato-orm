@@ -21,7 +21,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
     private $dbQuery;
     private $statement;
 
-    /*
+    /**
      * This function setup is used to create an object of DataBaseQuery
      */
     public function setUp()
@@ -39,7 +39,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
     {
         $this->getTableFields();
         $insertQuery = "INSERT INTO users(name, sex, occupation) VALUES ('Oscar', 'm', 'Software Developer')";
-        $this->dbConnMocked->shouldReceive('exec')->with($insertQuery)->andReturn(true);
+        $this->dbConnMocked->shouldReceive('exec')->once()->with($insertQuery)->andReturn(true);
         $this->dbQuery->create(
                         [
                             'name' => 'Oscar', 
@@ -50,7 +50,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
                         'users', $this->dbConnMocked);
     }
 
-   /**
+    /**
      * @expectedException Demo\FieldUndefinedException
      */
     public function testUpdateFieldUndefinedException()
@@ -62,8 +62,8 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
             'sex' => 'M',
         ];
         $updateQuery = "UPDATE `users` SET `name` = 'Demo',`gender` = 'M' WHERE id = ".$id;
-        $this->dbConnMocked->shouldReceive('prepare')->with($updateQuery)->andReturn($this->statement);
-        $this->statement->shouldReceive('execute')->andReturn(true);
+        $this->dbConnMocked->shouldReceive('prepare')->once()->with($updateQuery)->andReturn($this->statement);
+        $this->statement->shouldReceive('execute')->once()->andReturn(true);
         $this->dbQuery->update(['id' => $id], $data, 'users', $this->dbConnMocked);
     }
 
@@ -75,7 +75,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
     {
         $this->assertTrue($this->dbModel->checkIfRecordIsEmpty([
             'name'  => 'prosper',
-            'alias' => 'gingers',
+            'occupation' => 'trainer',
         ]));
     }
 
@@ -85,22 +85,6 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
     public function testEmptyArray()
     {
         $this->assertFalse($this->dbModel->checkIfRecordIsEmpty([]));
-    }
-
-    public function getTableFields()
-    {
-        $fieldName1 = ['Field' => 'name', 'Type' => 'varchar', 'NULL' => 'NO'];
-        $fieldName2 = ['Field' => 'sex', 'Type' => 'varchar', 'NULL' => 'NO'];
-        $fieldName3 = ['Field' => 'occupation', 'Type' => 'varchar', 'NULL' => 'YES'];
-
-        $fieldName = [$fieldName1, $fieldName2, $fieldName3];
-
-        $this->dbConnMocked->shouldReceive('prepare')->with('SHOW COLUMNS FROM users')->andReturn($this->statement);
-        $this->statement->shouldReceive('bindValue')->with(':table', 'users', 2);
-        $this->statement->shouldReceive('execute');
-        $this->statement->shouldReceive('fetchAll')->with(2)->andReturn($fieldName);
-
-        return $fieldName;
     }
 
     /**
@@ -121,13 +105,23 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
         $allData = User::getAll($this->dbConnMocked);
     }
 
-    
-
-    public function updateRecordHead($id)
+    /**
+     * This method returns the tablefield to emulate getColumnNames in DataBaseQuery
+     *
+     */
+    public function getTableFields()
     {
-        $updateQuery = "UPDATE `users` SET `name` = 'Tope',`sex` = 'M' WHERE id = ".$id;
-        $this->dbConnMocked->shouldReceive('prepare')->with($updateQuery)->andReturn($this->statement);
-        $this->statement->shouldReceive('execute')->andReturn(true);
-        $this->dbHandler = new DatabaseHandler('gingers', $this->dbConnMocked);
+        $fieldName1 = ['Field' => 'name', 'Type' => 'varchar', 'NULL' => 'NO'];
+        $fieldName2 = ['Field' => 'sex', 'Type' => 'varchar', 'NULL' => 'NO'];
+        $fieldName3 = ['Field' => 'occupation', 'Type' => 'varchar', 'NULL' => 'YES'];
+
+        $fieldName = [$fieldName1, $fieldName2, $fieldName3];
+
+        $this->dbConnMocked->shouldReceive('prepare')->once()->with('SHOW COLUMNS FROM users')->andReturn($this->statement);
+        $this->statement->shouldReceive('bindValue')->once()->with(':table', 'users', 2);
+        $this->statement->shouldReceive('execute');
+        $this->statement->shouldReceive('fetchAll')->once()->with(2)->andReturn($fieldName);
+
+        return $fieldName;
     }
 }

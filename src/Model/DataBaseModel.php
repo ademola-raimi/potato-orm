@@ -26,7 +26,10 @@ abstract class DataBaseModel implements DataBaseModelInterface
      * This is a constructor; a default method  that will be called automatically during class instantiation.
      */
     public function __construct($dbConn = null)
-    {  
+    {
+        if (is_null($dbConn)) {
+            $dbConn = $this->dataBaseConnection;
+        }    
         $this->tableName = self::getClassName();
         $this->DataBaseQuery = new DataBaseQuery($dbConn);
         $this->arrayField['id'] = 0;
@@ -134,7 +137,7 @@ abstract class DataBaseModel implements DataBaseModelInterface
 
         $staticFindInstance = new static();
         $staticFindInstance->id = $id == '' ? false : $id;
-
+        
         return $staticFindInstance;
     }
 
@@ -166,9 +169,6 @@ abstract class DataBaseModel implements DataBaseModelInterface
      */
     public static function destroy($id, $dbConn)
     {
-        if (is_null($dbConn)) {
-            $dbConn = $this->dataBaseConnection;
-        }
         $numArgs = func_num_args();
         if ($numArgs < 0 || $numArgs > 2) {
             throw new ArgumentNumberIncorrectException('Please input just one Argument');

@@ -81,7 +81,7 @@ class DataBaseQueryTest extends PHPUnit_Framework_TestCase
     }
 
    /**
-     * This method returns column fields from a table.
+     * To test the if the column names can be retrieved.
      *
      */
     public function testGetColumnNames()
@@ -90,7 +90,11 @@ class DataBaseQueryTest extends PHPUnit_Framework_TestCase
         $resultDataSet = $this->dbQuery->getColumnNames('users', $this->dbConnMocked);
         $this->assertEquals(['0' => $fieldName[0]['Field'], '1' => $fieldName[1]['Field'], '2' => $fieldName[2]['Field']], $resultDataSet);
     }
-
+    
+    /**
+     * This method returns the row with a particular id
+     *
+     */
     public function readFromTableHead($id, $row)
     {
         $results = [$row];
@@ -99,7 +103,11 @@ class DataBaseQueryTest extends PHPUnit_Framework_TestCase
         $this->statement->shouldReceive('execute');
         $this->statement->shouldReceive('fetchAll')->with(2)->andReturn($results);
     }
-
+    
+    /**
+     * This method returns the tablefield to emulate getColumnNames in DataBaseQuery
+     *
+     */
     public function getTableFields()
     {
         $fieldName1 = ['Field' => 'name', 'Type' => 'varchar', 'NULL' => 'NO'];
@@ -112,15 +120,7 @@ class DataBaseQueryTest extends PHPUnit_Framework_TestCase
         $this->statement->shouldReceive('bindValue')->with(':table', 'users', 2);
         $this->statement->shouldReceive('execute');
         $this->statement->shouldReceive('fetchAll')->with(2)->andReturn($fieldName);
-
+        
         return $fieldName;
-    }
-
-    public function updateRecordHead($id)
-    {
-        $updateQuery = "UPDATE `gingers` SET `name` = 'Kola',`gender` = 'Male' WHERE id = ".$id;
-        $this->dbConnMocked->shouldReceive('prepare')->with($updateQuery)->andReturn($this->statement);
-        $this->statement->shouldReceive('execute')->andReturn(true);
-        $this->dbHandler = new DatabaseHandler('gingers', $this->dbConnMocked);
     }
 }

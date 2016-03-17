@@ -48,14 +48,15 @@ class DataBaseModelTest extends PHPUnit_Framework_TestCase
         $this->statement->shouldReceive('bindValue')->with(':id', $id);
         $this->statement->shouldReceive('execute');
         $this->statement->shouldReceive('fetchAll')->with(2)->andReturn($results);
-
+        
         $allData = User::getAll($this->dbConnMocked);
 
         $this->assertEquals($allData, [
-            '0'   => ['id' => $row1['id'], 'name' => $row1['name'], 'sex' => $row1['sex'], 'occupation' => $row1['occupation']],
-            ['id' => $row2['id'], 'name' => $row2['name'], 'sex' => $row2['sex'], 'occupation' => $row2['occupation']],
-            ['id' => $row3['id'], 'name' => $row3['name'], 'sex' => $row3['sex'], 'occupation' => $row3['occupation']],
-        ]);
+                                          '0'   => ['id' => 1, 'name' => 'Tope', 'sex' => 'f', 'occupation' => 'Student'],
+                                          ['id' => 2, 'name' => 'Demola', 'sex' => 'm', 'occupation' => 'Software Developer'],
+                                          ['id' => 3, 'name' => 'Tope', 'sex' => 'm', 'occupation' => 'Software Developer'],
+                                      ]
+                           );
     }
 
     /*
@@ -70,23 +71,11 @@ class DataBaseModelTest extends PHPUnit_Framework_TestCase
         $bool = User::destroy($id, $this->dbConnMocked);
         $this->assertEquals(true, $bool);
     }
-
-    public function getTableFields()
-    {
-        $fieldName1 = ['Field' => 'name', 'Type' => 'varchar', 'NULL' => 'NO'];
-        $fieldName2 = ['Field' => 'sex', 'Type' => 'varchar', 'NULL' => 'NO'];
-        $fieldName3 = ['Field' => 'occupation', 'Type' => 'varchar', 'NULL' => 'YES'];
-
-        $fieldName = [$fieldName1, $fieldName2, $fieldName3];
-
-        $this->dbConnMocked->shouldReceive('prepare')->with('SHOW COLUMNS FROM users')->andReturn($this->statement);
-        $this->statement->shouldReceive('bindValue')->with(':table', 'users', 2);
-        $this->statement->shouldReceive('execute');
-        $this->statement->shouldReceive('fetchAll')->with(2)->andReturn($fieldName);
-
-        return $fieldName;
-    }
-
+    
+    /**
+     * This method returns the row with a particular id
+     *
+     */
     public function readFromTableHead($id, $row)
     {
         $results = [$row];
@@ -95,11 +84,26 @@ class DataBaseModelTest extends PHPUnit_Framework_TestCase
         $this->statement->shouldReceive('execute');
         $this->statement->shouldReceive('fetchAll')->with(2)->andReturn($results);
     }
-
-    public function updateRecordHead($id)
+    
+    /**
+     * This method returns the tablefield to emulate getColumnNames in DataBaseQuery
+     *
+     */
+    public function getTableFields()
     {
-        $updateQuery = "UPDATE `users` SET `name` = 'Demo',`sex` = 'M' WHERE id = ".$id;
-        $this->dbConnMocked->shouldReceive('prepare')->with($updateQuery)->andReturn($this->statement);
-        $this->statement->shouldReceive('execute')->andReturn(true);
+        $fieldName1 = ['Field' => 'id', 'Type' => 'int', 'NULL' => 'NO'];
+        $fieldName2 = ['Field' => 'name', 'Type' => 'varchar', 'NULL' => 'NO'];
+        $fieldName3 = ['Field' => 'sex', 'Type' => 'varchar', 'NULL' => 'NO'];
+        $fieldName4 = ['Field' => 'occupation', 'Type' => 'varchar', 'NULL' => 'YES'];
+        $fieldName5 = ['Field' => 'DOB', 'Type' => 'int', 'NULL' => 'YES'];
+
+        $fieldName = [$fieldName1, $fieldName2, $fieldName3];
+
+        $this->dbConnMocked->shouldReceive('prepare')->once()->with('SHOW COLUMNS FROM users')->andReturn($this->statement);
+        $this->statement->shouldReceive('bindValue')->once()->with(':table', 'users', 2);
+        $this->statement->shouldReceive('execute');
+        $this->statement->shouldReceive('fetchAll')->once()->with(2)->andReturn($fieldName);
+        
+        return $fieldName;
     }
 }
