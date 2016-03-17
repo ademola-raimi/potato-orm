@@ -96,7 +96,7 @@ class DataBaseQueryTest extends PHPUnit_Framework_TestCase
     {
         $tableValues = ['name', 'sex', 'occupation'];
         $resultTableField = $this->dbQuery->splitTableField($tableValues);
-        $this->assertEquals($resultTableField, "name,sex,occupation");
+        $this->assertEquals($resultTableField, 'name,sex,occupation');
     }
 
     /**
@@ -105,12 +105,12 @@ class DataBaseQueryTest extends PHPUnit_Framework_TestCase
     public function testformatTableValues()
     {
         $tableValues = [
-                           "0" => "Oscar",                       
-                           "1" => "m",                         
-                           "2" => "Software Developer"                        
-                       ];  
+                           '0' => 'Oscar',
+                           '1' => 'm',
+                           '2' => 'Software Developer',
+                       ];
         $resultTableField = $this->dbQuery->splitTableField($tableValues);
-        $this->assertEquals($resultTableField, "Oscar,m,Software Developer");
+        $this->assertEquals($resultTableField, 'Oscar,m,Software Developer');
     }
 
     /**
@@ -119,13 +119,12 @@ class DataBaseQueryTest extends PHPUnit_Framework_TestCase
     public function testupdateArraySql()
     {
         $tableValues = [
-                           "name" => "Oscar",                                                
-                           "occupation" => "Software Developer"                        
-                       ];  
+                           'name'       => 'Oscar',
+                           'occupation' => 'Software Developer',
+                       ];
         $resultTableField = $this->dbQuery->updateArraySql($tableValues);
         $this->assertEquals($resultTableField, "`name` = 'Oscar',`occupation` = 'Software Developer'");
     }
-
 
     /**
      * This method returns the row with a particular id.
