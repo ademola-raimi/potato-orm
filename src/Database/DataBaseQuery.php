@@ -119,7 +119,7 @@ class DataBaseQuery
         if (is_null($dbConn)) {
             $dbConn = $this->dataBaseConnection;
         }
-        $sql = '';
+
         $updateSql = "UPDATE `$tableName` SET ";
 
         unset($associativeArray['id']);
@@ -158,6 +158,7 @@ class DataBaseQuery
         if (is_null($dbConn)) {
             $dbConn = new DataBaseConnection();
         }
+        
         $sql = 'DELETE FROM '.$tableName.' WHERE id = '.$id;
         $statement = $dbConn->exec($sql);
 

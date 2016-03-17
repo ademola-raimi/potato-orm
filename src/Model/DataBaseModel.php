@@ -130,7 +130,7 @@ abstract class DataBaseModel implements DataBaseModelInterface
         if ($numArgs > 1) {
             throw new ArgumentNumberIncorrectException('Please input just one Argument');
         }
-        if ($numArgs == '') {
+        if ($id == '') {
             throw new ArgumentNotFoundException('No Argument found, please input an argument');
         }
 
@@ -184,7 +184,6 @@ abstract class DataBaseModel implements DataBaseModelInterface
     public static function getClassName()
     {
         $tableName = explode('\\', get_called_class());
-        echo Inflector::pluralize(strtolower(end($tableName)));
 
         return Inflector::pluralize(strtolower(end($tableName)));
     }

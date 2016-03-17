@@ -104,6 +104,22 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @expectedException Demo\ArgumentNotFoundException
+     */
+    public function testIfEmptyStringIsPassedToDestroyMethodAsArgument()
+    {
+        User::findById('');
+    }
+
+    /**
+     * @expectedException Demo\ArgumentNotFoundException
+     */
+    public function testIfDestroyMethodHasAnArgument()
+    {
+        User::destroy();
+    }
+
+    /**
      * This method returns the tablefield to emulate getColumnNames in DataBaseQuery.
      */
     public function getTableFields()
