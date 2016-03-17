@@ -209,13 +209,13 @@ class DataBaseQuery
     public function updateArraySql($array)
     {
         $updatedValues = [];
-
+        
         foreach ($array as $key => $val) {
             $updatedValues[] = "`$key` = '$val'";
         }
 
         $valueSql = implode(',', $updatedValues);
-
+        
         return $valueSql;
     }
 

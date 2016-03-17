@@ -105,12 +105,25 @@ class DataBaseQueryTest extends PHPUnit_Framework_TestCase
     public function testformatTableValues()
     {
         $tableValues = [
-                          "0" => "Oscar",                       
+                           "0" => "Oscar",                       
                            "1" => "m",                         
-                          "2" => "Software Developer"                        
+                           "2" => "Software Developer"                        
                        ];  
         $resultTableField = $this->dbQuery->splitTableField($tableValues);
         $this->assertEquals($resultTableField, "Oscar,m,Software Developer");
+    }
+
+    /**
+     * To test the if the table values can be updated.
+     */
+    public function testupdateArraySql()
+    {
+        $tableValues = [
+                           "name" => "Oscar",                                                
+                           "occupation" => "Software Developer"                        
+                       ];  
+        $resultTableField = $this->dbQuery->updateArraySql($tableValues);
+        $this->assertEquals($resultTableField, "`name` = 'Oscar',`occupation` = 'Software Developer'");
     }
 
 
