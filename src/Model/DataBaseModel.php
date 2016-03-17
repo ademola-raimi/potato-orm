@@ -29,7 +29,7 @@ abstract class DataBaseModel implements DataBaseModelInterface
     {
         if (is_null($dbConn)) {
             $dbConn = $this->dataBaseConnection;
-        }    
+        }
         $this->tableName = self::getClassName();
         $this->DataBaseQuery = new DataBaseQuery($dbConn);
         $this->arrayField['id'] = 0;
@@ -108,7 +108,6 @@ abstract class DataBaseModel implements DataBaseModelInterface
 
         $boolCommit = $this->DataBaseQuery->create($this->arrayField, self::getClassName(), $dbConn);
         if ($boolCommit) {
-            
             return true;
         }
 
@@ -186,6 +185,7 @@ abstract class DataBaseModel implements DataBaseModelInterface
     {
         $tableName = explode('\\', get_called_class());
         echo Inflector::pluralize(strtolower(end($tableName)));
+
         return Inflector::pluralize(strtolower(end($tableName)));
     }
 

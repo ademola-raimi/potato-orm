@@ -48,7 +48,7 @@ class DataBaseModelTest extends PHPUnit_Framework_TestCase
         $this->statement->shouldReceive('bindValue')->with(':id', $id);
         $this->statement->shouldReceive('execute');
         $this->statement->shouldReceive('fetchAll')->with(2)->andReturn($results);
-        
+
         $allData = User::getAll($this->dbConnMocked);
 
         $this->assertEquals($allData, [
@@ -73,18 +73,16 @@ class DataBaseModelTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * To test if the tablename is pluralized and converted to lowercase
-     *
+     * To test if the tablename is pluralized and converted to lowercase.
      */
     public function testGetClassName()
     {
         $className = $this->dbModel->getClassName();
         $this->assertEquals($className, 'users');
     }
-    
+
     /**
-     * This method returns the row with a particular id
-     *
+     * This method returns the row with a particular id.
      */
     public function readFromTableHead($id, $row)
     {
@@ -96,8 +94,7 @@ class DataBaseModelTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * This method returns the tablefield to emulate getColumnNames in DataBaseQuery
-     *
+     * This method returns the tablefield to emulate getColumnNames in DataBaseQuery.
      */
     public function getTableFields()
     {
@@ -113,7 +110,7 @@ class DataBaseModelTest extends PHPUnit_Framework_TestCase
         $this->statement->shouldReceive('bindValue')->once()->with(':table', 'users', 2);
         $this->statement->shouldReceive('execute');
         $this->statement->shouldReceive('fetchAll')->once()->with(2)->andReturn($fieldName);
-        
+
         return $fieldName;
     }
 }

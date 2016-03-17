@@ -8,7 +8,6 @@ namespace Tests;
 
 error_reporting(0);
 
-use Demo\DataBaseConnection;
 use Demo\DataBaseQuery;
 use Mockery;
 use PHPUnit_Framework_TestCase;
@@ -22,7 +21,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
     private $statement;
 
     /**
-     * This function setup is used to create an object of DataBaseQuery
+     * This function setup is used to create an object of DataBaseQuery.
      */
     public function setUp()
     {
@@ -42,11 +41,11 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
         $this->dbConnMocked->shouldReceive('exec')->once()->with($insertQuery)->andReturn(true);
         $this->dbQuery->create(
                         [
-                            'name' => 'Oscar', 
-                            'sex' => 'm', 
-                            'occupation' => 'Software Developer', 
-                            'DOB' => 2005
-                        ], 
+                            'name'       => 'Oscar',
+                            'sex'        => 'm',
+                            'occupation' => 'Software Developer',
+                            'DOB'        => 2005,
+                        ],
                         'users', $this->dbConnMocked);
     }
 
@@ -59,7 +58,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
         $id = 1;
         $data = [
             'DOB'   => '2005',
-            'sex' => 'M',
+            'sex'   => 'M',
         ];
         $updateQuery = "UPDATE `users` SET `name` = 'Demo',`gender` = 'M' WHERE id = ".$id;
         $this->dbConnMocked->shouldReceive('prepare')->once()->with($updateQuery)->andReturn($this->statement);
@@ -69,12 +68,11 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
 
     /**
      * This method checks if the argument passed is an array.
-     * 
      */
     public function testArgumentPassedIsArray()
     {
         $this->assertTrue($this->dbModel->checkIfRecordIsEmpty([
-            'name'  => 'prosper',
+            'name'       => 'prosper',
             'occupation' => 'trainer',
         ]));
     }
@@ -106,8 +104,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * This method returns the tablefield to emulate getColumnNames in DataBaseQuery
-     *
+     * This method returns the tablefield to emulate getColumnNames in DataBaseQuery.
      */
     public function getTableFields()
     {
