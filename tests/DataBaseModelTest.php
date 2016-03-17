@@ -71,6 +71,16 @@ class DataBaseModelTest extends PHPUnit_Framework_TestCase
         $bool = User::destroy($id, $this->dbConnMocked);
         $this->assertEquals(true, $bool);
     }
+
+    /**
+     * To test if the tablename is pluralized and converted to lowercase
+     *
+     */
+    public function testGetClassName()
+    {
+        $className = $this->dbModel->getClassName();
+        $this->assertEquals($className, 'users');
+    }
     
     /**
      * This method returns the row with a particular id
@@ -84,7 +94,7 @@ class DataBaseModelTest extends PHPUnit_Framework_TestCase
         $this->statement->shouldReceive('execute');
         $this->statement->shouldReceive('fetchAll')->with(2)->andReturn($results);
     }
-    
+
     /**
      * This method returns the tablefield to emulate getColumnNames in DataBaseQuery
      *

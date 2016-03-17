@@ -137,7 +137,7 @@ abstract class DataBaseModel implements DataBaseModelInterface
 
         $staticFindInstance = new static();
         $staticFindInstance->id = $id == '' ? false : $id;
-        
+
         return $staticFindInstance;
     }
 
@@ -185,7 +185,7 @@ abstract class DataBaseModel implements DataBaseModelInterface
     public static function getClassName()
     {
         $tableName = explode('\\', get_called_class());
-
+        echo Inflector::pluralize(strtolower(end($tableName)));
         return Inflector::pluralize(strtolower(end($tableName)));
     }
 
