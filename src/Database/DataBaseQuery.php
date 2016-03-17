@@ -34,7 +34,7 @@ class DataBaseQuery
     public function __construct($dbConn = null)
     {
         if (is_null($dbConn)) {
-            $this->dataBaseConnection = new DataBaseConnection(); 
+            $this->dataBaseConnection = new DataBaseConnection();
         } else {
             $dbConn = $this->dataBaseConnection;
         }
@@ -61,13 +61,13 @@ class DataBaseQuery
             $tableValues[] = $val;
         }
         $unexpectedArray = array_diff($tableFields, $this->getColumnNames($tableName, $dbConn));
-        
+
         if (count($unexpectedArray) < 1) {
             $sql = 'INSERT INTO '.$tableName;
             $sql .= '('.$this->splitTableField($tableFields).') ';
             $sql .= 'VALUES ('.$this->formatTableValues($tableValues).')';
             $statement = $dbConn->exec($sql);
-           
+
             return $statement;
         }
 
@@ -174,6 +174,7 @@ class DataBaseQuery
     public function splitTableField($tableField)
     {
         $splitTableField = implode(',', $tableField);
+
         return $splitTableField;
     }
 
@@ -193,7 +194,7 @@ class DataBaseQuery
         }
 
         $ValueSql = implode(',', $formattedValues);
-        
+
         return $ValueSql;
     }
 

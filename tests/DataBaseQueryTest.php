@@ -6,7 +6,6 @@
  */
 namespace Tests;
 
-use Demo\DataBaseConnection;
 use Demo\DataBaseQuery;
 use Mockery;
 use PHPUnit_Framework_TestCase;
@@ -80,9 +79,8 @@ class DataBaseQueryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(true, $bool);
     }
 
-   /**
+    /**
      * To test the if the column names can be retrieved.
-     *
      */
     public function testGetColumnNames()
     {
@@ -90,10 +88,9 @@ class DataBaseQueryTest extends PHPUnit_Framework_TestCase
         $resultDataSet = $this->dbQuery->getColumnNames('users', $this->dbConnMocked);
         $this->assertEquals(['0' => $fieldName[0]['Field'], '1' => $fieldName[1]['Field'], '2' => $fieldName[2]['Field']], $resultDataSet);
     }
-    
+
     /**
-     * This method returns the row with a particular id
-     *
+     * This method returns the row with a particular id.
      */
     public function readFromTableHead($id, $row)
     {
@@ -103,10 +100,9 @@ class DataBaseQueryTest extends PHPUnit_Framework_TestCase
         $this->statement->shouldReceive('execute');
         $this->statement->shouldReceive('fetchAll')->with(2)->andReturn($results);
     }
-    
+
     /**
-     * This method returns the tablefield to emulate getColumnNames in DataBaseQuery
-     *
+     * This method returns the tablefield to emulate getColumnNames in DataBaseQuery.
      */
     public function getTableFields()
     {
@@ -120,7 +116,7 @@ class DataBaseQueryTest extends PHPUnit_Framework_TestCase
         $this->statement->shouldReceive('bindValue')->with(':table', 'users', 2);
         $this->statement->shouldReceive('execute');
         $this->statement->shouldReceive('fetchAll')->with(2)->andReturn($fieldName);
-        
+
         return $fieldName;
     }
 }
