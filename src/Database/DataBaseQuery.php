@@ -158,7 +158,7 @@ class DataBaseQuery
         if (is_null($dbConn)) {
             $dbConn = new DataBaseConnection();
         }
-        
+
         $sql = 'DELETE FROM '.$tableName.' WHERE id = '.$id;
         $statement = $dbConn->exec($sql);
 
@@ -189,13 +189,13 @@ class DataBaseQuery
     public function formatTableValues($tableValues)
     {
         $formattedValues = [];
-
+    
         foreach ($tableValues as $key => $value) {
             $formattedValues[] = "'".$value."'";
         }
 
         $ValueSql = implode(',', $formattedValues);
-
+       
         return $ValueSql;
     }
 

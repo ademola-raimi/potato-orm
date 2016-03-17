@@ -90,6 +90,31 @@ class DataBaseQueryTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * To test the if the table values can be splitted.
+     */
+    public function testsplitTableField()
+    {
+        $tableValues = ['name', 'sex', 'occupation'];
+        $resultTableField = $this->dbQuery->splitTableField($tableValues);
+        $this->assertEquals($resultTableField, "name,sex,occupation");
+    }
+
+    /**
+     * To test the if the table values can be formated.
+     */
+    public function testformatTableValues()
+    {
+        $tableValues = [
+                          "0" => "Oscar",                       
+                           "1" => "m",                         
+                          "2" => "Software Developer"                        
+                       ];  
+        $resultTableField = $this->dbQuery->splitTableField($tableValues);
+        $this->assertEquals($resultTableField, "Oscar,m,Software Developer");
+    }
+
+
+    /**
      * This method returns the row with a particular id.
      */
     public function readFromTableHead($id, $row)
