@@ -106,7 +106,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
     /**
      * @expectedException Demo\ArgumentNotFoundException
      */
-    public function testIfEmptyStringIsPassedToDestroyMethodAsArgument()
+    public function testfindByIdArgumentNotFoundException()
     {
         User::findById('');
     }
@@ -114,7 +114,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
     /**
      * @expectedException Demo\ArgumentNotFoundException
      */
-    public function testIfDestroyMethodHasAnArgument()
+    public function testDestroyArgumentNotFoundException()
     {
         User::destroy();
     }
