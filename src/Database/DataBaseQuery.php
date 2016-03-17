@@ -189,13 +189,13 @@ class DataBaseQuery
     public function formatTableValues($tableValues)
     {
         $formattedValues = [];
-    
+
         foreach ($tableValues as $key => $value) {
             $formattedValues[] = "'".$value."'";
         }
 
         $ValueSql = implode(',', $formattedValues);
-       
+
         return $ValueSql;
     }
 
@@ -209,13 +209,13 @@ class DataBaseQuery
     public function updateArraySql($array)
     {
         $updatedValues = [];
-        
+
         foreach ($array as $key => $val) {
             $updatedValues[] = "`$key` = '$val'";
         }
 
         $valueSql = implode(',', $updatedValues);
-        
+
         return $valueSql;
     }
 
