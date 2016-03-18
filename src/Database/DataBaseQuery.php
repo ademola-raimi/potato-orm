@@ -34,9 +34,9 @@ class DataBaseQuery
     public function __construct($dbConn = null)
     {
         if (is_null($dbConn)) {
-            $this->dataBaseConnection = new DataBaseConnection();
+            $this->dbConnection = new DataBaseConnection();
         } else {
-            $dbConn = $this->dataBaseConnection;
+            $this->dbConnection = $dbConn;
         }
     }
 
@@ -50,9 +50,6 @@ class DataBaseQuery
      */
     public function create($associativeArray, $tableName, $dbConn = null)
     {
-        if (is_null($dbConn)) {
-            $dbConn = $this->dataBaseConnection;
-        }
         $tableFields = [];
         $tableValues = [];
 
@@ -60,18 +57,19 @@ class DataBaseQuery
             $tableFields[] = $key;
             $tableValues[] = $val;
         }
+
         $unexpectedArray = array_diff($tableFields, $this->getColumnNames($tableName, $dbConn));
 
         if (count($unexpectedArray) < 1) {
             $sql = 'INSERT INTO '.$tableName;
             $sql .= '('.$this->splitTableField($tableFields).') ';
             $sql .= 'VALUES ('.$this->formatTableValues($tableValues).')';
-            $statement = $dbConn->exec($sql);
+            $statement = $this->dbConnection->exec($sql);
 
             return $statement;
         }
-
-        throw new FieldUndefinedException('Oops, please input the following field: NAME, SEX, OCCUPATION, ORGANISATION AND YEAR');
+    
+         throw new FieldUndefinedException('Oops, ' . $this->splitTableField($unexpectedArray) . ' is not defined as a field');
     }
 
     /**
@@ -88,21 +86,16 @@ class DataBaseQuery
             $dbConn = new DataBaseConnection();
         }
 
-        $tableData = [];
         $sql = $id ? 'SELECT * FROM '.$tableName.' WHERE id = '.$id : 'SELECT * FROM '.$tableName;
         $statement = $dbConn->prepare($sql);
         $statement->execute();
         $results = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-        foreach ($results as $result) {
-            array_push($tableData, $result);
-        }
-
-        if (count($tableData) < 1) {
+        if (count($results) < 1) {
             throw new IdNotFoundException('Oops, the id '.$id.' is not in the database, try another id');
         }
 
-        return $tableData;
+        return $results;
     }
 
     /**
@@ -116,10 +109,6 @@ class DataBaseQuery
      */
     public function update($updateParams, $associativeArray, $tableName, $dbConn = null)
     {
-        if (is_null($dbConn)) {
-            $dbConn = $this->dataBaseConnection;
-        }
-
         $updateSql = "UPDATE `$tableName` SET ";
 
         unset($associativeArray['id']);
@@ -137,12 +126,12 @@ class DataBaseQuery
                 $updateSql .= " WHERE $field = $value";
             }
 
-            $statement = $dbConn->exec($updateSql);
+            $statement = $this->dbConnection->exec($updateSql);
 
             return $statement ?: false;
         }
 
-        throw new FieldUndefinedException('Oops, please input the following field: NAME, SEX, OCCUPATION, ORGANISATION AND YEAR');
+        throw new FieldUndefinedException('Oops, ' . $this->splitTableField($unexpectedArray) . ' is not defined as a field');
     }
 
     /**
@@ -157,6 +146,15 @@ class DataBaseQuery
     {
         if (is_null($dbConn)) {
             $dbConn = new DataBaseConnection();
+        }
+
+        $sql = $id ? 'SELECT * FROM '.$tableName.' WHERE id = '.$id : 'SELECT * FROM '.$tableName;
+        $statement = $dbConn->prepare($sql);
+        $statement->execute();
+        $results = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        if (count($results) < 1) {
+            throw new IdNotFoundException('Oops, the id '.$id.' is not in the database, try another id');
         }
 
         $sql = 'DELETE FROM '.$tableName.' WHERE id = '.$id;
@@ -174,7 +172,7 @@ class DataBaseQuery
      */
     public function splitTableField($tableField)
     {
-        $splitTableField = implode(',', $tableField);
+        $splitTableField = implode(', ', $tableField);
 
         return $splitTableField;
     }
@@ -228,13 +226,10 @@ class DataBaseQuery
      */
     public function getColumnNames($table, $dbConn = null)
     {
-        if (is_null($dbConn)) {
-            $dbConn = new DataBaseConnection();
-        }
         $tableFields = [];
 
         $sql = 'SHOW COLUMNS FROM '.$table;
-        $stmt = $dbConn->prepare($sql);
+        $stmt = $this->dbConnection->prepare($sql);
         $stmt->bindValue(':table', $table, PDO::PARAM_STR);
         $stmt->execute();
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);

@@ -34,7 +34,7 @@ class DataBaseQueryTest extends PHPUnit_Framework_TestCase
     public function testCreate()
     {
         $this->getTableFields();
-        $insertQuery = "INSERT INTO users(name,sex,occupation) VALUES ('Oscar','m','Software Developer')";
+        $insertQuery = "INSERT INTO users(name, sex, occupation) VALUES ('Oscar','m','Software Developer')";
         $this->dbConnMocked->shouldReceive('exec')->with($insertQuery)->andReturn(true);
         $boolCreate = $this->dbQuery->create(['name' => 'Oscar', 'sex' => 'm', 'occupation' => 'Software Developer'], 'users', $this->dbConnMocked);
         $this->assertEquals(true, $boolCreate);
@@ -72,7 +72,10 @@ class DataBaseQueryTest extends PHPUnit_Framework_TestCase
      */
     public function testDelete()
     {
-        $id = 1;
+        $id = 3;
+        $row = ['id' => 3, 'name' => 'Oscar', 'sex' => 'm', 'occupation' => 'Software Developer'];
+
+        $this->readFromTableHead($id, $row);
         $sql = 'DELETE FROM users WHERE id = '.$id;
         $this->dbConnMocked->shouldReceive('exec')->with($sql)->andReturn(true);
         $bool = DataBaseQuery::delete($id, 'users', $this->dbConnMocked);
@@ -96,7 +99,7 @@ class DataBaseQueryTest extends PHPUnit_Framework_TestCase
     {
         $tableValues = ['name', 'sex', 'occupation'];
         $resultTableField = $this->dbQuery->splitTableField($tableValues);
-        $this->assertEquals($resultTableField, 'name,sex,occupation');
+        $this->assertEquals($resultTableField, 'name, sex, occupation');
     }
 
     /**
@@ -105,12 +108,12 @@ class DataBaseQueryTest extends PHPUnit_Framework_TestCase
     public function testformatTableValues()
     {
         $tableValues = [
-                           '0' => 'Oscar',
-                           '1' => 'm',
-                           '2' => 'Software Developer',
+                           'name' => 'Oscar',
+                           'sex' => 'm',
+                           'occupation' => 'Software Developer',
                        ];
         $resultTableField = $this->dbQuery->splitTableField($tableValues);
-        $this->assertEquals($resultTableField, 'Oscar,m,Software Developer');
+        $this->assertEquals($resultTableField, 'Oscar, m, Software Developer');
     }
 
     /**

@@ -18,7 +18,7 @@ abstract class DataBaseModel implements DataBaseModelInterface
 {
     protected $tableName;
     protected $dataBaseConnection;
-    protected $DataBaseQuery;
+    protected $dataBaseQuery;
     protected $properties;
     protected $arrayField = [];
 
@@ -31,7 +31,7 @@ abstract class DataBaseModel implements DataBaseModelInterface
             $dbConn = $this->dataBaseConnection;
         }
         $this->tableName = self::getClassName();
-        $this->DataBaseQuery = new DataBaseQuery($dbConn);
+        $this->dataBaseQuery = new DataBaseQuery($dbConn);
         $this->arrayField['id'] = 0;
     }
 
@@ -94,8 +94,10 @@ abstract class DataBaseModel implements DataBaseModelInterface
     {
         if ($this->arrayField['id']) {
             $sqlData = DataBaseQuery::read($this->arrayField['id'], self::getClassName(), $dbConn);
+
             if ($this->checkIfRecordIsEmpty($sqlData)) {
-                $boolCommit = $this->DataBaseQuery->update(['id' => $this->arrayField['id']], $this->arrayField, self::getClassName(), $dbConn);
+                $boolCommit = $this->dataBaseQuery->update(['id' => $this->arrayField['id']], $this->arrayField, self::getClassName(), $dbConn);
+
                 if ($boolCommit) {
                     return true;
                 }
@@ -106,7 +108,8 @@ abstract class DataBaseModel implements DataBaseModelInterface
             throw new EmptyArrayException("data passed didn't match any record");
         }
 
-        $boolCommit = $this->DataBaseQuery->create($this->arrayField, self::getClassName(), $dbConn);
+        $boolCommit = $this->dataBaseQuery->create($this->arrayField, self::getClassName(), $dbConn);
+
         if ($boolCommit) {
             return true;
         }
@@ -127,16 +130,19 @@ abstract class DataBaseModel implements DataBaseModelInterface
     public static function findById($id)
     {
         $numArgs = func_num_args();
+
         if ($numArgs > 1) {
             throw new ArgumentNumberIncorrectException('Please input just one Argument');
-        }
+        } 
+
         if ($id == '') {
             throw new ArgumentNotFoundException('No Argument found, please input an argument');
         }
 
         $staticFindInstance = new static();
-        $staticFindInstance->id = $id == '' ? false : $id;
-
+        
+        $staticFindInstance->id = $id;
+       
         return $staticFindInstance;
     }
 
@@ -166,17 +172,18 @@ abstract class DataBaseModel implements DataBaseModelInterface
      *
      * @return bool true
      */
-    public static function destroy($id, $dbConn)
+    public static function destroy($id, $dbConn = null)
     {
         $numArgs = func_num_args();
-        if ($numArgs < 0 || $numArgs > 2) {
+        if ($numArgs > 2) {
             throw new ArgumentNumberIncorrectException('Please input just one Argument');
         }
+
         if ($numArgs == ' ') {
             throw new ArgumentNotFoundException('No Argument found, please input an argument');
         }
-        $sqlData = DataBaseQuery::read($id, self::getClassName(), $dbConn);
-        $sqlData = DataBaseQuery::delete($id, self::getClassName(), $dbConn);
+
+        DataBaseQuery::delete($id, self::getClassName(), $dbConn);
 
         return true;
     }

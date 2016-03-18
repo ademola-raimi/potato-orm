@@ -112,11 +112,27 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @expectedException Demo\ArgumentNumberIncorrectException
+     */
+    public function testfindByArgumentNumberIncorrectException()
+    {
+        User::findById(2, 3);
+    }
+
+    /**
      * @expectedException Demo\ArgumentNotFoundException
      */
     public function testDestroyArgumentNotFoundException()
     {
         User::destroy();
+    }
+
+    /**
+     * @expectedException Demo\ArgumentNumberIncorrectException
+     */
+    public function testDestroyArgumentNumberIncorrectException()
+    {
+        User::destroy(2, 3, 4);
     }
 
     /**

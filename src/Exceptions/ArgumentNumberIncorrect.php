@@ -16,7 +16,7 @@ namespace Demo;
 
 use Exception;
 
-class ArgumentNumberIncorrect extends Exception
+class ArgumentNumberIncorrectException extends Exception
 {
     public $message;
 
