@@ -27,10 +27,10 @@ class DataBaseConnection extends PDO
         $this->loadEnv();
 
         $this->servername = getenv('DB_HOST');
-        $this->username   = getenv('DB_USERNAME');
-        $this->password   = getenv('DB_PASSWORD');
-        $this->driver     = getenv('DB_DRIVER');
-        $this->dbname     = getenv('DB_NAME');
+        $this->username = getenv('DB_USERNAME');
+        $this->password = getenv('DB_PASSWORD');
+        $this->driver = getenv('DB_DRIVER');
+        $this->dbname = getenv('DB_NAME');
 
         $options = [
             PDO::ATTR_PERSISTENT => true,
@@ -50,13 +50,16 @@ class DataBaseConnection extends PDO
     {
         if ($this->driver === 'mysql') {
             $dns = 'mysql:host='.$this->servername.';dbname='.$this->dbname;
+
             return $dns;
         } elseif ($this->driver === 'sqlite') {
             $dns = 'sqlite:host='.$this->servername.';dbname='.$this->dbname;
-            return $dns;    
+
+            return $dns;
         } elseif ($this->driver === 'pgsqlsql') {
-             $dns = 'pgsqlsql:host='.$this->servername.';dbname='.$this->dbname;
-             return $dns;
+            $dns = 'pgsqlsql:host='.$this->servername.';dbname='.$this->dbname;
+
+            return $dns;
         }
     }
 

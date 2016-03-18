@@ -68,8 +68,8 @@ class DataBaseQuery
 
             return $statement;
         }
-    
-         throw new FieldUndefinedException('Oops, ' . $this->splitTableField($unexpectedArray) . ' is not defined as a field');
+
+        throw new FieldUndefinedException('Oops, '.$this->splitTableField($unexpectedArray).' is not defined as a field');
     }
 
     /**
@@ -131,7 +131,7 @@ class DataBaseQuery
             return $statement ?: false;
         }
 
-        throw new FieldUndefinedException('Oops, ' . $this->splitTableField($unexpectedArray) . ' is not defined as a field');
+        throw new FieldUndefinedException('Oops, '.$this->splitTableField($unexpectedArray).' is not defined as a field');
     }
 
     /**

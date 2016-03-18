@@ -108,8 +108,8 @@ class DataBaseQueryTest extends PHPUnit_Framework_TestCase
     public function testformatTableValues()
     {
         $tableValues = [
-                           'name' => 'Oscar',
-                           'sex' => 'm',
+                           'name'       => 'Oscar',
+                           'sex'        => 'm',
                            'occupation' => 'Software Developer',
                        ];
         $resultTableField = $this->dbQuery->splitTableField($tableValues);
