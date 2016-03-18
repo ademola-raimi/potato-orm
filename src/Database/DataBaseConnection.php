@@ -27,10 +27,10 @@ class DataBaseConnection extends PDO
         $this->loadEnv();
 
         $this->servername = getenv('DB_HOST');
-        $this->username   = getenv('DB_USERNAME');
-        $this->password   = getenv('DB_PASSWORD');
-        $this->driver     = getenv('DB_DRIVER');
-        $this->dbname     = getenv('DB_NAME');
+        $this->username = getenv('DB_USERNAME');
+        $this->password = getenv('DB_PASSWORD');
+        $this->driver = getenv('DB_DRIVER');
+        $this->dbname = getenv('DB_NAME');
 
         $options = [
             PDO::ATTR_PERSISTENT => true,

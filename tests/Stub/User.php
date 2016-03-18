@@ -6,8 +6,6 @@
  */
 namespace Tests;
 
-use Demo\DataBaseModel;
-
 class User extends DataBaseModel
 {
 }
