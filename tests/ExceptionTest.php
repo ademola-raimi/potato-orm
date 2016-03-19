@@ -108,7 +108,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
      */
     public function testDeleteIdNotFoundException()
     {
-         $results = [];
+        $results = [];
 
         $readQuery = $id  ? 'SELECT * FROM users WHERE id = '.$id : 'SELECT * FROM users';
 
@@ -117,7 +117,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
         $this->statement->shouldReceive('bindValue')->with(':id', $id);
         $this->statement->shouldReceive('execute');
         $this->statement->shouldReceive('fetchAll')->with(2)->andReturn($results);
-        
+
         $sql = 'DELETE FROM users WHERE id = '.$id;
         $this->dbConnMocked->shouldReceive('exec')->with($sql)->andReturn(true);
         $bool = DataBaseQuery::delete($id, 'users', $this->dbConnMocked);

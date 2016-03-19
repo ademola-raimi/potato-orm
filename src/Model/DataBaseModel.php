@@ -71,14 +71,10 @@ abstract class DataBaseModel implements DataBaseModelInterface
     public static function getAll($dbConn = null)
     {
         $sqlData = DataBaseQuery::read($id = false, self::getClassName(), $dbConn);
-
-        if (count($sqlData) > 0) {
-            return $sqlData;
-        }
-
-        throw new NoDataFoundException('There is no data to display');
+        
+        return $sqlData;
     }
-
+            
     /**
      * This method either create or update record in a database table
      * by calling either the read method or create method in the
