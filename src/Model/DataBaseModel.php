@@ -106,15 +106,17 @@ abstract class DataBaseModel implements DataBaseModelInterface
             }
 
             throw new EmptyArrayException("data passed didn't match any record");
+        } else {
+
+            $boolCommit = $this->dataBaseQuery->create($this->arrayField, self::getClassName(), $dbConn);
+
+            if ($boolCommit) {
+                return true;
+            }
+
+            throw new NoRecordCreatedException('oops,your record did not create succesfully');
         }
-
-        $boolCommit = $this->dataBaseQuery->create($this->arrayField, self::getClassName(), $dbConn);
-
-        if ($boolCommit) {
-            return true;
-        }
-
-        throw new NoRecordCreatedException('oops,your record did not create succesfully');
+   
     }
 
     /**
@@ -157,7 +159,7 @@ abstract class DataBaseModel implements DataBaseModelInterface
     {
         if ($this->arrayField['id']) {
             $sqlData = DataBaseQuery::read($this->arrayField['id'], self::getClassName(), $dbConn);
-
+        
             return $sqlData;
         }
     }
@@ -209,20 +211,5 @@ abstract class DataBaseModel implements DataBaseModelInterface
         }
 
         return false;
-    }
-
-    /**
-     * This method check if the argument passed to this function is an array.
-     *
-     * @param $arrayOfRecord
-     *
-     * @return bool true
-     */
-    public function checkIfRecordExist($arrayOfRecord)
-    {
-        $stringValue = [];
-        foreach ($arrayOfRecord as $key => $val) {
-            $stringValue[] = $val;
-        }
     }
 }

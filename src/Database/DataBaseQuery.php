@@ -58,12 +58,15 @@ class DataBaseQuery
             $tableValues[] = $val;
         }
 
+        
+
         $unexpectedArray = array_diff($tableFields, $this->getColumnNames($tableName, $dbConn));
 
         if (count($unexpectedArray) < 1) {
             $sql = 'INSERT INTO '.$tableName;
             $sql .= '('.$this->splitTableField($tableFields).') ';
             $sql .= 'VALUES ('.$this->formatTableValues($tableValues).')';
+
             $statement = $this->dbConnection->exec($sql);
 
             return $statement;
