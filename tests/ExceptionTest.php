@@ -88,7 +88,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
     /**
      * @expectedException Demo\IdNotFoundException
      */
-    public function testIdNotFoundException()
+    public function testdReadIdNotFoundException()
     {
         $results = [];
 
@@ -101,6 +101,26 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
         $this->statement->shouldReceive('fetchAll')->with(2)->andReturn($results);
 
         $allData = User::getAll($this->dbConnMocked);
+    }
+
+    /**
+     * @expectedException Demo\IdNotFoundException
+     */
+    public function testDeleteIdNotFoundException()
+    {
+         $results = [];
+
+        $readQuery = $id  ? 'SELECT * FROM users WHERE id = '.$id : 'SELECT * FROM users';
+
+        $this->dbConnMocked->shouldReceive('prepare')->with($readQuery)->andReturn($this->statement);
+        $this->statement->shouldReceive('bindValue')->with(':table', 'users');
+        $this->statement->shouldReceive('bindValue')->with(':id', $id);
+        $this->statement->shouldReceive('execute');
+        $this->statement->shouldReceive('fetchAll')->with(2)->andReturn($results);
+        
+        $sql = 'DELETE FROM users WHERE id = '.$id;
+        $this->dbConnMocked->shouldReceive('exec')->with($sql)->andReturn(true);
+        $bool = DataBaseQuery::delete($id, 'users', $this->dbConnMocked);
     }
 
     /**
