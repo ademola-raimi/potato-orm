@@ -110,11 +110,9 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
     {
         $results = [];
 
-        $readQuery = $id  ? 'SELECT * FROM users WHERE id = '.$id : 'SELECT * FROM users';
+        $readQuery = 'SELECT * FROM users WHERE id = '.$id;
 
         $this->dbConnMocked->shouldReceive('prepare')->with($readQuery)->andReturn($this->statement);
-        $this->statement->shouldReceive('bindValue')->with(':table', 'users');
-        $this->statement->shouldReceive('bindValue')->with(':id', $id);
         $this->statement->shouldReceive('execute');
         $this->statement->shouldReceive('fetchAll')->with(2)->andReturn($results);
 

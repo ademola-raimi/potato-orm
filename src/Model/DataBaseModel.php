@@ -20,7 +20,7 @@ abstract class DataBaseModel implements DataBaseModelInterface
     protected $dataBaseConnection;
     protected $dataBaseQuery;
     protected $properties;
-    protected $arrayField = [];
+    protected $arrayField;
 
     /**
      * This is a constructor; a default method  that will be called automatically during class instantiation.
@@ -71,7 +71,7 @@ abstract class DataBaseModel implements DataBaseModelInterface
     public static function getAll($dbConn = null)
     {
         $sqlData = DataBaseQuery::read($id = false, self::getClassName(), $dbConn);
-        
+
         return $sqlData;
     }
             
@@ -93,7 +93,7 @@ abstract class DataBaseModel implements DataBaseModelInterface
 
             if ($this->checkIfRecordIsEmpty($sqlData)) {
                 $boolCommit = $this->dataBaseQuery->update(['id' => $this->arrayField['id']], $this->arrayField, self::getClassName(), $dbConn);
-
+                var_dump($this->arrayField);
                 if ($boolCommit) {
                     return true;
                 }
@@ -189,8 +189,8 @@ abstract class DataBaseModel implements DataBaseModelInterface
     public static function getClassName()
     {
         $tableName = explode('\\', get_called_class());
-
-        return Inflector::pluralize(strtolower(end($tableName)));
+        
+        return Inflector::pluralize(strtolower(first($tableName)));
     }
 
     /**

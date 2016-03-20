@@ -67,9 +67,9 @@ class DataBaseQuery
             $sql .= '('.$this->splitTableField($tableFields).') ';
             $sql .= 'VALUES ('.$this->formatTableValues($tableValues).')';
 
-            $statement = $this->dbConnection->exec($sql);
+            $bool = $this->dbConnection->exec($sql);
 
-            return $statement;
+            return $bool;
         }
 
         throw new FieldUndefinedException('Oops, '.$this->splitTableField($unexpectedArray).' is not defined as a field');
@@ -92,6 +92,7 @@ class DataBaseQuery
         $sql = $id ? 'SELECT * FROM '.$tableName.' WHERE id = '.$id : 'SELECT * FROM '.$tableName;
         $statement = $dbConn->prepare($sql);
         $statement->execute();
+    
         $results = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         if (count($results) < 1) {
@@ -105,33 +106,33 @@ class DataBaseQuery
      * This method delete the table name of the id being passed to it.
      *
      * @param $update Params
-     * @param $associativeArray
+     * @param $associativeArrayToUpdate
      * @param $tableName
      *
      * @return bool
      */
-    public function update($updateParams, $associativeArray, $tableName, $dbConn = null)
+    public function update($updateParams, $associativeArrayToUpdate, $tableName, $dbConn = null)
     {
         $updateSql = "UPDATE `$tableName` SET ";
 
-        unset($associativeArray['id']);
+        unset($associativeArrayToUpdate['id']);
 
-        foreach ($associativeArray as $key => $val) {
+        foreach ($associativeArrayToUpdate as $key => $val) {
             $tableFields[] = $key;
         }
 
         $unexpectedArray = array_diff($tableFields, $this->getColumnNames($tableName, $dbConn));
 
         if (count($unexpectedArray) < 1) {
-            $updateSql .= $this->updateArraySql($associativeArray);
-
+            $updateSql .= $this->updateArraySql($associativeArrayToUpdate);
+            
             foreach ($updateParams as $field => $value) {
                 $updateSql .= " WHERE $field = $value";
             }
 
             $statement = $this->dbConnection->exec($updateSql);
-
-            return $statement ?: false;
+            
+            return $statement;
         }
 
         throw new FieldUndefinedException('Oops, '.$this->splitTableField($unexpectedArray).' is not defined as a field');
@@ -151,7 +152,7 @@ class DataBaseQuery
             $dbConn = new DataBaseConnection();
         }
 
-        $sql = $id ? 'SELECT * FROM '.$tableName.' WHERE id = '.$id : 'SELECT * FROM '.$tableName;
+        $sql = 'SELECT * FROM '.$tableName.' WHERE id = '.$id;
         $statement = $dbConn->prepare($sql);
         $statement->execute();
         $results = $statement->fetchAll(PDO::FETCH_ASSOC);
