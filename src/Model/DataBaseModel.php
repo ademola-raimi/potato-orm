@@ -190,7 +190,7 @@ abstract class DataBaseModel implements DataBaseModelInterface
     {
         $tableName = explode('\\', get_called_class());
         
-        return Inflector::pluralize(strtolower(first($tableName)));
+        return Inflector::pluralize(strtolower(end($tableName)));
     }
 
     /**
