@@ -93,7 +93,7 @@ abstract class DataBaseModel implements DataBaseModelInterface
 
             if ($this->checkIfRecordIsEmpty($sqlData)) {
                 $boolCommit = $this->dataBaseQuery->update(['id' => $this->arrayField['id']], $this->arrayField, self::getClassName(), $dbConn);
-                var_dump($this->arrayField);
+    
                 if ($boolCommit) {
                     return true;
                 }
