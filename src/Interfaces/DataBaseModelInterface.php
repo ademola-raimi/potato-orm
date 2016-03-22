@@ -33,7 +33,7 @@ interface DataBaseModelInterface
      *
      * @return object
      */
-    public static function findById($id);
+    public static function findById($id, $dbConn);
 
     /**
      * This method find a record by id and get the data.

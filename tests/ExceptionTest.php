@@ -134,7 +134,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
      */
     public function testfindByArgumentNumberIncorrectException()
     {
-        User::findById(2, 3);
+        User::findById(2, 3, 4);
     }
 
     /**
