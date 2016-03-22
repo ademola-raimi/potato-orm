@@ -69,25 +69,6 @@ class DataBaseModelTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * This method throws an Exception when a record cannot be updated
-     * 
-     */
-    public function testUpdateSave()
-    {
-        $id = 1;
-        $this->getTableFields();
-        $this->readFromTableHead($id, $row);
-        $this->updateRecordHead($id);
-        
-        $user = User::findById(1);
-        $user->name = 'Demo';
-        $user->sex = 'm';
-        $this->setExpectedException('Demo\NoRecordUpdatedException');
-        
-        $bool = $user->save($this->dbConnMocked);
-    }
-
-    /**
      * This method returns the row with a particular id.
      */
     public function readFromTableHead($id, $row)

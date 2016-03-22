@@ -6,6 +6,6 @@
  */
 namespace Demo;
 
-// class User extends DataBaseModel
-// {
-// }
+class User extends DataBaseModel
+{
+}

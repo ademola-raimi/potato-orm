@@ -86,6 +86,16 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @expectedException Demo\NoRecordUpdatedException
+     * @expectedExceptionMessage oops, your record did not update succesfully
+     *
+     */
+    public function testThrowNoRecordUpdatedException()
+    {
+        $this->dbModel->throwNoRecordUpdatedException();
+    }
+
+    /**
      * @expectedException Demo\IdNotFoundException
      */
     public function testReadIdNotFoundException()

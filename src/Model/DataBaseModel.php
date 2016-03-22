@@ -95,7 +95,9 @@ abstract class DataBaseModel implements DataBaseModelInterface
                     return true;
                 }
 
-                throw new NoRecordUpdatedException('oops, your record did not update succesfully');
+                $this->throwNoRecordUpdatedException();
+
+                // throw new NoRecordUpdatedException('oops, your record did not update succesfully');
             }
 
             throw new EmptyArrayException("data passed didn't match any record");
@@ -110,6 +112,12 @@ abstract class DataBaseModel implements DataBaseModelInterface
             throw new NoRecordCreatedException('oops,your record did not create succesfully');
         }
    
+    }
+
+    public function throwNoRecordUpdatedException()
+    {
+        $message = 'oops, your record did not update succesfully';
+        throw new NoRecordUpdatedException($message);
     }
 
     /**

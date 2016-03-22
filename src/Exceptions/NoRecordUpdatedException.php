@@ -25,6 +25,7 @@ class NoRecordUpdatedException extends Exception
      */
     public function __construct($errorMessage)
     {
-        $this->message = $errorMessage;
+        // die($errorMessage);
+        return $this->message = $errorMessage;
     }
 }
