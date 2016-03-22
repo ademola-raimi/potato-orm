@@ -25,14 +25,10 @@ abstract class DataBaseModel implements DataBaseModelInterface
     /**
      * This is a constructor; a default method  that will be called automatically during class instantiation.
      */
-    public function __construct($dbConn = null)
+    public function __construct()
     {
-        if (is_null($dbConn)) {
-            $this->dbConnection = new DataBaseConnection();
-        } else {
-            $this->dbConnection = $dbConn;
-        }
         $this->tableName = self::getClassName();
+        $this->dataBaseQuery = new DataBaseQuery();
         $this->arrayField['id'] = 0;
     }
 
@@ -69,7 +65,7 @@ abstract class DataBaseModel implements DataBaseModelInterface
      *
      * @return associative array
      */
-    public static function getAll($dbConn = null)
+    public static function getAll()
     {
         $sqlData = DataBaseQuery::read($id = false, self::getClassName(), $dbConn);
 
@@ -89,6 +85,10 @@ abstract class DataBaseModel implements DataBaseModelInterface
      */
     public function save($dbConn = null)
     {
+        if (is_null($dbConn)) {
+            $dbConn = new DatabaseConnection();
+        }
+
         if ($this->arrayField['id']) {
             $sqlData = DataBaseQuery::read($this->arrayField['id'], self::getClassName(), $dbConn);
 
@@ -126,11 +126,11 @@ abstract class DataBaseModel implements DataBaseModelInterface
      *
      * @return object
      */
-    public static function findById($id, $dbConn = null)
+    public static function findById($id)
     {
         $numArgs = func_num_args();
 
-        if ($numArgs > 2) {
+        if ($numArgs > 1) {
             throw new ArgumentNumberIncorrectException('Please input just one Argument');
         }
 
@@ -152,7 +152,7 @@ abstract class DataBaseModel implements DataBaseModelInterface
      *
      * @return associative array
      */
-    public function getById($dbConn = null)
+    public function getById()
     {
         if ($this->arrayField['id']) {
             $sqlData = DataBaseQuery::read($this->arrayField['id'], self::getClassName(), $dbConn);
@@ -171,10 +171,10 @@ abstract class DataBaseModel implements DataBaseModelInterface
      *
      * @return bool true
      */
-    public static function destroy($id, $dbConn = null)
+    public static function destroy($id)
     {
         $numArgs = func_num_args();
-        if ($numArgs > 2) {
+        if ($numArgs > 1) {
             throw new ArgumentNumberIncorrectException('Please input just one Argument');
         }
 

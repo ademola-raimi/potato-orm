@@ -100,7 +100,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
         $this->statement->shouldReceive('execute');
         $this->statement->shouldReceive('fetchAll')->with(2)->andReturn($results);
 
-        $allData = User::getAll($this->dbConnMocked);
+        $allData = User::getAll();
     }
 
     /**
@@ -134,7 +134,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
      */
     public function testfindByArgumentNumberIncorrectException()
     {
-        User::findById(2, 3, 4);
+        User::findById(2, 3);
     }
 
     /**
@@ -150,7 +150,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
      */
     public function testDestroyArgumentNumberIncorrectException()
     {
-        User::destroy(2, 3, 4);
+        User::destroy(2, 3);
     }
 
     /**

@@ -82,7 +82,7 @@ class DataBaseModelTest extends PHPUnit_Framework_TestCase
         $user = User::findById(1);
         $user->name = 'Demo';
         $user->sex = 'm';
-        $this->setExpectedException('error');
+        $this->setExpectedException('Demo\NoRecordUpdatedException');
         
         $bool = $user->save($this->dbConnMocked);
     }
