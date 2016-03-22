@@ -66,13 +66,12 @@ abstract class DataBaseModel implements DataBaseModelInterface
      */
     public static function getAll($dbConn)
     {
-
         $sqlData = DataBaseQuery::read($id = false, self::getClassName(), $dbConn);
 
         if (count($sqlData) > 0) {
             return $sqlData;
         }
-        
+
         self::throwNoDataFoundException();
     }
 
@@ -180,9 +179,19 @@ abstract class DataBaseModel implements DataBaseModelInterface
     {
         if ($this->arrayField['id']) {
             $sqlData = DataBaseQuery::read($this->arrayField['id'], self::getClassName(), $dbConn);
-        
-            return $sqlData;
+            
+            if (count($sqlData) > 0) {
+                return $sqlData;
+            }
+
+            self::throwDataEmptyException();
         }
+    }
+
+    public function throwDataEmptyException()
+    {
+        $message = "oops, no data found in the column";
+        throw new DataEmptyException($message);
     }
 
     /**
