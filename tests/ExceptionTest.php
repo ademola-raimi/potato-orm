@@ -33,6 +33,8 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException Demo\FieldUndefinedException
+     * @expectedExceptionMessage Oops, DOB is not defined as a field
+     * 
      */
     public function testCreateFieldUndefinedException()
     {
@@ -51,6 +53,8 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException Demo\FieldUndefinedException
+     * @expectedExceptionMessage Oops, DOB is not defined as a field
+     *
      */
     public function testUpdateFieldUndefinedException()
     {
@@ -60,7 +64,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
             'DOB'   => '2005',
             'sex'   => 'M',
         ];
-        $updateQuery = "UPDATE `users` SET `name` = 'Demo',`gender` = 'M' WHERE id = ".$id;
+        $updateQuery = "UPDATE `users` SET `name` = 'Demo',`sex` = 'M' WHERE id = ".$id;
         $this->dbConnMocked->shouldReceive('prepare')->once()->with($updateQuery)->andReturn($this->statement);
         $this->statement->shouldReceive('execute')->once()->andReturn(true);
         $this->dbQuery->update(['id' => $id], $data, 'users', $this->dbConnMocked);
@@ -118,6 +122,8 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException Demo\IdNotFoundException
+     * @expectedExceptionMessage Oops, the id  is not in the database, try another id
+     *
      */
     public function testReadIdNotFoundException()
     {
