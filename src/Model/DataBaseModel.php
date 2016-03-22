@@ -17,7 +17,7 @@ use Doctrine\Common\Inflector\Inflector;
 abstract class DataBaseModel implements DataBaseModelInterface
 {
     protected $tableName;
-    protected $dbConnection;
+    protected $dbConn;
     protected $dataBaseQuery;
     protected $properties;
     protected $arrayField;
@@ -25,10 +25,10 @@ abstract class DataBaseModel implements DataBaseModelInterface
     /**
      * This is a constructor; a default method  that will be called automatically during class instantiation.
      */
-    public function __construct()
+    public function __construct($dbConn)
     {
         $this->tableName = self::getClassName();
-        $this->dataBaseQuery = new DataBaseQuery();
+        $this->dataBaseQuery = new DataBaseQuery($dbConn);
         $this->arrayField['id'] = 0;
     }
 
@@ -65,7 +65,7 @@ abstract class DataBaseModel implements DataBaseModelInterface
      *
      * @return associative array
      */
-    public static function getAll()
+    public static function getAll($dbConn)
     {
         $sqlData = DataBaseQuery::read($id = false, self::getClassName(), $dbConn);
 
@@ -83,14 +83,8 @@ abstract class DataBaseModel implements DataBaseModelInterface
      *
      * @return bool true or false;
      */
-    public function save($dbConn = null)
+    public function save($dbConn)
     {
-        if (is_null($dbConn)) {
-            $dbConn = new DatabaseConnection();
-        } else {
-            $this->dbConnection = $dbConn;
-        }
-
         if ($this->arrayField['id']) {
             $sqlData = DataBaseQuery::read($this->arrayField['id'], self::getClassName(), $dbConn);
 
@@ -128,17 +122,11 @@ abstract class DataBaseModel implements DataBaseModelInterface
      *
      * @return object
      */
-    public static function findById($id, $dbConn = null)
+    public static function findById($id)
     {
-        if (is_null($dbConn)) {
-            $dbConn = new DatabaseConnection();
-        } else {
-            $this->dbConnection = $dbConn;
-        }
-
         $numArgs = func_num_args();
 
-        if ($numArgs > 2) {
+        if ($numArgs > 1) {
             throw new ArgumentNumberIncorrectException('Please input just one Argument');
         }
 
@@ -179,10 +167,10 @@ abstract class DataBaseModel implements DataBaseModelInterface
      *
      * @return bool true
      */
-    public static function destroy($id)
+    public static function destroy($id, $dbConn)
     {
         $numArgs = func_num_args();
-        if ($numArgs > 1) {
+        if ($numArgs > 2) {
             throw new ArgumentNumberIncorrectException('Please input just one Argument');
         }
 

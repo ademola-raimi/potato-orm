@@ -88,7 +88,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
     /**
      * @expectedException Demo\IdNotFoundException
      */
-    public function testdReadIdNotFoundException()
+    public function testReadIdNotFoundException()
     {
         $results = [];
 
@@ -100,7 +100,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
         $this->statement->shouldReceive('execute');
         $this->statement->shouldReceive('fetchAll')->with(2)->andReturn($results);
 
-        $allData = User::getAll();
+        $allData = User::getAll($this->dbConnMocked);
     }
 
     /**
@@ -134,7 +134,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
      */
     public function testfindByArgumentNumberIncorrectException()
     {
-        User::findById(2, 3, 5);
+        User::findById(2, 3);
     }
 
     /**
