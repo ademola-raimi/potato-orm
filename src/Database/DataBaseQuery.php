@@ -48,12 +48,12 @@ class DataBaseQuery
      *
      * @return array
      */
-    public function create($associativeArray, $tableName, $dbConn = null)
+    public function create($associativeArrayToCreate, $tableName, $dbConn = null)
     {
         $tableFields = [];
         $tableValues = [];
 
-        foreach ($associativeArray as $key => $val) {
+        foreach ($associativeArrayToCreate as $key => $val) {
             $tableFields[] = $key;
             $tableValues[] = $val;
         }

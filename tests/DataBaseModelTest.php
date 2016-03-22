@@ -69,6 +69,25 @@ class DataBaseModelTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * This method throws an Exception when a record cannot be updated
+     * 
+     */
+    public function testUpdateSave()
+    {
+        $id = 1;
+        $this->getTableFields();
+        $this->readFromTableHead($id, $row);
+        $this->updateRecordHead($id);
+        
+        $user = User::findById(1);
+        $user->name = 'Demo';
+        $user->sex = 'm';
+        $this->setExpectedException('Demo\NoRecordUpdatedException');
+        
+        $bool = $user->save($this->dbConnMocked);
+    }
+
+    /**
      * This method returns the row with a particular id.
      */
     public function readFromTableHead($id, $row)
@@ -119,5 +138,13 @@ class DataBaseModelTest extends PHPUnit_Framework_TestCase
         $this->statement->shouldReceive('fetchAll')->with(2)->andReturn($results);
 
         return $results;
+    }
+
+    public function updateRecordHead($id)
+    {
+        $updateQuery = "UPDATE `users` SET `name` = 'Demo',`sex` = 'm' WHERE id = ".$id;
+        $this->dbConnMocked->shouldReceive('prepare')->with($updateQuery)->andReturn($this->statement);
+        $this->statement->shouldReceive('execute')->andReturn(true);
+        $this->dbModel = new User('users', $this->dbConnMocked);
     }
 }
