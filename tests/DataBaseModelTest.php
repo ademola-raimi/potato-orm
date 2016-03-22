@@ -6,8 +6,6 @@
  */
 namespace Tests;
 
-error_reporting(0);
-
 use Demo\DataBaseQuery;
 use Mockery;
 use PHPUnit_Framework_TestCase;
@@ -62,6 +60,15 @@ class DataBaseModelTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * To test if the tablename is pluralized and converted to lowercase.
+     */
+    public function testGetClassName()
+    {
+        $className = $this->dbModel->getClassName();
+        $this->assertEquals($className, 'users');
+    }
+
+    /**
      * This method throws an Exception when a record cannot be updated
      * 
      */
@@ -72,22 +79,12 @@ class DataBaseModelTest extends PHPUnit_Framework_TestCase
         $this->readFromTableHead($id, $row);
         $this->updateRecordHead($id);
         
-        $user = User::findById($id);
+        $user = User::findById(1);
         $user->name = 'Demo';
         $user->sex = 'm';
-
-        $this->setExpectedException('Error');
+        $this->setExpectedException('error');
         
         $bool = $user->save($this->dbConnMocked);
-    }
-
-    /**
-     * To test if the tablename is pluralized and converted to lowercase.
-     */
-    public function testGetClassName()
-    {
-        $className = $this->dbModel->getClassName();
-        $this->assertEquals($className, 'users');
     }
 
     /**
@@ -142,10 +139,7 @@ class DataBaseModelTest extends PHPUnit_Framework_TestCase
 
         return $results;
     }
-    
-    /**
-     * This method contains the query for updating.
-     */
+
     public function updateRecordHead($id)
     {
         $updateQuery = "UPDATE `users` SET `name` = 'Demo',`sex` = 'm' WHERE id = ".$id;
