@@ -25,6 +25,6 @@ class NoRecordCreatedException extends Exception
      */
     public function __construct($errorMessage)
     {
-        $this->message = $errorMessage;
+        return $this->message = $errorMessage;
     }
 }

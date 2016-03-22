@@ -96,6 +96,27 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @expectedException Demo\EmptyArrayException
+     * @expectedExceptionMessage data passed didn't match any record
+     *
+     */
+    public function testThrowEmptyArrayException()
+    {
+        $this->dbModel->throwEmptyArrayException();
+    }
+
+    /**
+     * @expectedException Demo\NoRecordCreatedException
+     * @expectedExceptionMessage oops,your record did not create succesfully
+     *
+     */
+    public function testThrowNoRecordCreatedException()
+    {
+        $this->dbModel->throwNoRecordCreatedException();
+    }
+
+
+    /**
      * @expectedException Demo\IdNotFoundException
      */
     public function testReadIdNotFoundException()

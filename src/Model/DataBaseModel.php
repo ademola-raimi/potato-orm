@@ -96,11 +96,9 @@ abstract class DataBaseModel implements DataBaseModelInterface
                 }
 
                 $this->throwNoRecordUpdatedException();
-
-                // throw new NoRecordUpdatedException('oops, your record did not update succesfully');
             }
 
-            throw new EmptyArrayException("data passed didn't match any record");
+            $this->throwEmptyArrayException();
         } else {
 
             $boolCommit = $this->dataBaseQuery->create($this->arrayField, self::getClassName(), $dbConn);
@@ -109,15 +107,27 @@ abstract class DataBaseModel implements DataBaseModelInterface
                 return true;
             }
 
-            throw new NoRecordCreatedException('oops,your record did not create succesfully');
+            $this->throwNoRecordCreatedException();//throw new NoRecordCreatedException('oops,your record did not create succesfully');
         }
    
     }
 
     public function throwNoRecordUpdatedException()
     {
-        $message = 'oops, your record did not update succesfully';
+        $message = "oops, your record did not update succesfully";
         throw new NoRecordUpdatedException($message);
+    }
+
+    public function throwEmptyArrayException()
+    {
+        $message = "data passed didn't match any record";
+        throw new EmptyArrayException($message);
+    }
+
+    public function throwNoRecordCreatedException()
+    {
+        $message = "oops,your record did not create succesfully";
+        throw new NoRecordCreatedException($message);
     }
 
     /**
