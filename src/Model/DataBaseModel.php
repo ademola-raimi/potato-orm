@@ -180,18 +180,8 @@ abstract class DataBaseModel implements DataBaseModelInterface
         if ($this->arrayField['id']) {
             $sqlData = DataBaseQuery::read($this->arrayField['id'], self::getClassName(), $dbConn);
             
-            if (count($sqlData) > 0) {
                 return $sqlData;
-            }
-
-            self::throwDataEmptyException();
         }
-    }
-
-    public function throwDataEmptyException()
-    {
-        $message = "oops, no data found in the column";
-        throw new DataEmptyException($message);
     }
 
     /**
@@ -216,7 +206,7 @@ abstract class DataBaseModel implements DataBaseModelInterface
         }
 
         DataBaseQuery::delete($id, self::getClassName(), $dbConn);
-
+        
         return true;
     }
 

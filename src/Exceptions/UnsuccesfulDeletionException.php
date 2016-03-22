@@ -16,7 +16,7 @@ namespace Demo;
 
 use Exception;
 
-class DataEmptyException extends Exception
+class UnsuccesfulDeletionException extends Exception
 {
     public $message;
 

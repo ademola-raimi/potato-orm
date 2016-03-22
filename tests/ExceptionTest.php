@@ -129,15 +129,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
         $this->dbModel->throwNoRecordCreatedException();
     }
 
-     /**
-     * @expectedException Demo\DataEmptyException
-     * @expectedExceptionMessage oops, no data found in the column
-     *
-     */
-    public function testThrowDataEmptyException()
-    {
-        $this->dbModel->throwDataEmptyException();
-    }
+    
 
     /**
      * @expectedException Demo\IdNotFoundException
