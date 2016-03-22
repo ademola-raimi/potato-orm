@@ -6,6 +6,8 @@
  */
 namespace Tests;
 
+error_reporting(0);
+
 use Demo\DataBaseQuery;
 use Mockery;
 use PHPUnit_Framework_TestCase;
@@ -57,6 +59,26 @@ class DataBaseModelTest extends PHPUnit_Framework_TestCase
         $this->readFromTableHead($id, null);
         $bool = User::destroy($id, $this->dbConnMocked);
         $this->assertEquals(true, $bool);
+    }
+
+    /**
+     * This method throws an Exception when a record cannot be updated
+     * 
+     */
+    public function testUpdateSave()
+    {
+        $id = 1;
+        $this->getTableFields();
+        $this->readFromTableHead($id, $row);
+        $this->updateRecordHead($id);
+        
+        $user = User::findById($id);
+        $user->name = 'Demo';
+        $user->sex = 'm';
+
+        $this->setExpectedException('Error');
+        
+        $bool = $user->save($this->dbConnMocked);
     }
 
     /**
@@ -119,5 +141,15 @@ class DataBaseModelTest extends PHPUnit_Framework_TestCase
         $this->statement->shouldReceive('fetchAll')->with(2)->andReturn($results);
 
         return $results;
+    }
+    
+    /**
+     * This method contains the query for updating.
+     */
+    public function updateRecordHead($id)
+    {
+        $updateQuery = "UPDATE `users` SET `name` = 'Demo',`sex` = 'm' WHERE id = ".$id;
+        $this->dbConnMocked->shouldReceive('prepare')->with($updateQuery)->andReturn($this->statement);
+        $this->statement->shouldReceive('execute')->andReturn(true);
     }
 }

@@ -28,10 +28,11 @@ abstract class DataBaseModel implements DataBaseModelInterface
     public function __construct($dbConn = null)
     {
         if (is_null($dbConn)) {
-            $dbConn = new DataBaseQuery(null);
+            $this->dbConnection = new DataBaseConnection();
+        } else {
+            $this->dbConnection = $dbConn;
         }
         $this->tableName = self::getClassName();
-        $this->dataBaseQuery = $dbConn; 
         $this->arrayField['id'] = 0;
     }
 
