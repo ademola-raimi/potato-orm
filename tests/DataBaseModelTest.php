@@ -145,6 +145,5 @@ class DataBaseModelTest extends PHPUnit_Framework_TestCase
         $updateQuery = "UPDATE `users` SET `name` = 'Demo',`sex` = 'm' WHERE id = ".$id;
         $this->dbConnMocked->shouldReceive('prepare')->with($updateQuery)->andReturn($this->statement);
         $this->statement->shouldReceive('execute')->andReturn(true);
-        $this->dbModel = new User('users', $this->dbConnMocked);
     }
 }
