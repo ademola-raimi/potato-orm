@@ -61,7 +61,6 @@ abstract class DataBaseModel implements DataBaseModelInterface
      * This method gets all the record from a particular table
      * by accessing the read method from the DataBaseQuery class.
      *
-     * @throws NoDataFoundException
      *
      * @return associative array
      */
