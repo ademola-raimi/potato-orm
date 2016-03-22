@@ -66,9 +66,20 @@ abstract class DataBaseModel implements DataBaseModelInterface
      */
     public static function getAll($dbConn)
     {
+
         $sqlData = DataBaseQuery::read($id = false, self::getClassName(), $dbConn);
 
-        return $sqlData;
+        if (count($sqlData) > 0) {
+            return $sqlData;
+        }
+        
+        self::throwNoDataFoundException();
+    }
+
+    public static function throwNoDataFoundException()
+    {
+        $message = "oops, no data found in the database";
+        throw new NoDataFoundException($message);
     }
             
     /**
@@ -106,7 +117,7 @@ abstract class DataBaseModel implements DataBaseModelInterface
                 return true;
             }
 
-            $this->throwNoRecordCreatedException();//throw new NoRecordCreatedException('oops,your record did not create succesfully');
+            $this->throwNoRecordCreatedException();
         }
    
     }

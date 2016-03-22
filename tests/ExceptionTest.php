@@ -110,6 +110,16 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @expectedException Demo\NoDataFoundException
+     * @expectedExceptionMessage oops, no data found in the database
+     *
+     */
+    public function testThrowNoDataFoundException()
+    {
+        $this->dbModel->throwNoDataFoundException();
+    }
+
+    /**
      * @expectedException Demo\NoRecordCreatedException
      * @expectedExceptionMessage oops,your record did not create succesfully
      *
@@ -118,7 +128,6 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
     {
         $this->dbModel->throwNoRecordCreatedException();
     }
-
 
     /**
      * @expectedException Demo\IdNotFoundException

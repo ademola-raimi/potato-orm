@@ -16,7 +16,7 @@ namespace Demo;
 
 use Exception;
 
-class IdNotFoundException extends Exception
+class NoDataFoundException extends Exception
 {
     public $message;
 
