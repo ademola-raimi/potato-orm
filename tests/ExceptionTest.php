@@ -134,7 +134,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
      */
     public function testfindByArgumentNumberIncorrectException()
     {
-        User::findById(2, 3);
+        User::findById(2, 3, 5);
     }
 
     /**
@@ -150,7 +150,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
      */
     public function testDestroyArgumentNumberIncorrectException()
     {
-        User::destroy(2, 3);
+        User::destroy(2, 3, 5);
     }
 
     /**
