@@ -17,7 +17,7 @@ use Doctrine\Common\Inflector\Inflector;
 abstract class DataBaseModel implements DataBaseModelInterface
 {
     protected $tableName;
-    protected $dataBaseConnection;
+    protected $dbConnection;
     protected $dataBaseQuery;
     protected $properties;
     protected $arrayField;
@@ -87,6 +87,8 @@ abstract class DataBaseModel implements DataBaseModelInterface
     {
         if (is_null($dbConn)) {
             $dbConn = new DatabaseConnection();
+        } else {
+            $this->dbConnection = $dbConn;
         }
 
         if ($this->arrayField['id']) {
