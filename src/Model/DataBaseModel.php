@@ -125,11 +125,11 @@ abstract class DataBaseModel implements DataBaseModelInterface
      *
      * @return object
      */
-    public static function findById($id, $dbConn = null)
+    public static function findById($id)
     {
         $numArgs = func_num_args();
 
-        if ($numArgs > 2) {
+        if ($numArgs > 1) {
             throw new ArgumentNumberIncorrectException('Please input just one Argument');
         }
 
