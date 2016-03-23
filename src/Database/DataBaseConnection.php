@@ -50,17 +50,13 @@ class DataBaseConnection extends PDO
     {
         if ($this->driver === 'mysql') {
             $dns = 'mysql:host='.$this->servername.';dbname='.$this->dbname;
-
-            return $dns;
         } elseif ($this->driver === 'sqlite') {
             $dns = 'sqlite:host='.$this->servername.';dbname='.$this->dbname;
-
-            return $dns;
         } elseif ($this->driver === 'pgsqlsql') {
             $dns = 'pgsqlsql:host='.$this->servername.';dbname='.$this->dbname;
-
-            return $dns;
         }
+
+        return $dns;
     }
 
     /**
@@ -68,8 +64,6 @@ class DataBaseConnection extends PDO
      */
     public function loadEnv($path = null)
     {
-        // var_dump(scandir($path));
-        // die("here");
         $envPath = $path == null ? __DIR__.'/../../' : $path;
         $dotenv = new Dotenv($envPath);
         $dotenv->load();

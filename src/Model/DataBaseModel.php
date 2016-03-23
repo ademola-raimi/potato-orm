@@ -74,13 +74,7 @@ abstract class DataBaseModel implements DataBaseModelInterface
 
         self::throwNoDataFoundException();
     }
-
-    public static function throwNoDataFoundException()
-    {
-        $message = "oops, no data found in the database";
-        throw new NoDataFoundException($message);
-    }
-            
+    
     /**
      * This method either create or update record in a database table
      * by calling either the read method or create method in the
@@ -119,24 +113,6 @@ abstract class DataBaseModel implements DataBaseModelInterface
             $this->throwNoRecordCreatedException();
         }
    
-    }
-
-    public function throwNoRecordUpdatedException()
-    {
-        $message = "oops, your record did not update succesfully";
-        throw new NoRecordUpdatedException($message);
-    }
-
-    public function throwEmptyArrayException()
-    {
-        $message = "data passed didn't match any record";
-        throw new EmptyArrayException($message);
-    }
-
-    public function throwNoRecordCreatedException()
-    {
-        $message = "oops,your record did not create succesfully";
-        throw new NoRecordCreatedException($message);
     }
 
     /**
@@ -206,7 +182,7 @@ abstract class DataBaseModel implements DataBaseModelInterface
         }
 
         DataBaseQuery::delete($id, self::getClassName(), $dbConn);
-        
+
         return true;
     }
 
@@ -231,5 +207,49 @@ abstract class DataBaseModel implements DataBaseModelInterface
         }
 
         return false;
+    }
+
+    /**
+     * This method throws exception if record is not updated succesfully.
+     *
+     * @throws $NoRecordUpdatedException
+     */
+    public function throwNoRecordUpdatedException()
+    {
+        $message = "oops, your record did not update succesfully";
+        throw new NoRecordUpdatedException($message);
+    }
+
+    /**
+     * This method throws exception if data did not match any record.
+     *
+     * @throws $EmptyArrayException
+     */
+    public function throwEmptyArrayException()
+    {
+        $message = "data passed didn't match any record";
+        throw new EmptyArrayException($message);
+    }
+
+    /**
+     * This method throws exception if record did not create successfully.
+     *
+     * @throws $NoRecordCreatedException
+     */
+    public function throwNoRecordCreatedException()
+    {
+        $message = "oops,your record did not create succesfully";
+        throw new NoRecordCreatedException($message);
+    }
+
+    /**
+     * This method throws exception if no data is found.
+     *
+     * @throws $NoDataFoundException
+     */
+    public static function throwNoDataFoundException()
+    {
+        $message = "oops, no data found in the database";
+        throw new NoDataFoundException($message);
     }
 }

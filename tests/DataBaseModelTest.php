@@ -9,8 +9,6 @@ namespace Tests;
 use Demo\DataBaseQuery;
 use Mockery;
 use PHPUnit_Framework_TestCase;
-use Demo\DataBaseConnection;
-use org\bovigo\vfs\vfsStream;
 use Dotenv\Dotenv;
 
 
@@ -21,9 +19,6 @@ class DataBaseModelTest extends PHPUnit_Framework_TestCase
     private $dbModel;
     private $dbQuery;
     private $statement;
-    private $root;
-    private $dotEnvFile;
-    private $dataBaseConnection;
 
     /*
      * This function setup is used to create an object of DataBaseQuery
@@ -34,36 +29,7 @@ class DataBaseModelTest extends PHPUnit_Framework_TestCase
         $this->dbModel = new User($this->dbConnMocked);
         $this->dbQuery = new DataBaseQuery($this->dbConnMocked);
         $this->statement = Mockery::mock('\PDOStatement');
-
-
-        $this->root = vfsStream::setup('home');
-        $this->dotEnvFile = vfsStream::url('home/.env');
-
-        $data = [
-                'DB_NAME     = potato',
-                'DB_DRIVER   = mysql',
-                'DB_USERNAME = root',
-                'DB_PASSWORD = ',
-                'DB_HOST     = 127.0.0.1'
-            ];
-        $fileEnv = fopen($this->dotEnvFile, "a");
-        foreach($data as $d) {
-            fwrite($fileEnv, $d."\n");
-        }
-        fclose($fileEnv);
-        
-        $conn = mysqli_connect('127.0.0.1', 'root', '');
-        
-        // mysqli_query($conn, 'CREATE DATABASE IF NOT EXISTS potato');
-        
-        $this->dataBaseConnection = new DataBaseConnection("vfs://home/");
-
-        // mysqli_query($conn, 'DROP DATABASE elchroy');
-        
     }
-
-
-
 
     /*
      * To test if the whole record can be retrieved.
@@ -80,36 +46,6 @@ class DataBaseModelTest extends PHPUnit_Framework_TestCase
                                                  ['id' => 3, 'name' => 'Tope', 'sex' => 'm', 'occupation' => 'Software Developer'],
                                       ]
                            );
-    }
-
-    public function testDotEnvLoading()
-    {
-        $this->assertEquals($this->dataBaseConnection->servername, '127.0.0.1');
-        $this->assertEquals($this->dataBaseConnection->driver, 'mysql');
-        $this->assertEquals($this->dataBaseConnection->username, 'root');
-        $this->assertEquals($this->dataBaseConnection->password, '');
-        $this->assertEquals($this->dataBaseConnection->dbname, 'potato');
-    }
-
-    public function testGetDataBaseDriverForMySQL()
-    {
-        $driver = $this->dataBaseConnection->driver;
-        $result = $this->dataBaseConnection->getDataBaseDriver();
-        $this->assertEquals("mysql:host=127.0.0.1;dbname=potato", $result);
-    }
-    
-    public function testGetDataBaseDriverForSQLite()
-    {
-        $this->dataBaseConnection->driver = "sqlite";
-        $result = $this->dataBaseConnection->getDataBaseDriver();
-        $this->assertEquals("sqlite:host=127.0.0.1;dbname=potato", $result);
-    }
-    
-    public function testGetDataBaseDriverForPostGres()
-    {
-        $this->dataBaseConnection->driver = "pgsqlsql";
-        $result = $this->dataBaseConnection->getDataBaseDriver();
-        $this->assertEquals("pgsqlsql:host=127.0.0.1;dbname=potato", $result);
     }
 
     /*

@@ -42,13 +42,13 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
         $insertQuery = "INSERT INTO users(name, sex, occupation) VALUES ('Oscar', 'm', 'Software Developer')";
         $this->dbConnMocked->shouldReceive('exec')->once()->with($insertQuery)->andReturn(true);
         $this->dbQuery->create(
-                        [
-                            'name'       => 'Oscar',
-                            'sex'        => 'm',
-                            'occupation' => 'Software Developer',
-                            'DOB'        => 2005,
-                        ],
-                        'users', $this->dbConnMocked);
+            [
+                'name'       => 'Oscar',
+                'sex'        => 'm',
+                'occupation' => 'Software Developer',
+                'DOB'        => 2005,
+            ],
+            'users', $this->dbConnMocked);
     }
 
     /**
@@ -64,6 +64,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
             'DOB'   => '2005',
             'sex'   => 'M',
         ];
+        
         $updateQuery = "UPDATE `users` SET `name` = 'Demo',`sex` = 'M' WHERE id = ".$id;
         $this->dbConnMocked->shouldReceive('prepare')->once()->with($updateQuery)->andReturn($this->statement);
         $this->statement->shouldReceive('execute')->once()->andReturn(true);
@@ -129,7 +130,6 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
         $this->dbModel->throwNoRecordCreatedException();
     }
 
-    
 
     /**
      * @expectedException Demo\IdNotFoundException
