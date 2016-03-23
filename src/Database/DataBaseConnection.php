@@ -24,7 +24,7 @@ class DataBaseConnection extends PDO
      */
     public function __construct($path = null)
     {
-        $this->loadEnv($path = null);
+        $this->loadEnv($path);
 
         $this->servername = getenv('DB_HOST');
         $this->username = getenv('DB_USERNAME');
@@ -68,6 +68,8 @@ class DataBaseConnection extends PDO
      */
     public function loadEnv($path = null)
     {
+        // var_dump(scandir($path));
+        // die("here");
         $envPath = $path == null ? __DIR__.'/../../' : $path;
         $dotenv = new Dotenv($envPath);
         $dotenv->load();

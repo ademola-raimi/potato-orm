@@ -10,6 +10,9 @@ matrix:
     allow_failures:
         - php: hhvm
 
+before_install:
+   - mysql -e "create database IF NOT EXISTS potato;" -uroot
+
 install: travis_retry composer install --no-interaction --prefer-source
 
 script:
