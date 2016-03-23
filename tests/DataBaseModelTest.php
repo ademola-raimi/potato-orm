@@ -9,6 +9,10 @@ namespace Tests;
 use Demo\DataBaseQuery;
 use Mockery;
 use PHPUnit_Framework_TestCase;
+use Demo\DataBaseConnection;
+use org\bovigo\vfs\vfsStream;
+use Dotenv\Dotenv;
+
 
 class DataBaseModelTest extends PHPUnit_Framework_TestCase
 {
@@ -17,6 +21,9 @@ class DataBaseModelTest extends PHPUnit_Framework_TestCase
     private $dbModel;
     private $dbQuery;
     private $statement;
+    private $root;
+    private $dotEnvFile;
+    private $dataBaseConnection;
 
     /*
      * This function setup is used to create an object of DataBaseQuery
@@ -27,7 +34,29 @@ class DataBaseModelTest extends PHPUnit_Framework_TestCase
         $this->dbModel = new User($this->dbConnMocked);
         $this->dbQuery = new DataBaseQuery($this->dbConnMocked);
         $this->statement = Mockery::mock('\PDOStatement');
+
+
+        $this->root = vfsStream::setup('home');
+        $this->dotEnvFile = vfsStream::url('home/.env');
+
+        $data = [
+                'DB_NAME     = potato',
+                'DB_DRIVER   = mysql',
+                'DB_USERNAME = homestead',
+                'DB_PASSWORD = secret',
+                'DB_HOST     = localhost:33060'
+            ];
+        $fileEnv = fopen($this->dotEnvFile, "a");
+        foreach($data as $d) {
+            fwrite($fileEnv, $d."\n");
+        }
+        fclose($fileEnv);
+        $this->dataBaseConnection = new DataBaseConnection($this->dotEnvFile);
+        
     }
+
+
+
 
     /*
      * To test if the whole record can be retrieved.
@@ -46,6 +75,36 @@ class DataBaseModelTest extends PHPUnit_Framework_TestCase
                            );
     }
 
+    public function testDotEnvLoading()
+    {
+        $this->assertEquals($this->dataBaseConnection->servername, 'localhost:33060');
+        $this->assertEquals($this->dataBaseConnection->driver, 'mysql');
+        $this->assertEquals($this->dataBaseConnection->username, 'homestead');
+        $this->assertEquals($this->dataBaseConnection->password, 'secret');
+        $this->assertEquals($this->dataBaseConnection->dbname, 'potato');
+    }
+
+    public function testGetDataBaseDriverForMySQL()
+    {
+        $driver = $this->dataBaseConnection->driver;
+        $result = $this->dataBaseConnection->getDataBaseDriver();
+        $this->assertEquals("mysql:host=localhost:33060;dbname=potato", $result);
+    }
+    
+    public function testGetDataBaseDriverForSQLite()
+    {
+        $this->dataBaseConnection->driver = "sqlite";
+        $result = $this->dataBaseConnection->getDataBaseDriver();
+        $this->assertEquals("sqlite:host=localhost:33060;dbname=potato", $result);
+    }
+    
+    public function testGetDataBaseDriverForPostGres()
+    {
+        $this->dataBaseConnection->driver = "pgsqlsql";
+        $result = $this->dataBaseConnection->getDataBaseDriver();
+        $this->assertEquals("pgsqlsql:host=localhost:33060;dbname=potato", $result);
+    }
+    
     /*
      * To test if a record can be deleted.
      */
@@ -119,12 +178,5 @@ class DataBaseModelTest extends PHPUnit_Framework_TestCase
         $this->statement->shouldReceive('fetchAll')->with(2)->andReturn($results);
 
         return $results;
-    }
-
-    public function updateRecordHead($id)
-    {
-        $updateQuery = "UPDATE `users` SET `name` = 'Demo',`sex` = 'm' WHERE id = ".$id;
-        $this->dbConnMocked->shouldReceive('prepare')->with($updateQuery)->andReturn($this->statement);
-        $this->statement->shouldReceive('execute')->andReturn(true);
     }
 }

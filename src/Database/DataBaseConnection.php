@@ -13,18 +13,18 @@ use PDO;
 
 class DataBaseConnection extends PDO
 {
-    private $servername;
-    private $username;
-    private $password;
-    private $driver;
-    private $dbname;
+    public $servername;
+    public $username;
+    public $password;
+    public $driver;
+    public $dbname;
 
     /**
      * This is a constructor; a default method  that will be called automatically during class instantiation.
      */
-    public function __construct()
+    public function __construct($path = null)
     {
-        $this->loadEnv();
+        $this->loadEnv($path = null);
 
         $this->servername = getenv('DB_HOST');
         $this->username = getenv('DB_USERNAME');
@@ -66,9 +66,10 @@ class DataBaseConnection extends PDO
     /**
      * Load Dotenv to grant getenv() access to environment variables in .env file.
      */
-    private function loadEnv()
+    public function loadEnv($path = null)
     {
-        $dotenv = new Dotenv(__DIR__.'/../../');
+        $envPath = $path == null ? __DIR__.'/../../' : $path;
+        $dotenv = new Dotenv($envPath);
         $dotenv->load();
     }
 }
