@@ -48,7 +48,7 @@ class DataBaseQuery
      *
      * @return array
      */
-    public function create($associativeArrayToCreate, $tableName, $dbConn = null)
+    public function create($associativeArrayToCreate, $tableName)
     {
         $tableFields = [];
         $tableValues = [];
@@ -57,10 +57,8 @@ class DataBaseQuery
             $tableFields[] = $key;
             $tableValues[] = $val;
         }
-
         
-
-        $unexpectedArray = array_diff($tableFields, $this->getColumnNames($tableName, $dbConn));
+        $unexpectedArray = array_diff($tableFields, $this->getColumnNames($tableName));
 
         if (count($unexpectedArray) < 1) {
             $sql = 'INSERT INTO '.$tableName;
@@ -71,7 +69,7 @@ class DataBaseQuery
 
             return $bool;
         }
-
+        
         throw new FieldUndefinedException('Oops, '.$this->splitTableField($unexpectedArray).' is not defined as a field');
     }
 
@@ -92,11 +90,11 @@ class DataBaseQuery
         $sql = $id ? 'SELECT * FROM '.$tableName.' WHERE id = '.$id : 'SELECT * FROM '.$tableName;
         $statement = $dbConn->prepare($sql);
         $statement->execute();
-    
+        
         $results = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         if (count($results) < 1) {
-            throw new IdNotFoundException('Oops, the id '.$id.' is not in the database, try another id');
+            throw new IdNotFoundException('Oops, the id '.$id.' is not in the table, try another id');
         }
 
         return $results;
@@ -111,7 +109,7 @@ class DataBaseQuery
      *
      * @return bool
      */
-    public function update($updateParams, $associativeArrayToUpdate, $tableName, $dbConn = null)
+    public function update($updateParams, $associativeArrayToUpdate, $tableName)
     {
         $updateSql = "UPDATE `$tableName` SET ";
 
@@ -121,7 +119,7 @@ class DataBaseQuery
             $tableFields[] = $key;
         }
 
-        $unexpectedArray = array_diff($tableFields, $this->getColumnNames($tableName, $dbConn));
+        $unexpectedArray = array_diff($tableFields, $this->getColumnNames($tableName));
 
         if (count($unexpectedArray) < 1) {
             $updateSql .= $this->updateArraySql($associativeArrayToUpdate);
@@ -228,7 +226,7 @@ class DataBaseQuery
      *
      * @return array
      */
-    public function getColumnNames($table, $dbConn = null)
+    public function getColumnNames($table)
     {
         $tableFields = [];
 
@@ -237,7 +235,7 @@ class DataBaseQuery
         $stmt->bindValue(':table', $table, PDO::PARAM_STR);
         $stmt->execute();
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+        
         foreach ($results as $result) {
             array_push($tableFields, $result['Field']);
         }

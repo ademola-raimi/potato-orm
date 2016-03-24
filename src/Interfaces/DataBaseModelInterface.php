@@ -16,7 +16,7 @@ interface DataBaseModelInterface
      *
      * @return associative array
      */
-    public static function getAll($dbConn);
+    public static function getAll();
 
     /**
      * This method create or update record in a database table.
@@ -24,7 +24,7 @@ interface DataBaseModelInterface
      *
      * @return true or false;
      */
-    public function save($dbConn);
+    public function save();
 
     /**
      * This method find a record by id.
@@ -49,5 +49,5 @@ interface DataBaseModelInterface
      *
      * @return true
      */
-    public static function destroy($id, $dbConn);
+    public static function destroy($id);
 }

@@ -108,10 +108,11 @@ class DataBaseQueryTest extends PHPUnit_Framework_TestCase
     public function testformatTableValues()
     {
         $tableValues = [
-                           'name'       => 'Oscar',
-                           'sex'        => 'm',
-                           'occupation' => 'Software Developer',
-                       ];
+           'name'       => 'Oscar',
+           'sex'        => 'm',
+           'occupation' => 'Software Developer',
+        ];
+
         $resultTableField = $this->dbQuery->splitTableField($tableValues);
         $this->assertEquals($resultTableField, 'Oscar, m, Software Developer');
     }
@@ -122,9 +123,10 @@ class DataBaseQueryTest extends PHPUnit_Framework_TestCase
     public function testupdateArraySql()
     {
         $tableValues = [
-                           'name'       => 'Oscar',
-                           'occupation' => 'Software Developer',
-                       ];
+           'name'       => 'Oscar',
+           'occupation' => 'Software Developer',
+        ];
+
         $resultTableField = $this->dbQuery->updateArraySql($tableValues);
         $this->assertEquals($resultTableField, "`name` = 'Oscar',`occupation` = 'Software Developer'");
     }

@@ -27,13 +27,14 @@ class DataBaseConnectionTest extends PHPUnit_Framework_TestCase
         $data = [
                 'DB_NAME     = potato',
                 'DB_DRIVER   = mysql',
-                'DB_USERNAME = root',
-                'DB_PASSWORD = ',
-                'DB_HOST     = 127.0.0.1'
+                'DB_USERNAME = homestead',
+                'DB_PASSWORD = secret',
+                'DB_HOST     = localhost:33060'
             ];
+
         $fileEnv = fopen($this->dotEnvFile, "a");
-        foreach($data as $d) {
-            fwrite($fileEnv, $d."\n");
+        foreach($data as $val) {
+            fwrite($fileEnv, $val."\n");
         }
         fclose($fileEnv);
         
@@ -43,10 +44,10 @@ class DataBaseConnectionTest extends PHPUnit_Framework_TestCase
 
     public function testDotEnvLoading()
     {
-        $this->assertEquals($this->dataBaseConnection->servername, '127.0.0.1');
+        $this->assertEquals($this->dataBaseConnection->servername, 'localhost:33060');
         $this->assertEquals($this->dataBaseConnection->driver, 'mysql');
-        $this->assertEquals($this->dataBaseConnection->username, 'root');
-        $this->assertEquals($this->dataBaseConnection->password, '');
+        $this->assertEquals($this->dataBaseConnection->username, 'homestead');
+        $this->assertEquals($this->dataBaseConnection->password, 'secret');
         $this->assertEquals($this->dataBaseConnection->dbname, 'potato');
     }
 
@@ -54,21 +55,7 @@ class DataBaseConnectionTest extends PHPUnit_Framework_TestCase
     {
         $driver = $this->dataBaseConnection->driver;
         $result = $this->dataBaseConnection->getDataBaseDriver();
-        $this->assertEquals("mysql:host=127.0.0.1;dbname=potato", $result);
-    }
-    
-    public function testGetDataBaseDriverForSQLite()
-    {
-        $this->dataBaseConnection->driver = "sqlite";
-        $result = $this->dataBaseConnection->getDataBaseDriver();
-        $this->assertEquals("sqlite:host=127.0.0.1;dbname=potato", $result);
-    }
-    
-    public function testGetDataBaseDriverForPostGres()
-    {
-        $this->dataBaseConnection->driver = "pgsqlsql";
-        $result = $this->dataBaseConnection->getDataBaseDriver();
-        $this->assertEquals("pgsqlsql:host=127.0.0.1;dbname=potato", $result);
+        $this->assertEquals("mysql:host=localhost:33060;dbname=potato", $result);
     }
 }
 

@@ -47,8 +47,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
                 'sex'        => 'm',
                 'occupation' => 'Software Developer',
                 'DOB'        => 2005,
-            ],
-            'users', $this->dbConnMocked);
+            ], 'users', $this->dbConnMocked);
     }
 
     /**
@@ -64,7 +63,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
             'DOB'   => '2005',
             'sex'   => 'M',
         ];
-        
+
         $updateQuery = "UPDATE `users` SET `name` = 'Demo',`sex` = 'M' WHERE id = ".$id;
         $this->dbConnMocked->shouldReceive('prepare')->once()->with($updateQuery)->andReturn($this->statement);
         $this->statement->shouldReceive('execute')->once()->andReturn(true);
@@ -112,7 +111,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException Demo\NoDataFoundException
-     * @expectedExceptionMessage oops, no data found in the database
+     * @expectedExceptionMessage oops, no data found in the table
      *
      */
     public function testThrowNoDataFoundException()
@@ -133,7 +132,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException Demo\IdNotFoundException
-     * @expectedExceptionMessage Oops, the id  is not in the database, try another id
+     * @expectedExceptionMessage Oops, the id  is not in the table, try another id
      *
      */
     public function testReadIdNotFoundException()

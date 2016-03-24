@@ -41,11 +41,10 @@ class DataBaseModelTest extends PHPUnit_Framework_TestCase
         $allData = User::getAll($this->dbConnMocked);
 
         $this->assertEquals($allData, [
-                                          '0' => ['id' => 1, 'name' => 'Tope', 'sex' => 'f', 'occupation' => 'Student'],
-                                                 ['id' => 2, 'name' => 'Demola', 'sex' => 'm', 'occupation' => 'Software Developer'],
-                                                 ['id' => 3, 'name' => 'Tope', 'sex' => 'm', 'occupation' => 'Software Developer'],
-                                      ]
-                           );
+          '0' => ['id' => 1, 'name' => 'Tope', 'sex' => 'f', 'occupation' => 'Student'],
+                 ['id' => 2, 'name' => 'Demola', 'sex' => 'm', 'occupation' => 'Software Developer'],
+                 ['id' => 3, 'name' => 'Tope', 'sex' => 'm', 'occupation' => 'Software Developer'],
+            ]);
     }
 
     /*

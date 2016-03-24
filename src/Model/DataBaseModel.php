@@ -13,22 +13,21 @@
 namespace Demo;
 
 use Doctrine\Common\Inflector\Inflector;
+use Demo\DataBaseConnection;
 
 abstract class DataBaseModel implements DataBaseModelInterface
 {
     protected $tableName;
-    protected $dbConn;
     protected $dataBaseQuery;
-    protected $properties;
     protected $arrayField;
 
     /**
      * This is a constructor; a default method  that will be called automatically during class instantiation.
      */
-    public function __construct($dbConn)
+    public function __construct()
     {
         $this->tableName = self::getClassName();
-        $this->dataBaseQuery = new DataBaseQuery($dbConn);
+        $this->dataBaseQuery = new DataBaseQuery();
         $this->arrayField['id'] = 0;
     }
 
@@ -64,8 +63,12 @@ abstract class DataBaseModel implements DataBaseModelInterface
      *
      * @return associative array
      */
-    public static function getAll($dbConn)
+    public static function getAll($dbConn = null)
     {
+        if (is_null($dbConn)) {
+            $dbConn = new DatabaseConnection();
+        }
+
         $sqlData = DataBaseQuery::read($id = false, self::getClassName(), $dbConn);
 
         if (count($sqlData) > 0) {
@@ -86,13 +89,17 @@ abstract class DataBaseModel implements DataBaseModelInterface
      *
      * @return bool true or false;
      */
-    public function save($dbConn)
+    public function save($dbConn = null)
     {
+        if (is_null($dbConn)) {
+            $dbConn = new DatabaseConnection();
+        }
+
         if ($this->arrayField['id']) {
             $sqlData = DataBaseQuery::read($this->arrayField['id'], self::getClassName(), $dbConn);
 
             if ($this->checkIfRecordIsEmpty($sqlData)) {
-                $boolCommit = $this->dataBaseQuery->update(['id' => $this->arrayField['id']], $this->arrayField, self::getClassName(), $dbConn);
+                $boolCommit = $this->dataBaseQuery->update(['id' => $this->arrayField['id']], $this->arrayField, self::getClassName());
     
                 if ($boolCommit) {
                     return true;
@@ -104,7 +111,7 @@ abstract class DataBaseModel implements DataBaseModelInterface
             $this->throwEmptyArrayException();
         } else {
 
-            $boolCommit = $this->dataBaseQuery->create($this->arrayField, self::getClassName(), $dbConn);
+            $boolCommit = $this->dataBaseQuery->create($this->arrayField, self::getClassName());
 
             if ($boolCommit) {
                 return true;
@@ -112,7 +119,6 @@ abstract class DataBaseModel implements DataBaseModelInterface
 
             $this->throwNoRecordCreatedException();
         }
-   
     }
 
     /**
@@ -154,9 +160,9 @@ abstract class DataBaseModel implements DataBaseModelInterface
     public function getById()
     {
         if ($this->arrayField['id']) {
-            $sqlData = DataBaseQuery::read($this->arrayField['id'], self::getClassName(), $dbConn);
+            $sqlData = DataBaseQuery::read($this->arrayField['id'], self::getClassName());
             
-                return $sqlData;
+            return $sqlData;
         }
     }
 
@@ -170,9 +176,14 @@ abstract class DataBaseModel implements DataBaseModelInterface
      *
      * @return bool true
      */
-    public static function destroy($id, $dbConn)
+    public static function destroy($id, $dbConn = null)
     {
+        if (is_null($dbConn)) {
+            $dbConn = new DatabaseConnection();
+        }
+
         $numArgs = func_num_args();
+
         if ($numArgs > 2) {
             throw new ArgumentNumberIncorrectException('Please input just one Argument');
         }
@@ -249,7 +260,7 @@ abstract class DataBaseModel implements DataBaseModelInterface
      */
     public static function throwNoDataFoundException()
     {
-        $message = "oops, no data found in the database";
+        $message = "oops, no data found in the table";
         throw new NoDataFoundException($message);
     }
 }

@@ -37,7 +37,7 @@ class DataBaseConnection extends PDO
             PDO::ATTR_ERRMODE    => PDO::ERRMODE_EXCEPTION,
         ];
 
-        parent::__construct($this->getDataBaseDriver(), $this->username, $this->password, $options);
+        //parent::__construct($this->getDataBaseDriver(), $this->username, $this->password, $options);
     }
 
     /**
@@ -48,13 +48,7 @@ class DataBaseConnection extends PDO
      */
     public function getDataBaseDriver()
     {
-        if ($this->driver === 'mysql') {
-            $dns = 'mysql:host='.$this->servername.';dbname='.$this->dbname;
-        } elseif ($this->driver === 'sqlite') {
-            $dns = 'sqlite:host='.$this->servername.';dbname='.$this->dbname;
-        } elseif ($this->driver === 'pgsqlsql') {
-            $dns = 'pgsqlsql:host='.$this->servername.';dbname='.$this->dbname;
-        }
+        $dns = $this->driver.':host='.$this->servername.';dbname='.$this->dbname;
 
         return $dns;
     }
