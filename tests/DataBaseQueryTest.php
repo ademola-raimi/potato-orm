@@ -105,7 +105,7 @@ class DataBaseQueryTest extends PHPUnit_Framework_TestCase
     /**
      * To test the if the table values can be formated.
      */
-    public function testformatTableValues()
+    public function stformatTableValuetes()
     {
         $tableValues = [
            'name'       => 'Oscar',

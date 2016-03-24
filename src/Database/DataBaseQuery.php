@@ -21,7 +21,7 @@ class DataBaseQuery
     protected $tableName;
     protected $splitTableField;
     protected $formatTableValues;
-    protected $dataBaseConnection;
+    protected $dbConnection;
 
     /**
      * This method create or insert new users to the table.

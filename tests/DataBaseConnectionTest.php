@@ -33,9 +33,11 @@ class DataBaseConnectionTest extends PHPUnit_Framework_TestCase
             ];
 
         $fileEnv = fopen($this->dotEnvFile, "a");
+
         foreach($data as $val) {
             fwrite($fileEnv, $val."\n");
         }
+        
         fclose($fileEnv);
         
         $this->dataBaseConnection = new DataBaseConnection("vfs://home/");
@@ -58,4 +60,3 @@ class DataBaseConnectionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals("mysql:host=localhost:33060;dbname=potato", $result);
     }
 }
-
