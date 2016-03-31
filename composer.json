@@ -1,7 +1,7 @@
 {
     "name": "demola/potato-orm",
-    "description": "",
-    "keywords": [""],
+    "description": "A package that perform basic CRUD (create, read, update and delete) operations in your Database.",
+    "keywords": ["ORM"],
     "homepage": "https://github.com/andela-araimi/potato-orm.git",
     "type": "library",
     "license": "MIT",
