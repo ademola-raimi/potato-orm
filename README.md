@@ -8,7 +8,7 @@ Potato-ORM is based on concepts borrowed from the Laravel framework. It is a pac
 -------
 To install this package, PHP 5.5+ and Composer are required
 
-  `$ composer require Demo/potato-orm`
+  `$ composer require demola/potato-orm`
 
 ----------
 **Usage**
