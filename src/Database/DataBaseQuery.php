@@ -13,9 +13,7 @@ namespace Demo;
 
 use PDO;
 
-/**
- * This is a constructor; a default method  that will be called automatically during class instantiation.
- */
+
 class DataBaseQuery
 {
     protected $tableName;
@@ -24,12 +22,8 @@ class DataBaseQuery
     protected $dbConnection;
 
     /**
-     * This method create or insert new users to the table.
-     *
-     * @param $associativeArray
-     * @param $tableName
-     *
-     * @return array
+     * This is a constructor; a default method  that will be called automatically during class 
+     * instantiation.
      */
     public function __construct($dbConn = null)
     {

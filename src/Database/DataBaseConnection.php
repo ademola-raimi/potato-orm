@@ -20,7 +20,7 @@ class DataBaseConnection extends PDO
     public $dbname;
 
     /**
-     * This is a constructor; a default method  that will be called automatically during class instantiation.
+     * This is a constructor; a default method that will be called automatically during class instantiation.
      */
     public function __construct($path = null)
     {
